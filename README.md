@@ -17,8 +17,8 @@
 ## 開発
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 ## 曲の追加
