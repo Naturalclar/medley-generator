@@ -4,6 +4,11 @@ export interface GenerateOptions {
   count: number;
   includeWishlist: boolean;
   now?: Date;
+  /**
+   * 乱数生成器。既定は Math.random。
+   * テストで決定的な結果を得たいときに差し替える([0,1) を返すこと)。
+   */
+  random?: () => number;
 }
 
 const COOLDOWN_DAYS = 7;
@@ -19,19 +24,24 @@ function daysSince(dateStr: string | null, now: Date): number | null {
  * 選出重み: 最近演奏した曲はクールダウンとして確率を下げる。
  * 未演奏 or COOLDOWN_DAYS 以上前なら重み1、直近ほど0に近づく。
  */
-function selectionWeight(song: Song, now: Date): number {
+export function selectionWeight(song: Song, now: Date): number {
   const days = daysSince(song.lastPlayedAt, now);
   if (days === null || days >= COOLDOWN_DAYS) return 1;
   return Math.max(0.05, days / COOLDOWN_DAYS);
 }
 
-function weightedSample(pool: Song[], count: number, now: Date): Song[] {
+function weightedSample(
+  pool: Song[],
+  count: number,
+  now: Date,
+  random: () => number,
+): Song[] {
   const remaining = [...pool];
   const picked: Song[] = [];
   while (picked.length < count && remaining.length > 0) {
     const weights = remaining.map((s) => selectionWeight(s, now));
     const total = weights.reduce((a, b) => a + b, 0);
-    let r = Math.random() * total;
+    let r = random() * total;
     let idx = remaining.length - 1;
     for (let i = 0; i < remaining.length; i++) {
       r -= weights[i];
@@ -50,7 +60,7 @@ function weightedSample(pool: Song[], count: number, now: Date): Song[] {
  * BPMの山を作る並び: 緩→急→緩。
  * BPM不明の曲は既知BPMの中央値として扱う。
  */
-function arrangeBpmArc(songs: Song[]): Song[] {
+export function arrangeBpmArc(songs: Song[]): Song[] {
   const known = songs.filter((s) => s.bpm !== null).map((s) => s.bpm as number);
   const median =
     known.length > 0
@@ -81,6 +91,7 @@ export function generateSetlist(
   options: GenerateOptions,
 ): Song[] {
   const now = options.now ?? new Date();
+  const random = options.random ?? Math.random;
   const ready = allSongs.filter((s) => s.mastery === "ready");
   const practicing = allSongs.filter((s) => s.mastery === "practicing");
   const wishlist = options.includeWishlist
@@ -91,13 +102,15 @@ export function generateSetlist(
 
   // 練習中は1枠に1曲だけ
   if (practicing.length > 0 && options.count > 1) {
-    picked.push(...weightedSample(practicing, 1, now));
+    picked.push(...weightedSample(practicing, 1, now, random));
   }
 
   const mainPool = [...ready, ...wishlist].filter(
     (s) => !picked.some((p) => p.id === s.id),
   );
-  picked.push(...weightedSample(mainPool, options.count - picked.length, now));
+  picked.push(
+    ...weightedSample(mainPool, options.count - picked.length, now, random),
+  );
 
   return arrangeBpmArc(picked);
 }
