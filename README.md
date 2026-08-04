@@ -17,15 +17,15 @@
 ## 開発
 
 ```sh
-npm install
-npm run dev
+pnpm install
+pnpm run dev
 ```
 
 生成ロジック(`src/lib/generator.ts`)には vitest のユニットテストがある。
 
 ```sh
-npm test        # 一回実行
-npm run test:watch  # 変更を監視
+pnpm test        # 一回実行
+pnpm test:watch  # 変更を監視
 ```
 
 ## 曲の追加
