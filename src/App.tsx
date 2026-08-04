@@ -17,6 +17,8 @@ function App() {
   const [countInput, setCountInput] = useState("4");
   const [includeWishlist, setIncludeWishlist] = useState(true);
   const [setlist, setSetlist] = useState<Song[]>([]);
+  // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
+  const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
   const [copied, setCopied] = useState(false);
 
   // 実際に generateSetlist が返せる最大曲数(UIの上限もこれに合わせる)
@@ -46,11 +48,21 @@ function App() {
   const handleGenerate = () => {
     setCountInput(String(count));
     setSetlist(generateSetlist(songs, { count, includeWishlist }));
+    setGeneratedAt(new Date());
     setCopied(false);
   };
 
+  // コピー用テキストは1回だけ計算し、プレビューとコピーで共有する(日付も一致)。
+  const setlistText = useMemo(
+    () =>
+      setlist.length > 0
+        ? formatSetlistText(setlist, generatedAt ?? new Date())
+        : "",
+    [setlist, generatedAt],
+  );
+
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(formatSetlistText(setlist, new Date()));
+    await navigator.clipboard.writeText(setlistText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -111,7 +123,7 @@ function App() {
               再生成
             </button>
           </div>
-          <pre className="preview">{formatSetlistText(setlist, new Date())}</pre>
+          <pre className="preview">{setlistText}</pre>
         </section>
       )}
 
