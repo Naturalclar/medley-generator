@@ -1,0 +1,101 @@
+[
+  {
+    "id": "stella",
+    "title": "ステラ",
+    "artist": "じん",
+    "key": null,
+    "bpm": 185,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "プロセカ"],
+    "memo": "練習済み"
+  },
+  {
+    "id": "himitsu-no-shogakusei",
+    "title": "ひみつの小学生",
+    "artist": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": "色合の配信で発見"
+  },
+  {
+    "id": "ringo-uri-no-utakata-shojo",
+    "title": "林檎売りの泡沫少女",
+    "artist": "yukkedoluce",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "toxy",
+    "title": "TOXY",
+    "artist": "煮ル果実",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "ironina",
+    "title": "アイロニーナ",
+    "artist": "煮ル果実",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "kinmokusei",
+    "title": "金木犀",
+    "artist": "Ado",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "mozaik-role",
+    "title": "モザイクロール",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": 138,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": "よく聴くが未習得"
+  },
+  {
+    "id": "labuca-lovepara",
+    "title": "ラブカ？→ラブパラ",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": "メドレー内メドレー候補"
+  },
+  {
+    "id": "reversible-campaign",
+    "title": "リバーシブル・キャンペーン",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
+  }
+]
