@@ -1,6 +1,10 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import songsData from "./data/songs.json";
-import { formatSetlistText, generateSetlist } from "./lib/generator";
+import {
+  formatSetlistText,
+  generateSetlist,
+  maxSetlistSize,
+} from "./lib/generator";
 import type { Song } from "./lib/types";
 import { MASTERY_LABEL } from "./lib/types";
 import "./App.css";
@@ -8,18 +12,39 @@ import "./App.css";
 const songs = songsData as Song[];
 
 function App() {
-  const [count, setCount] = useState(4);
+  // 入力そのものは文字列で保持し、生成に使う値は [1, maxSelectable] にクランプする。
+  // これで空欄・NaN・上限超過でも生成が壊れない。
+  const [countInput, setCountInput] = useState("4");
   const [includeWishlist, setIncludeWishlist] = useState(true);
   const [setlist, setSetlist] = useState<Song[]>([]);
   const [copied, setCopied] = useState(false);
 
-  const playableCount = useMemo(
-    () =>
-      songs.filter((s) => s.mastery !== "wishlist" || includeWishlist).length,
+  // 実際に generateSetlist が返せる最大曲数(UIの上限もこれに合わせる)
+  const maxSelectable = useMemo(
+    () => maxSetlistSize(songs, includeWishlist),
     [includeWishlist],
   );
 
+  const count = useMemo(() => {
+    const n = Math.floor(Number(countInput));
+    if (!Number.isFinite(n)) return 1;
+    return Math.min(Math.max(n, 1), maxSelectable);
+  }, [countInput, maxSelectable]);
+
+  // wishlist トグル等で上限が変わったら、入力欄の表示もクランプ後の値に追従させる。
+  // (入力中の値を上書きしないよう、依存は maxSelectable のみ)
+  useEffect(() => {
+    setCountInput((prev) => {
+      const n = Math.floor(Number(prev));
+      const clamped = Number.isFinite(n)
+        ? Math.min(Math.max(n, 1), maxSelectable)
+        : 1;
+      return String(clamped);
+    });
+  }, [maxSelectable]);
+
   const handleGenerate = () => {
+    setCountInput(String(count));
     setSetlist(generateSetlist(songs, { count, includeWishlist }));
     setCopied(false);
   };
@@ -43,10 +68,12 @@ function App() {
           <input
             type="number"
             min={1}
-            max={playableCount}
-            value={count}
-            onChange={(e) => setCount(Number(e.target.value))}
+            max={maxSelectable}
+            value={countInput}
+            onChange={(e) => setCountInput(e.target.value)}
+            onBlur={() => setCountInput(String(count))}
           />
+          <span className="max-hint">/ 最大 {maxSelectable}</span>
         </label>
         <label className="checkbox">
           <input
