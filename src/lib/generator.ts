@@ -99,20 +99,40 @@ export function generateSetlist(
     : [];
 
   const picked: Song[] = [];
+  const mainPool = [...ready, ...wishlist];
 
-  // 練習中は1枠に1曲だけ
-  if (practicing.length > 0 && options.count > 1) {
+  // 練習中は1枠に1曲だけ「おまけ」で混ぜる。
+  // ただし1曲だけのセトリで ready/wishlist があるなら、その枠は本命曲に譲る
+  // (1曲メドレーを練習中で埋めない)。ready/wishlist が尽きている場合は練習中で埋める。
+  const usePracticingSlot =
+    practicing.length > 0 && (options.count > 1 || mainPool.length === 0);
+  if (usePracticingSlot) {
     picked.push(...weightedSample(practicing, 1, now, random));
   }
 
-  const mainPool = [...ready, ...wishlist].filter(
-    (s) => !picked.some((p) => p.id === s.id),
-  );
+  const rest = mainPool.filter((s) => !picked.some((p) => p.id === s.id));
   picked.push(
-    ...weightedSample(mainPool, options.count - picked.length, now, random),
+    ...weightedSample(rest, options.count - picked.length, now, random),
   );
 
   return arrangeBpmArc(picked);
+}
+
+/**
+ * 指定オプションで generateSetlist が実際に返せる最大曲数。
+ * ready + wishlist(含める場合) + 練習中スロット(あれば1)。
+ * UI の曲数上限をこの値に合わせることで「上限は許すのに生成できない」ズレを防ぐ。
+ */
+export function maxSetlistSize(
+  allSongs: Song[],
+  includeWishlist: boolean,
+): number {
+  const ready = allSongs.filter((s) => s.mastery === "ready").length;
+  const wishlist = includeWishlist
+    ? allSongs.filter((s) => s.mastery === "wishlist").length
+    : 0;
+  const hasPracticing = allSongs.some((s) => s.mastery === "practicing");
+  return ready + wishlist + (hasPracticing ? 1 : 0);
 }
 
 /** コメント欄/概要欄に貼れるプレーンテキスト */

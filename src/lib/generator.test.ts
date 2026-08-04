@@ -3,6 +3,7 @@ import {
   arrangeBpmArc,
   formatSetlistText,
   generateSetlist,
+  maxSetlistSize,
   selectionWeight,
 } from "./generator";
 import type { Mastery, Song } from "./types";
@@ -222,6 +223,87 @@ describe("generateSetlist", () => {
       random: pickInOrder,
     });
     expect(result.map((s) => s.bpm)).toEqual([100, 120, 140, 130, 110]);
+  });
+
+  it("1曲だけのセトリで ready があるときは本命(ready)を選ぶ", () => {
+    const pool = [
+      song({ id: "r1", mastery: "ready", bpm: 100 }),
+      song({ id: "p1", mastery: "practicing", bpm: 110 }),
+    ];
+    const result = generateSetlist(pool, {
+      count: 1,
+      includeWishlist: false,
+      now,
+      random: pickInOrder,
+    });
+    expect(result).toHaveLength(1);
+    expect(result[0].mastery).toBe("ready");
+  });
+
+  it("練習中しか無いプールでも count=1 で1曲返す(以前は0曲だった)", () => {
+    const pool = [song({ id: "p1", mastery: "practicing", bpm: 110 })];
+    const result = generateSetlist(pool, {
+      count: 1,
+      includeWishlist: false,
+      now,
+      random: pickInOrder,
+    });
+    expect(result).toHaveLength(1);
+    expect(result[0].id).toBe("p1");
+  });
+
+  it("要求数が上限を超えても maxSetlistSize ちょうどを返す", () => {
+    const pool = [
+      song({ id: "r1", mastery: "ready", bpm: 100 }),
+      song({ id: "r2", mastery: "ready", bpm: 110 }),
+      song({ id: "p1", mastery: "practicing", bpm: 120 }),
+      song({ id: "p2", mastery: "practicing", bpm: 130 }),
+      song({ id: "w1", mastery: "wishlist", bpm: 140 }),
+    ];
+    // ready2 + wishlist1 + 練習中スロット1 = 4
+    const max = maxSetlistSize(pool, true);
+    expect(max).toBe(4);
+    const result = generateSetlist(pool, {
+      count: 100,
+      includeWishlist: true,
+      now,
+      random: pickInOrder,
+    });
+    expect(result).toHaveLength(max);
+  });
+});
+
+describe("maxSetlistSize", () => {
+  const pool = [
+    song({ id: "r1", mastery: "ready" }),
+    song({ id: "r2", mastery: "ready" }),
+    song({ id: "p1", mastery: "practicing" }),
+    song({ id: "w1", mastery: "wishlist" }),
+    song({ id: "w2", mastery: "wishlist" }),
+    song({ id: "w3", mastery: "wishlist" }),
+  ];
+
+  it("includeWishlist=true は ready + wishlist + 練習中スロット", () => {
+    // 2 + 3 + 1
+    expect(maxSetlistSize(pool, true)).toBe(6);
+  });
+
+  it("includeWishlist=false は wishlist を除外", () => {
+    // 2 + 0 + 1
+    expect(maxSetlistSize(pool, false)).toBe(3);
+  });
+
+  it("練習中が無ければスロット分は増えない", () => {
+    const noPracticing = [
+      song({ id: "r1", mastery: "ready" }),
+      song({ id: "w1", mastery: "wishlist" }),
+    ];
+    expect(maxSetlistSize(noPracticing, true)).toBe(2);
+    expect(maxSetlistSize(noPracticing, false)).toBe(1);
+  });
+
+  it("空プールは0", () => {
+    expect(maxSetlistSize([], true)).toBe(0);
   });
 });
 
