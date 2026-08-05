@@ -1120,5 +1120,49 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "propose",
+    "title": "プロポーズ",
+    "artist": "なとり",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "serenade",
+    "title": "セレナーデ",
+    "artist": "なとり",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "推しの子"],
+    "memo": ""
+  },
+  {
+    "id": "zettai-reido",
+    "title": "絶対零度",
+    "artist": "なとり",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "ウィンドブレイカー"],
+    "memo": ""
+  },
+  {
+    "id": "overdose",
+    "title": "Overdose",
+    "artist": "なとり",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
