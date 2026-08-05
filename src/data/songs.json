@@ -889,5 +889,38 @@
     "lastPlayedAt": null,
     "tags": ["学マス"],
     "memo": ""
+  },
+  {
+    "id": "yellow-big-bang",
+    "title": "Yellow Big Bang!!",
+    "artist": "初星学園",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["学マス"],
+    "memo": ""
+  },
+  {
+    "id": "sekaiichi-kawaii-watashi",
+    "title": "世界一可愛い私",
+    "artist": "初星学園",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["学マス"],
+    "memo": ""
+  },
+  {
+    "id": "hakusen",
+    "title": "白線",
+    "artist": "初星学園",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["学マス"],
+    "memo": ""
   }
 ]
