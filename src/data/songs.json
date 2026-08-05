@@ -999,5 +999,82 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "itte",
+    "title": "言って。",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "tada-kimi-ni-hare",
+    "title": "ただ君に晴れ",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "ame-to-cappuccino",
+    "title": "雨とカプチーノ",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "haru",
+    "title": "晴る",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "フリーレン"],
+    "memo": ""
+  },
+  {
+    "id": "harudorobou",
+    "title": "春泥棒",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "shisouhan",
+    "title": "思想犯",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "ai-nijou",
+    "title": "藍二乗",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
