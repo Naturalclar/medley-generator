@@ -176,7 +176,14 @@ function App() {
           <input
             type="checkbox"
             checked={includeWishlist}
-            onChange={(e) => setIncludeWishlist(e.target.checked)}
+            onChange={(e) => {
+              setIncludeWishlist(e.target.checked);
+              // 設定を変えると表示中のセトリは古くなる(例: OFFにしても直前の
+              // wishlist入りセトリが残る)。混乱を避けてクリアし再生成を促す。
+              setSetlist([]);
+              setGeneratedAt(null);
+              setCopied(false);
+            }}
           />
           覚えたい曲も含める(挑戦枠)
         </label>
