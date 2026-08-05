@@ -537,5 +537,82 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "kagerou-days",
+    "title": "カゲロウデイズ",
+    "artist": "じん",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "カゲプロ"],
+    "memo": ""
+  },
+  {
+    "id": "summertime-record",
+    "title": "サマータイムレコード",
+    "artist": "じん",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "カゲプロ"],
+    "memo": ""
+  },
+  {
+    "id": "yobanashi-deceive",
+    "title": "夜咄ディセイブ",
+    "artist": "じん",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "カゲプロ"],
+    "memo": ""
+  },
+  {
+    "id": "taiyoukei-disco",
+    "title": "太陽系デスコ",
+    "artist": "ナユタン星人",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "natsu-matsuri",
+    "title": "夏祭り",
+    "artist": "Whiteberry",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["夏"],
+    "memo": ""
+  },
+  {
+    "id": "garnet",
+    "title": "ガーネット",
+    "artist": "奥華子",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "kawaranai-mono",
+    "title": "変わらないもの",
+    "artist": "奥華子",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
