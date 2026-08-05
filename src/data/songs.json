@@ -1164,5 +1164,27 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "seiza-ni-naretara",
+    "title": "星座になれたら",
+    "artist": "結束バンド",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "ぼっちざろっく"],
+    "memo": ""
+  },
+  {
+    "id": "wasurete-yaranai",
+    "title": "忘れてやらない",
+    "artist": "結束バンド",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "ぼっちざろっく"],
+    "memo": ""
   }
 ]
