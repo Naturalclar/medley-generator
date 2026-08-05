@@ -856,5 +856,38 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "campus-mode",
+    "title": "Campus mode!!",
+    "artist": "初星学園",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["学マス"],
+    "memo": ""
+  },
+  {
+    "id": "hatsu",
+    "title": "初",
+    "artist": "初星学園",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["学マス"],
+    "memo": ""
+  },
+  {
+    "id": "luna-say-maybe",
+    "title": "Luna say maybe",
+    "artist": "初星学園",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["学マス"],
+    "memo": ""
   }
 ]
