@@ -90,6 +90,32 @@ button.secondary {
   padding: 0.35rem 0;
 }
 
+/* 挑戦枠(練習中/覚えたい)の曲を左ボーダーと薄い背景で強調 */
+.setlist li.challenge {
+  border-left: 3px solid var(--practicing);
+  padding-left: 0.6rem;
+  margin-left: -0.6rem;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--practicing) 8%, transparent);
+}
+
+.challenge-mark {
+  margin-right: 0.15rem;
+}
+
+.challenge-count {
+  margin-left: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--practicing);
+  vertical-align: middle;
+}
+
+.mark-toggle {
+  font-size: 0.8rem;
+  color: var(--text-sub);
+}
+
 .setlist .title {
   font-weight: 600;
 }

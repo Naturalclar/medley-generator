@@ -3,6 +3,7 @@ import {
   arrangeBpmArc,
   formatSetlistText,
   generateSetlist,
+  isChallenge,
   maxSetlistSize,
   selectionWeight,
 } from "./generator";
@@ -322,5 +323,40 @@ describe("formatSetlistText", () => {
   it("月日はゼロ埋めされる", () => {
     const text = formatSetlistText([], new Date(2026, 0, 9));
     expect(text).toBe("🎹 2026/01/09 メドレーセトリ");
+  });
+
+  it("markChallenge で挑戦枠(ready以外)にだけ🔰が付く", () => {
+    const setlist = [
+      song({ id: "a", title: "本命", mastery: "ready" }),
+      song({ id: "b", title: "練習曲", mastery: "practicing" }),
+      song({ id: "c", title: "挑戦曲", mastery: "wishlist" }),
+    ];
+    const text = formatSetlistText(setlist, new Date(2026, 7, 4), {
+      markChallenge: true,
+    });
+    expect(text).toBe(
+      [
+        "🎹 2026/08/04 メドレーセトリ",
+        "1. 本命",
+        "2. 🔰 練習曲",
+        "3. 🔰 挑戦曲",
+      ].join("\n"),
+    );
+  });
+
+  it("markChallenge 無指定なら🔰は付かない(後方互換)", () => {
+    const setlist = [song({ id: "b", title: "練習曲", mastery: "practicing" })];
+    const text = formatSetlistText(setlist, new Date(2026, 7, 4));
+    expect(text).toBe(["🎹 2026/08/04 メドレーセトリ", "1. 練習曲"].join("\n"));
+  });
+});
+
+describe("isChallenge", () => {
+  it("ready は挑戦枠でない", () => {
+    expect(isChallenge(song({ id: "a", mastery: "ready" }))).toBe(false);
+  });
+  it("practicing / wishlist は挑戦枠", () => {
+    expect(isChallenge(song({ id: "b", mastery: "practicing" }))).toBe(true);
+    expect(isChallenge(song({ id: "c", mastery: "wishlist" }))).toBe(true);
   });
 });

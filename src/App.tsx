@@ -3,6 +3,7 @@ import songsData from "./data/songs.json";
 import {
   formatSetlistText,
   generateSetlist,
+  isChallenge,
   maxSetlistSize,
 } from "./lib/generator";
 import type { Mastery, Song } from "./lib/types";
@@ -39,6 +40,8 @@ function App() {
   // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
   const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
   const [copied, setCopied] = useState(false);
+  // コピー用テキストで挑戦枠に 🔰 を付けるか
+  const [markChallenge, setMarkChallenge] = useState(true);
 
   // 曲プールの絞り込み(検索 + 習熟度 + タグ)と並べ替え
   const [poolSearch, setPoolSearch] = useState("");
@@ -141,9 +144,17 @@ function App() {
   const setlistText = useMemo(
     () =>
       setlist.length > 0
-        ? formatSetlistText(setlist, generatedAt ?? new Date())
+        ? formatSetlistText(setlist, generatedAt ?? new Date(), {
+            markChallenge,
+          })
         : "",
-    [setlist, generatedAt],
+    [setlist, generatedAt, markChallenge],
+  );
+
+  // セトリ内の挑戦枠(練習中 / 覚えたい)の曲数
+  const challengeCount = useMemo(
+    () => setlist.filter(isChallenge).length,
+    [setlist],
   );
 
   const handleCopy = async () => {
@@ -194,10 +205,22 @@ function App() {
 
       {setlist.length > 0 && (
         <section className="setlist">
-          <h2>今日のセトリ</h2>
+          <h2>
+            今日のセトリ
+            {challengeCount > 0 && (
+              <span className="challenge-count">
+                🔰 挑戦枠 {challengeCount}曲
+              </span>
+            )}
+          </h2>
           <ol>
             {setlist.map((song) => (
-              <li key={song.id}>
+              <li key={song.id} className={isChallenge(song) ? "challenge" : ""}>
+                {isChallenge(song) && (
+                  <span className="challenge-mark" title="挑戦枠">
+                    🔰
+                  </span>
+                )}
                 <span className="title">{song.title}</span>
                 {song.artist && <span className="artist">{song.artist}</span>}
                 <span className={`badge ${song.mastery}`}>
@@ -214,6 +237,14 @@ function App() {
             <button className="secondary" onClick={handleGenerate}>
               再生成
             </button>
+            <label className="checkbox mark-toggle">
+              <input
+                type="checkbox"
+                checked={markChallenge}
+                onChange={(e) => setMarkChallenge(e.target.checked)}
+              />
+              挑戦曲に🔰(コピー用)
+            </label>
           </div>
           <pre className="preview">{setlistText}</pre>
         </section>

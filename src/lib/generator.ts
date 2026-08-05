@@ -135,12 +135,25 @@ export function maxSetlistSize(
   return ready + wishlist + (hasPracticing ? 1 : 0);
 }
 
-/** コメント欄/概要欄に貼れるプレーンテキスト */
-export function formatSetlistText(setlist: Song[], date: Date): string {
+/** ready 以外(練習中 / 覚えたい)は「挑戦枠」= メドレーに混ぜる挑戦曲。 */
+export function isChallenge(song: Song): boolean {
+  return song.mastery !== "ready";
+}
+
+/**
+ * コメント欄/概要欄に貼れるプレーンテキスト。
+ * markChallenge=true で挑戦枠の曲に 🔰 を付ける。
+ */
+export function formatSetlistText(
+  setlist: Song[],
+  date: Date,
+  options?: { markChallenge?: boolean },
+): string {
   const dateStr = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, "0")}/${String(date.getDate()).padStart(2, "0")}`;
   const lines = setlist.map((s, i) => {
     const artist = s.artist ? ` / ${s.artist}` : "";
-    return `${i + 1}. ${s.title}${artist}`;
+    const mark = options?.markChallenge && isChallenge(s) ? "🔰 " : "";
+    return `${i + 1}. ${mark}${s.title}${artist}`;
   });
   return [`🎹 ${dateStr} メドレーセトリ`, ...lines].join("\n");
 }
