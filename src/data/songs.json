@@ -614,5 +614,16 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "natsukage",
+    "title": "夏影",
+    "artist": "折戸伸治",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["AIR", "夏"],
+    "memo": ""
   }
 ]
