@@ -1098,5 +1098,27 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "hachigatsu-no-yoru",
+    "title": "八月の夜",
+    "artist": "SILENT SIREN",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "mad-head-love",
+    "title": "MAD HEAD LOVE",
+    "artist": "米津玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
