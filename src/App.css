@@ -211,6 +211,65 @@ button.secondary {
   padding: 1.5rem 0;
 }
 
+.tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.tag-chip {
+  padding: 0.15rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.tag-chip.on {
+  background: var(--accent);
+  color: #fff;
+  border-color: transparent;
+}
+
+.tag-clear {
+  padding: 0.15rem 0.6rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.tag-clear:hover {
+  background: transparent;
+}
+
+/* ソート可能な列ヘッダ。th の見た目を保ったままボタン化する。 */
+.sort-th {
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--text-sub);
+  font-weight: 600;
+  font-size: 0.8rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.sort-th:hover {
+  background: transparent;
+  color: var(--text);
+}
+
 .pool table {
   width: 100%;
   border-collapse: collapse;
