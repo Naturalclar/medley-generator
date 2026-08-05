@@ -3,7 +3,6 @@ import type { Song } from "./types";
 export interface GenerateOptions {
   count: number;
   includeWishlist: boolean;
-  now?: Date;
   /**
    * 乱数生成器。既定は Math.random。
    * テストで決定的な結果を得たいときに差し替える([0,1) を返すこと)。
@@ -11,45 +10,12 @@ export interface GenerateOptions {
   random?: () => number;
 }
 
-const COOLDOWN_DAYS = 7;
-
-function daysSince(dateStr: string | null, now: Date): number | null {
-  if (!dateStr) return null;
-  const played = new Date(dateStr).getTime();
-  if (Number.isNaN(played)) return null;
-  return (now.getTime() - played) / (1000 * 60 * 60 * 24);
-}
-
-/**
- * 選出重み: 最近演奏した曲はクールダウンとして確率を下げる。
- * 未演奏 or COOLDOWN_DAYS 以上前なら重み1、直近ほど0に近づく。
- */
-export function selectionWeight(song: Song, now: Date): number {
-  const days = daysSince(song.lastPlayedAt, now);
-  if (days === null || days >= COOLDOWN_DAYS) return 1;
-  return Math.max(0.05, days / COOLDOWN_DAYS);
-}
-
-function weightedSample(
-  pool: Song[],
-  count: number,
-  now: Date,
-  random: () => number,
-): Song[] {
+/** プールから重複なく count 曲を一様ランダムに選ぶ。 */
+function sample(pool: Song[], count: number, random: () => number): Song[] {
   const remaining = [...pool];
   const picked: Song[] = [];
   while (picked.length < count && remaining.length > 0) {
-    const weights = remaining.map((s) => selectionWeight(s, now));
-    const total = weights.reduce((a, b) => a + b, 0);
-    let r = random() * total;
-    let idx = remaining.length - 1;
-    for (let i = 0; i < remaining.length; i++) {
-      r -= weights[i];
-      if (r <= 0) {
-        idx = i;
-        break;
-      }
-    }
+    const idx = Math.floor(random() * remaining.length);
     picked.push(remaining[idx]);
     remaining.splice(idx, 1);
   }
@@ -81,7 +47,7 @@ export function arrangeBpmArc(songs: Song[]): Song[] {
 
 /**
  * セトリ生成:
- * - 弾ける曲を基本に選出(クールダウン重み付き)
+ * - 弾ける曲を基本に選出(一様ランダム)
  * - 練習中の曲を1枠に1曲だけ混ぜる
  * - includeWishlist で「覚えたい」曲も選出対象に含める(挑戦枠)
  * - 並びはBPMの山(緩→急→緩)
@@ -90,7 +56,6 @@ export function generateSetlist(
   allSongs: Song[],
   options: GenerateOptions,
 ): Song[] {
-  const now = options.now ?? new Date();
   const random = options.random ?? Math.random;
   const ready = allSongs.filter((s) => s.mastery === "ready");
   const practicing = allSongs.filter((s) => s.mastery === "practicing");
@@ -107,13 +72,11 @@ export function generateSetlist(
   const usePracticingSlot =
     practicing.length > 0 && (options.count > 1 || mainPool.length === 0);
   if (usePracticingSlot) {
-    picked.push(...weightedSample(practicing, 1, now, random));
+    picked.push(...sample(practicing, 1, random));
   }
 
   const rest = mainPool.filter((s) => !picked.some((p) => p.id === s.id));
-  picked.push(
-    ...weightedSample(rest, options.count - picked.length, now, random),
-  );
+  picked.push(...sample(rest, options.count - picked.length, random));
 
   return arrangeBpmArc(picked);
 }

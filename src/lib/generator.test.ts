@@ -5,7 +5,6 @@ import {
   generateSetlist,
   isChallenge,
   maxSetlistSize,
-  selectionWeight,
 } from "./generator";
 import type { Mastery, Song } from "./types";
 
@@ -24,52 +23,12 @@ function song(partial: Partial<Song> & { id: string }): Song {
   };
 }
 
-/** 常に 0 を返す乱数。weightedSample は「先頭の候補から順に」選ぶので選出が決定的になる。 */
+/** 常に 0 を返す乱数。sample は index 0 を選び続けるので選出が「先頭から順」で決定的になる。 */
 const pickInOrder = () => 0;
 
 function countByMastery(setlist: Song[], mastery: Mastery): number {
   return setlist.filter((s) => s.mastery === mastery).length;
 }
-
-describe("selectionWeight", () => {
-  const now = new Date("2026-08-10T00:00:00Z");
-
-  it("未演奏(lastPlayedAt=null)は重み1", () => {
-    expect(selectionWeight(song({ id: "a", lastPlayedAt: null }), now)).toBe(1);
-  });
-
-  it("クールダウン(7日)以上前なら重み1", () => {
-    // ちょうど7日前
-    expect(
-      selectionWeight(song({ id: "a", lastPlayedAt: "2026-08-03" }), now),
-    ).toBe(1);
-    // 10日前
-    expect(
-      selectionWeight(song({ id: "a", lastPlayedAt: "2026-07-31" }), now),
-    ).toBe(1);
-  });
-
-  it("直近ほど重みが下がり、当日は下限0.05", () => {
-    // 当日 → days=0 → max(0.05, 0)
-    expect(
-      selectionWeight(song({ id: "a", lastPlayedAt: "2026-08-10" }), now),
-    ).toBe(0.05);
-    // 3日前 → 3/7
-    expect(
-      selectionWeight(song({ id: "a", lastPlayedAt: "2026-08-07" }), now),
-    ).toBeCloseTo(3 / 7, 10);
-    // 1日前 → 1/7
-    expect(
-      selectionWeight(song({ id: "a", lastPlayedAt: "2026-08-09" }), now),
-    ).toBeCloseTo(1 / 7, 10);
-  });
-
-  it("不正な日付文字列は重み1(未演奏扱い)", () => {
-    expect(
-      selectionWeight(song({ id: "a", lastPlayedAt: "not-a-date" }), now),
-    ).toBe(1);
-  });
-});
 
 describe("arrangeBpmArc", () => {
   it("緩→急→緩の山型に並べる(ピークが中央付近)", () => {
@@ -106,7 +65,6 @@ describe("arrangeBpmArc", () => {
 });
 
 describe("generateSetlist", () => {
-  const now = new Date("2026-08-10T00:00:00Z");
 
   it("練習中(practicing)は最大1曲だけ混ざる", () => {
     const pool = [
@@ -120,7 +78,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 4,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     });
     expect(result).toHaveLength(4);
@@ -136,7 +93,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 3,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     });
     expect(countByMastery(result, "wishlist")).toBe(0);
@@ -152,7 +108,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 3,
       includeWishlist: true,
-      now,
       random: pickInOrder,
     });
     expect(result).toHaveLength(3);
@@ -168,7 +123,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 3,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     });
     const ids = result.map((s) => s.id);
@@ -183,7 +137,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 5,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     });
     expect(result).toHaveLength(2);
@@ -191,7 +144,7 @@ describe("generateSetlist", () => {
 
   it("空プールなら空配列", () => {
     expect(
-      generateSetlist([], { count: 4, includeWishlist: false, now }),
+      generateSetlist([], { count: 4, includeWishlist: false }),
     ).toEqual([]);
   });
 
@@ -205,7 +158,6 @@ describe("generateSetlist", () => {
     const opts = {
       count: 3,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     };
     const a = generateSetlist(pool, opts).map((s) => s.id);
@@ -220,7 +172,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 5,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     });
     expect(result.map((s) => s.bpm)).toEqual([100, 120, 140, 130, 110]);
@@ -234,7 +185,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 1,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     });
     expect(result).toHaveLength(1);
@@ -246,7 +196,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 1,
       includeWishlist: false,
-      now,
       random: pickInOrder,
     });
     expect(result).toHaveLength(1);
@@ -267,7 +216,6 @@ describe("generateSetlist", () => {
     const result = generateSetlist(pool, {
       count: 100,
       includeWishlist: true,
-      now,
       random: pickInOrder,
     });
     expect(result).toHaveLength(max);
