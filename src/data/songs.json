@@ -163,5 +163,60 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ", "Deco*27"],
     "memo": ""
+  },
+  {
+    "id": "hare-hare-yukai",
+    "title": "ハレ晴レユカイ",
+    "artist": "SOS団",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "涼宮ハルヒ"],
+    "memo": ""
+  },
+  {
+    "id": "butter-fly",
+    "title": "Butter-Fly",
+    "artist": "和田光司",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "デジモン"],
+    "memo": ""
+  },
+  {
+    "id": "motteke-sailor-fuku",
+    "title": "もってけ!セーラーふく",
+    "artist": "らき☆すた",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "らき☆すた"],
+    "memo": ""
+  },
+  {
+    "id": "dont-say-lazy",
+    "title": "Don't say \"lazy\"",
+    "artist": "桜高軽音部",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "けいおん"],
+    "memo": ""
+  },
+  {
+    "id": "caramelldansen",
+    "title": "Caramelldansen",
+    "artist": "Caramell",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ネタ"],
+    "memo": ""
   }
 ]
