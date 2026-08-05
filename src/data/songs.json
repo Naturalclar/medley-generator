@@ -350,5 +350,192 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ", "Deco*27"],
     "memo": ""
+  },
+  {
+    "id": "kabin-ni-fureta",
+    "title": "花瓶に触れた",
+    "artist": "バルーン",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "charles",
+    "title": "シャルル",
+    "artist": "バルーン",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "mabel",
+    "title": "メーベル",
+    "artist": "バルーン",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "yoake-to-hotaru",
+    "title": "夜明けと蛍",
+    "artist": "バルーン",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "matryoshka",
+    "title": "マトリョシカ",
+    "artist": "ハチ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "panda-hero",
+    "title": "パンダヒーロー",
+    "artist": "ハチ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "donut-hole",
+    "title": "ドーナツホール",
+    "artist": "ハチ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "gogo-yuurei-sen",
+    "title": "ゴーゴー幽霊船",
+    "artist": "ハチ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "lemon",
+    "title": "Lemon",
+    "artist": "米津玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "kick-back",
+    "title": "KICK BACK",
+    "artist": "米津玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "チェンソーマン"],
+    "memo": ""
+  },
+  {
+    "id": "peace-sign",
+    "title": "ピースサイン",
+    "artist": "米津玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "ヒロアカ"],
+    "memo": ""
+  },
+  {
+    "id": "uchiage-hanabi",
+    "title": "打上花火",
+    "artist": "DAOKO×米津玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "eine-kleine",
+    "title": "アイネクライネ",
+    "artist": "米津玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "dakara-boku-wa-ongaku-wo-yameta",
+    "title": "だから僕は音楽を辞めた",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "hana-ni-bourei",
+    "title": "花に亡霊",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "byoushin-wo-kamu",
+    "title": "秒針を噛む",
+    "artist": "ずっと真夜中でいいのに。",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "yoru-ni-kakeru",
+    "title": "夜に駆ける",
+    "artist": "YOASOBI",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
