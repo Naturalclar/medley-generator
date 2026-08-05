@@ -218,5 +218,137 @@
     "lastPlayedAt": null,
     "tags": ["ネタ"],
     "memo": ""
+  },
+  {
+    "id": "vampire",
+    "title": "ヴァンパイア",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
+  },
+  {
+    "id": "otome-kaibou",
+    "title": "乙女解剖",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
+  },
+  {
+    "id": "god-knows",
+    "title": "God knows...",
+    "artist": "涼宮ハルヒ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "涼宮ハルヒ"],
+    "memo": ""
+  },
+  {
+    "id": "fuwafuwa-time",
+    "title": "ふわふわ時間",
+    "artist": "桜高軽音部",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "けいおん"],
+    "memo": ""
+  },
+  {
+    "id": "zankoku-na-tenshi-no-these",
+    "title": "残酷な天使のテーゼ",
+    "artist": "高橋洋子",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "エヴァ"],
+    "memo": ""
+  },
+  {
+    "id": "sousei-no-aquarion",
+    "title": "創聖のアクエリオン",
+    "artist": "AKINO",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "アクエリオン"],
+    "memo": ""
+  },
+  {
+    "id": "secret-base",
+    "title": "secret base 〜君がくれたもの〜",
+    "artist": "ZONE",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "あの花"],
+    "memo": ""
+  },
+  {
+    "id": "senbonzakura",
+    "title": "千本桜",
+    "artist": "黒うさP",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "world-is-mine",
+    "title": "ワールドイズマイン",
+    "artist": "supercell",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "melt",
+    "title": "メルト",
+    "artist": "supercell",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "hatsune-miku-no-shoushitsu",
+    "title": "初音ミクの消失",
+    "artist": "cosMo@暴走P",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "rabbit-hole",
+    "title": "ラビットホール",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
   }
 ]
