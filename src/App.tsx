@@ -5,11 +5,12 @@ import {
   generateSetlist,
   maxSetlistSize,
 } from "./lib/generator";
-import type { Song } from "./lib/types";
+import type { Mastery, Song } from "./lib/types";
 import { MASTERY_LABEL } from "./lib/types";
 import "./App.css";
 
 const songs = songsData as Song[];
+const MASTERIES: Mastery[] = ["ready", "practicing", "wishlist"];
 
 function App() {
   // 入力そのものは文字列で保持し、生成に使う値は [1, maxSelectable] にクランプする。
@@ -20,6 +21,29 @@ function App() {
   // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
   const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
   const [copied, setCopied] = useState(false);
+
+  // 曲プールの絞り込み(検索 + 習熟度フィルタ)
+  const [poolSearch, setPoolSearch] = useState("");
+  const [masteryFilter, setMasteryFilter] = useState<Record<Mastery, boolean>>({
+    ready: true,
+    practicing: true,
+    wishlist: true,
+  });
+
+  const filteredPool = useMemo(() => {
+    const q = poolSearch.trim().toLowerCase();
+    return songs.filter((s) => {
+      if (!masteryFilter[s.mastery]) return false;
+      if (q === "") return true;
+      return (
+        s.title.toLowerCase().includes(q) ||
+        (s.artist?.toLowerCase().includes(q) ?? false)
+      );
+    });
+  }, [poolSearch, masteryFilter]);
+
+  const toggleMastery = (m: Mastery) =>
+    setMasteryFilter((prev) => ({ ...prev, [m]: !prev[m] }));
 
   // 実際に generateSetlist が返せる最大曲数(UIの上限もこれに合わせる)
   const maxSelectable = useMemo(
@@ -128,7 +152,32 @@ function App() {
       )}
 
       <section className="pool">
-        <h2>曲プール ({songs.length}曲)</h2>
+        <h2>曲プール</h2>
+        <div className="pool-filters">
+          <input
+            type="search"
+            className="pool-search"
+            placeholder="曲名・アーティストで検索"
+            value={poolSearch}
+            onChange={(e) => setPoolSearch(e.target.value)}
+          />
+          <div className="mastery-chips">
+            {MASTERIES.map((m) => (
+              <button
+                key={m}
+                type="button"
+                className={`chip ${m} ${masteryFilter[m] ? "on" : "off"}`}
+                aria-pressed={masteryFilter[m]}
+                onClick={() => toggleMastery(m)}
+              >
+                {MASTERY_LABEL[m]}
+              </button>
+            ))}
+          </div>
+          <span className="pool-count">
+            {songs.length}曲中 {filteredPool.length}曲
+          </span>
+        </div>
         <table>
           <thead>
             <tr>
@@ -139,7 +188,7 @@ function App() {
             </tr>
           </thead>
           <tbody>
-            {songs.map((song) => (
+            {filteredPool.map((song) => (
               <tr key={song.id}>
                 <td>{song.title}</td>
                 <td>{song.artist ?? "-"}</td>
@@ -151,6 +200,13 @@ function App() {
                 <td>{song.tags.join(", ")}</td>
               </tr>
             ))}
+            {filteredPool.length === 0 && (
+              <tr>
+                <td colSpan={4} className="pool-empty">
+                  該当する曲がありません
+                </td>
+              </tr>
+            )}
           </tbody>
         </table>
         <p className="hint">
