@@ -11,6 +11,24 @@ import "./App.css";
 
 const songs = songsData as Song[];
 const MASTERIES: Mastery[] = ["ready", "practicing", "wishlist"];
+const MASTERY_ORDER: Record<Mastery, number> = {
+  ready: 0,
+  practicing: 1,
+  wishlist: 2,
+};
+
+// プール内の全タグを出現数の多い順に。タグフィルタのチップに使う。
+const ALL_TAGS = (() => {
+  const counts = new Map<string, number>();
+  for (const s of songs) {
+    for (const t of s.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ja"))
+    .map(([tag]) => tag);
+})();
+
+type SortKey = "title" | "artist" | "mastery";
 
 function App() {
   // 入力そのものは文字列で保持し、生成に使う値は [1, maxSelectable] にクランプする。
@@ -22,28 +40,71 @@ function App() {
   const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
   const [copied, setCopied] = useState(false);
 
-  // 曲プールの絞り込み(検索 + 習熟度フィルタ)
+  // 曲プールの絞り込み(検索 + 習熟度 + タグ)と並べ替え
   const [poolSearch, setPoolSearch] = useState("");
   const [masteryFilter, setMasteryFilter] = useState<Record<Mastery, boolean>>({
     ready: true,
     practicing: true,
     wishlist: true,
   });
+  const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
+  const [sortKey, setSortKey] = useState<SortKey | null>(null);
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
 
   const filteredPool = useMemo(() => {
     const q = poolSearch.trim().toLowerCase();
-    return songs.filter((s) => {
+    const result = songs.filter((s) => {
       if (!masteryFilter[s.mastery]) return false;
+      // タグは OR: 選択タグのいずれかを持つ曲を表示(未選択なら全通過)
+      if (activeTags.size > 0 && !s.tags.some((t) => activeTags.has(t))) {
+        return false;
+      }
       if (q === "") return true;
       return (
         s.title.toLowerCase().includes(q) ||
         (s.artist?.toLowerCase().includes(q) ?? false)
       );
     });
-  }, [poolSearch, masteryFilter]);
+
+    if (sortKey) {
+      const dir = sortDir === "asc" ? 1 : -1;
+      result.sort((a, b) => {
+        let cmp: number;
+        if (sortKey === "mastery") {
+          cmp = MASTERY_ORDER[a.mastery] - MASTERY_ORDER[b.mastery];
+        } else {
+          const av = sortKey === "title" ? a.title : (a.artist ?? "");
+          const bv = sortKey === "title" ? b.title : (b.artist ?? "");
+          cmp = av.localeCompare(bv, "ja");
+        }
+        return cmp * dir;
+      });
+    }
+    return result;
+  }, [poolSearch, masteryFilter, activeTags, sortKey, sortDir]);
 
   const toggleMastery = (m: Mastery) =>
     setMasteryFilter((prev) => ({ ...prev, [m]: !prev[m] }));
+
+  const toggleTag = (t: string) =>
+    setActiveTags((prev) => {
+      const next = new Set(prev);
+      if (next.has(t)) next.delete(t);
+      else next.add(t);
+      return next;
+    });
+
+  const handleSort = (key: SortKey) => {
+    if (sortKey === key) {
+      setSortDir((d) => (d === "asc" ? "desc" : "asc"));
+    } else {
+      setSortKey(key);
+      setSortDir("asc");
+    }
+  };
+
+  const sortIndicator = (key: SortKey) =>
+    sortKey === key ? (sortDir === "asc" ? " ▲" : " ▼") : "";
 
   // 実際に generateSetlist が返せる最大曲数(UIの上限もこれに合わせる)
   const maxSelectable = useMemo(
@@ -178,12 +239,60 @@ function App() {
             {songs.length}曲中 {filteredPool.length}曲
           </span>
         </div>
+        {ALL_TAGS.length > 0 && (
+          <div className="tag-filters">
+            {ALL_TAGS.map((t) => (
+              <button
+                key={t}
+                type="button"
+                className={`tag-chip ${activeTags.has(t) ? "on" : ""}`}
+                aria-pressed={activeTags.has(t)}
+                onClick={() => toggleTag(t)}
+              >
+                {t}
+              </button>
+            ))}
+            {activeTags.size > 0 && (
+              <button
+                type="button"
+                className="tag-clear"
+                onClick={() => setActiveTags(new Set())}
+              >
+                クリア
+              </button>
+            )}
+          </div>
+        )}
         <table>
           <thead>
             <tr>
-              <th>曲</th>
-              <th>アーティスト</th>
-              <th>習熟度</th>
+              <th>
+                <button
+                  type="button"
+                  className="sort-th"
+                  onClick={() => handleSort("title")}
+                >
+                  曲{sortIndicator("title")}
+                </button>
+              </th>
+              <th>
+                <button
+                  type="button"
+                  className="sort-th"
+                  onClick={() => handleSort("artist")}
+                >
+                  アーティスト{sortIndicator("artist")}
+                </button>
+              </th>
+              <th>
+                <button
+                  type="button"
+                  className="sort-th"
+                  onClick={() => handleSort("mastery")}
+                >
+                  習熟度{sortIndicator("mastery")}
+                </button>
+              </th>
               <th>タグ</th>
             </tr>
           </thead>
