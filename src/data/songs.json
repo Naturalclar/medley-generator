@@ -922,5 +922,82 @@
     "lastPlayedAt": null,
     "tags": ["学マス"],
     "memo": ""
+  },
+  {
+    "id": "goodbye-sengen",
+    "title": "グッバイ宣言",
+    "artist": "Chinozo",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "telecaster-b-boy",
+    "title": "テレキャスタービーボーイ",
+    "artist": "すりぃ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "dramaturgy",
+    "title": "ドラマツルギー",
+    "artist": "Eve",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "kaikai-kitan",
+    "title": "廻廻奇譚",
+    "artist": "Eve",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "呪術廻戦"],
+    "memo": ""
+  },
+  {
+    "id": "bling-bang-bang-born",
+    "title": "BLING-BANG-BANG-BORN",
+    "artist": "Creepy Nuts",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "マッシュル"],
+    "memo": ""
+  },
+  {
+    "id": "kaijuu-no-hanauta",
+    "title": "怪獣の花唄",
+    "artist": "Vaundy",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "pretender",
+    "title": "Pretender",
+    "artist": "Official髭男dism",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
