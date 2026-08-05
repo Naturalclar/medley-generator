@@ -1087,5 +1087,16 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "magic-ring-night",
+    "title": "マジックリングナイト",
+    "artist": "Royal Scandal",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
