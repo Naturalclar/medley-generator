@@ -33,7 +33,9 @@ test.describe("セトリ生成", () => {
     await expect(page.locator(".setlist")).toBeVisible();
 
     // OFF にすると表示中のセトリはクリアされる(古い結果を残さない)
-    await page.getByRole("checkbox").uncheck();
+    await page
+      .getByRole("checkbox", { name: /覚えたい曲も含める/ })
+      .uncheck();
     await expect(page.locator(".setlist")).toHaveCount(0);
 
     // 再生成すると wishlist(覚えたい)は1曲も入らない
