@@ -138,6 +138,79 @@ button.secondary {
   white-space: pre-wrap;
 }
 
+.pool-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.pool-search {
+  flex: 1 1 12rem;
+  min-width: 0;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.mastery-chips {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.chip {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s,
+    border-color 0.15s;
+}
+
+/* 選択中(on)は該当習熟度の色で塗る。off は淡いアウトライン。 */
+.chip.on {
+  color: #fff;
+  border-color: transparent;
+}
+
+.chip.ready.on {
+  background: var(--ready);
+}
+
+.chip.practicing.on {
+  background: var(--practicing);
+}
+
+.chip.wishlist.on {
+  background: var(--wishlist);
+}
+
+.chip.off {
+  opacity: 0.6;
+}
+
+.pool-count {
+  margin-left: auto;
+  color: var(--text-sub);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.pool-empty {
+  text-align: center;
+  color: var(--text-sub);
+  padding: 1.5rem 0;
+}
+
 .pool table {
   width: 100%;
   border-collapse: collapse;
