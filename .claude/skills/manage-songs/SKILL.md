@@ -104,3 +104,11 @@ node .claude/skills/manage-songs/scripts/songs.mjs remove <id>
 
 不明な項目(bpm や key)は無理に埋めず null のままにする。README にある通り
 「不明なら null で OK、無くても動く」。
+
+## memo の注意(重要)
+
+`songs.json` は公開エンドポイント(`https://naturalclar.github.io/medley-generator/songs.json`)
+としてそのまま配信される。**`memo` に特定の個人を識別できる情報(配信者名・本名・
+SNSアカウント等)を書かない**こと。「◯◯さんの配信で知った」のような由来メモは、
+個人名を外して「配信で発見」のように一般化する。ユーザーがそういう入力をしても、
+memo に入れる際は個人名を落とす。
