@@ -26,12 +26,11 @@ pnpm run preview   # ビルド結果のローカル確認
 - `src/lib/types.ts` — `Song` 型と `Mastery` ("ready" | "practicing" | "wishlist")、日本語ラベル定義
 - `src/lib/generator.ts` — 生成ロジックの本体(純粋関数、React非依存)。ヒューリスティック:
   - 「練習中(practicing)」の曲は1枠に1曲だけ選出
-  - `lastPlayedAt` が7日以内の曲は選出確率を下げる(重み付きサンプリング、クールダウン)
-  - 並び順はBPMの山型(緩→急→緩)。BPM不明の曲は既知BPMの中央値として扱う
+  - 選出は一様ランダム。並び順はBPMの山型(緩→急→緩)。BPM不明の曲は既知BPMの中央値として扱う
 - `src/App.tsx` — 全UI(単一コンポーネント)。songs.jsonをimportしてgeneratorを呼ぶだけ
 - `src/data/songs.json` — 曲プール。`key` / `bpm` / `lastPlayedAt` / `artist` は `null` 許容
 
-ロジック変更は `generator.ts`、曲の追加・編集は `songs.json` を触る。`generateSetlist` は `now?: Date` をオプションで受け取る(テスト・再現用)。
+ロジック変更は `generator.ts`、曲の追加・編集は `songs.json` を触る。`generateSetlist` は `random?: () => number` をオプションで受け取る(テストで決定的にするため)。`lastPlayedAt` はスキーマに残るが現在ロジックでは未使用。
 
 ## Deploy
 
