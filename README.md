@@ -53,6 +53,15 @@ pnpm test:watch  # 変更を監視
 
 https://naturalclar.github.io/medley-generator/
 
+### 曲データのJSONエンドポイント
+
+ビルド時に `src/data/songs.json` を `dist/songs.json` にもコピーしているため
+(`vite.config.ts` の `copySongsJson` プラグイン)、曲データは以下のURLで生のJSONとして取得できる:
+
+https://naturalclar.github.io/medley-generator/songs.json
+
+> 公開エンドポイントなので、`memo` などに個人を特定できる情報を書かないこと。
+
 ## 元ネタ
 
 kanbanリポジトリの `brainstorm/medley-setlist-generator.md` を参照。
