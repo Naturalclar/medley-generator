@@ -1186,5 +1186,49 @@
     "lastPlayedAt": null,
     "tags": ["アニソン", "ぼっちざろっく"],
     "memo": ""
+  },
+  {
+    "id": "daybreak-frontline",
+    "title": "DAYBREAK FRONTLINE",
+    "artist": "Orangestar",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "surges",
+    "title": "Surges",
+    "artist": "Orangestar",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "mawaru-sora-usagi",
+    "title": "回る空うさぎ",
+    "artist": "Orangestar",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "alice-in-reitouko",
+    "title": "Alice in 冷凍庫",
+    "artist": "Orangestar",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
