@@ -77,17 +77,6 @@
     "memo": "よく聴くが未習得"
   },
   {
-    "id": "labuca-lovepara",
-    "title": "ラブカ？→ラブパラ",
-    "artist": "Deco*27",
-    "key": null,
-    "bpm": null,
-    "mastery": "wishlist",
-    "lastPlayedAt": null,
-    "tags": ["ボカロ", "Deco*27"],
-    "memo": "メドレー内メドレー候補"
-  },
-  {
     "id": "reversible-campaign",
     "title": "リバーシブル・キャンペーン",
     "artist": "Deco*27",
@@ -1227,6 +1216,28 @@
     "key": null,
     "bpm": null,
     "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "lovepara",
+    "title": "ラブパラ",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
+  },
+  {
+    "id": "labuca",
+    "title": "ラブカ",
+    "artist": "柊キライ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
