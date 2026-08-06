@@ -1233,11 +1233,22 @@
   },
   {
     "id": "labuca",
-    "title": "ラブカ",
+    "title": "ラブカ？",
     "artist": "柊キライ",
     "key": null,
     "bpm": null,
     "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "bocca-della-verita",
+    "title": "ボッカデラベリタ",
+    "artist": "柊キライ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
