@@ -1318,5 +1318,60 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "abuku",
+    "title": "あぶく",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "LIAR GAME"],
+    "memo": ""
+  },
+  {
+    "id": "kyuukurarin",
+    "title": "きゅうくらりん",
+    "artist": "いよわ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "igaku",
+    "title": "イガク",
+    "artist": "原口沙輔",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "yureko",
+    "title": "ユレ弧",
+    "artist": "原口沙輔",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "minihen",
+    "title": "ミニ偏",
+    "artist": "原口沙輔",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
