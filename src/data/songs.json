@@ -1318,5 +1318,16 @@
     "lastPlayedAt": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "abuku",
+    "title": "あぶく",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "LIAR GAME"],
+    "memo": ""
   }
 ]
