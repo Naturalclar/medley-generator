@@ -1285,5 +1285,38 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "ao-no-sumika",
+    "title": "青のすみか",
+    "artist": "キタニタツヤ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "呪術廻戦"],
+    "memo": ""
+  },
+  {
+    "id": "zuutto-issho",
+    "title": "ずうっといっしょ！",
+    "artist": "キタニタツヤ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "akuma-no-odorikata",
+    "title": "悪魔の踊り方",
+    "artist": "キタニタツヤ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
