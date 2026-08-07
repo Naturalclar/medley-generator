@@ -1329,5 +1329,16 @@
     "lastPlayedAt": null,
     "tags": ["アニソン", "LIAR GAME"],
     "memo": ""
+  },
+  {
+    "id": "kyuukurarin",
+    "title": "きゅうくらりん",
+    "artist": "いよわ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
