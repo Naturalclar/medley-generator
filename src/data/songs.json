@@ -1340,5 +1340,16 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "igaku",
+    "title": "イガク",
+    "artist": "原口沙輔",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
