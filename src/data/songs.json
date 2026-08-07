@@ -1252,5 +1252,38 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "kinyoubi-no-ohayou",
+    "title": "金曜日のおはよう",
+    "artist": "HoneyWorks",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "fansa",
+    "title": "ファンサ",
+    "artist": "HoneyWorks",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "chouzetsu-kawaii",
+    "title": "#超絶かわいい",
+    "artist": "HoneyWorks",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
