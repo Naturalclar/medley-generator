@@ -9,6 +9,7 @@
 //   node songs.mjs add    --id <slug> --title <t> [--artist <a>] [--key <k>]
 //                         [--bpm <n>] [--mastery ready|practicing|wishlist]
 //                         [--tags "a,b"] [--memo <m>] [--last-played YYYY-MM-DD]
+//                         [--youtube-id <id|URL>]
 //   node songs.mjs edit   <id> [同上の --field ...]   (渡したフィールドだけ更新 / "null" で消去)
 //   node songs.mjs remove <id>
 //   node songs.mjs list   [--mastery <m>]
@@ -32,6 +33,7 @@ const FIELD_ORDER = [
   "bpm",
   "mastery",
   "lastPlayedAt",
+  "youtubeId",
   "tags",
   "memo",
 ];
@@ -101,6 +103,25 @@ function validateMastery(v) {
   return v;
 }
 
+/**
+ * YouTube 動画ID。URL を渡されてもIDを抜き出す(手で貼れるように)。
+ * 対応: 生ID / youtu.be/<id> / (music.)youtube.com/watch?v=<id> / /shorts/<id> など
+ */
+function parseYoutubeId(v) {
+  const n = nullable(v);
+  if (n === null || n === undefined) return n;
+  const s = String(n).trim();
+  const ID = /^[A-Za-z0-9_-]{11}$/;
+  if (ID.test(s)) return s;
+  // URL からの抽出を試す
+  const m =
+    s.match(/[?&]v=([A-Za-z0-9_-]{11})/) ??
+    s.match(/youtu\.be\/([A-Za-z0-9_-]{11})/) ??
+    s.match(/\/(?:shorts|embed|live)\/([A-Za-z0-9_-]{11})/);
+  if (m) return m[1];
+  fail(`youtube-id は11文字の動画IDかYouTubeのURL: ${v}`);
+}
+
 /** 1曲を既存スタイル(4スペースインデント / tags はインライン)で文字列化。 */
 function serializeSong(song) {
   const line = (key) => {
@@ -148,6 +169,7 @@ function fieldsFromFlags(flags) {
   if (flags.bpm !== undefined) f.bpm = parseBpm(flags.bpm);
   if (flags.mastery !== undefined) f.mastery = validateMastery(flags.mastery);
   if (flags.lastPlayed !== undefined) f.lastPlayedAt = parseLastPlayed(flags.lastPlayed);
+  if (flags.youtubeId !== undefined) f.youtubeId = parseYoutubeId(flags.youtubeId);
   if (flags.tags !== undefined) f.tags = parseTags(flags.tags);
   if (flags.memo !== undefined) f.memo = nullable(flags.memo) ?? "";
   return f;
@@ -171,6 +193,7 @@ function cmdAdd(file, flags) {
     bpm: "bpm" in overrides ? overrides.bpm : null,
     mastery: overrides.mastery ?? "wishlist",
     lastPlayedAt: "lastPlayedAt" in overrides ? overrides.lastPlayedAt : null,
+    youtubeId: "youtubeId" in overrides ? overrides.youtubeId : null,
     tags: overrides.tags ?? [],
     memo: overrides.memo ?? "",
   };

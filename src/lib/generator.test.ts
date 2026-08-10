@@ -17,6 +17,7 @@ function song(partial: Partial<Song> & { id: string }): Song {
     bpm: null,
     mastery: "ready",
     lastPlayedAt: null,
+    youtubeId: null,
     tags: [],
     memo: "",
     ...partial,

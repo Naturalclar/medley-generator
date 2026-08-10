@@ -8,6 +8,8 @@ export interface Song {
   bpm: number | null;
   mastery: Mastery;
   lastPlayedAt: string | null;
+  /** YouTube の動画ID(11文字)。不明なら null。YouTube Music とも共通。 */
+  youtubeId: string | null;
   tags: string[];
   memo: string;
 }
