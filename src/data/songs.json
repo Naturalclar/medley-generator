@@ -1384,5 +1384,181 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "buriki-no-dance",
+    "title": "ブリキノダンス",
+    "artist": "日向電工",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "mousou-kanshou",
+    "title": "妄想感傷代償連盟",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
+  },
+  {
+    "id": "setsuna-trip",
+    "title": "セツナトリップ",
+    "artist": "Last Note.",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "cinderella",
+    "title": "シンデレラ",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
+  },
+  {
+    "id": "hello-howareyou",
+    "title": "ハロ/ハワユ",
+    "artist": "ナノウ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "shinkai-shoujo",
+    "title": "深海少女",
+    "artist": "ゆうゆ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "uraomote-lovers",
+    "title": "裏表ラバーズ",
+    "artist": "wowaka",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "roshin-yuukai",
+    "title": "炉心融解",
+    "artist": "iroha",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "migikata-no-chou",
+    "title": "右肩の蝶",
+    "artist": "のりP",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "from-y-to-y",
+    "title": "from Y to Y",
+    "artist": "ジミーサムP",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "echo",
+    "title": "echo",
+    "artist": "Crusher-P",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "unhappy-refrain",
+    "title": "アンハッピーリフレイン",
+    "artist": "wowaka",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "venom",
+    "title": "ベノム",
+    "artist": "かいりきベア",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "mesmerizer",
+    "title": "メズマライザー",
+    "artist": "幽体コミュニケーションズ",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "villain",
+    "title": "ヴィラン",
+    "artist": "てにをは",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "autophagy",
+    "title": "オートファジー",
+    "artist": "柊キライ",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
