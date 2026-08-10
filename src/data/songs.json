@@ -1560,5 +1560,126 @@
     "lastPlayedAt": null,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "shoujo-rei",
+    "title": "少女レイ",
+    "artist": "みきとP",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "kaibutsu",
+    "title": "怪物",
+    "artist": "YOASOBI",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "進撃の巨人"],
+    "memo": ""
+  },
+  {
+    "id": "kyoufuu-allback",
+    "title": "強風オールバック",
+    "artist": "ゆこぴ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "identity",
+    "title": "アイデンティティ",
+    "artist": "キタニタツヤ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "hana-ni-natte",
+    "title": "花になって",
+    "artist": "緑黄色社会",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "tags": ["アニソン", "薬屋のひとりごと"],
+    "memo": ""
+  },
+  {
+    "id": "gunjou",
+    "title": "群青",
+    "artist": "YOASOBI",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "saudade",
+    "title": "サウダージ",
+    "artist": "ポルノグラフィティ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "ussewa",
+    "title": "うっせぇわ",
+    "artist": "Ado",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "quesera",
+    "title": "ケセラセラ",
+    "artist": "Mrs. GREEN APPLE",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "scar",
+    "title": "スカー",
+    "artist": "キタニタツヤ",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "show",
+    "title": "唱",
+    "artist": "Ado",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "tags": [],
+    "memo": ""
   }
 ]
