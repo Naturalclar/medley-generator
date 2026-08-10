@@ -29,6 +29,7 @@ DB は無く **Git が履歴**なので、変更は必ず**最小差分**で入�
   "bpm": 120,                // 正の整数。不明なら null
   "mastery": "ready | practicing | wishlist",  // 既定は wishlist
   "lastPlayedAt": "2026-08-04",                // 不明なら null
+  "youtubeId": "dQw4w9WgXcQ",                  // YouTube動画ID(11文字)。不明なら null
   "tags": ["ボカロ"],        // 無ければ []
   "memo": ""
 }
@@ -70,8 +71,12 @@ node .claude/skills/manage-songs/scripts/songs.mjs add \
   --id <slug> --title "<曲名>" \
   [--artist "<名>"] [--key "<調>"] [--bpm <整数>] \
   [--mastery ready|practicing|wishlist] \
-  [--tags "タグA, タグB"] [--memo "<メモ>"] [--last-played YYYY-MM-DD]
+  [--tags "タグA, タグB"] [--memo "<メモ>"] [--last-played YYYY-MM-DD] \
+  [--youtube-id <動画ID または YouTubeのURL>]
 ```
+
+`--youtube-id` は生のID(11文字)でも URL でもよい。URL の場合はIDを自動抽出する
+(`youtu.be/<id>` / `watch?v=<id>` / `music.youtube.com/watch?v=<id>` / `/shorts/<id>` に対応)。
 
 `--id` と `--title` は必須。省いたフィールドは既定値(null / [] / "" / mastery は wishlist)。
 新規に発見・登録する曲は基本 `wishlist`。ユーザーが「弾ける」「練習中」と言えばそれに従う。
