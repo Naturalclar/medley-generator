@@ -1,0 +1,145 @@
+import { describe, expect, it } from "vitest";
+import songsData from "./songs.json";
+import { MASTERY_LABEL } from "../lib/types";
+
+// songs.json は `as Song[]` で型アサーションされて使われるため、TypeScript では
+// 中身が検証されない(壊れた値が入っても build は通る)。手編集や別経路で不正な
+// データが混入していないかをここで守る。
+//
+// エラー時にどの曲かすぐ分かるよう、問題のあった曲を id 付きで列挙する形にしている。
+
+const songs = songsData as unknown[];
+const MASTERIES = Object.keys(MASTERY_LABEL);
+const ID_RE = /^[a-z0-9-]+$/;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+const YOUTUBE_ID_RE = /^[A-Za-z0-9_-]{11}$/;
+
+/** 全曲を検査し、条件を満たさない曲を "id: 実際の値" の形で返す。 */
+function findViolations(
+  predicate: (song: Record<string, unknown>) => boolean,
+  field: string,
+): string[] {
+  return songs
+    .map((s) => s as Record<string, unknown>)
+    .filter((s) => !predicate(s))
+    .map((s) => `${String(s.id)}: ${JSON.stringify(s[field])}`);
+}
+
+describe("songs.json のスキーマ", () => {
+  it("空でない配列である", () => {
+    expect(Array.isArray(songs)).toBe(true);
+    expect(songs.length).toBeGreaterThan(0);
+  });
+
+  it("全曲が必須フィールドを持つ", () => {
+    const required = [
+      "id",
+      "title",
+      "artist",
+      "key",
+      "bpm",
+      "mastery",
+      "lastPlayedAt",
+      "youtubeId",
+      "tags",
+      "memo",
+    ];
+    const missing = songs
+      .map((s) => s as Record<string, unknown>)
+      .flatMap((s) =>
+        required
+          .filter((k) => !(k in s))
+          .map((k) => `${String(s.id)}: ${k} が無い`),
+      );
+    expect(missing).toEqual([]);
+  });
+
+  it("id は英小文字・数字・ハイフンのみ", () => {
+    const bad = findViolations(
+      (s) => typeof s.id === "string" && ID_RE.test(s.id),
+      "id",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("id は全曲でユニーク", () => {
+    const ids = songs.map((s) => (s as Record<string, unknown>).id);
+    const seen = new Set<unknown>();
+    const dupes = ids.filter((id) => {
+      if (seen.has(id)) return true;
+      seen.add(id);
+      return false;
+    });
+    expect(dupes).toEqual([]);
+  });
+
+  it("title は空でない文字列", () => {
+    const bad = findViolations(
+      (s) => typeof s.title === "string" && s.title.trim() !== "",
+      "title",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("artist / key は文字列 or null", () => {
+    for (const field of ["artist", "key"]) {
+      const bad = findViolations(
+        (s) => s[field] === null || typeof s[field] === "string",
+        field,
+      );
+      expect(bad, `${field} が不正`).toEqual([]);
+    }
+  });
+
+  it("bpm は正の整数 or null", () => {
+    const bad = findViolations(
+      (s) =>
+        s.bpm === null ||
+        (typeof s.bpm === "number" && Number.isInteger(s.bpm) && s.bpm > 0),
+      "bpm",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("mastery は ready / practicing / wishlist のいずれか", () => {
+    const bad = findViolations(
+      (s) => typeof s.mastery === "string" && MASTERIES.includes(s.mastery),
+      "mastery",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("lastPlayedAt は YYYY-MM-DD 形式 or null", () => {
+    const bad = findViolations(
+      (s) =>
+        s.lastPlayedAt === null ||
+        (typeof s.lastPlayedAt === "string" && DATE_RE.test(s.lastPlayedAt)),
+      "lastPlayedAt",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("youtubeId は11文字の動画ID or null", () => {
+    const bad = findViolations(
+      (s) =>
+        s.youtubeId === null ||
+        (typeof s.youtubeId === "string" && YOUTUBE_ID_RE.test(s.youtubeId)),
+      "youtubeId",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("tags は文字列の配列", () => {
+    const bad = findViolations(
+      (s) =>
+        Array.isArray(s.tags) && s.tags.every((t) => typeof t === "string"),
+      "tags",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("memo は文字列", () => {
+    const bad = findViolations((s) => typeof s.memo === "string", "memo");
+    expect(bad).toEqual([]);
+  });
+});
