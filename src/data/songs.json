@@ -1846,5 +1846,17 @@
     "youtubeId": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "kokoroe",
+    "title": "心絵",
+    "artist": "ロードオブメジャー",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["アニソン", "メジャー", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
