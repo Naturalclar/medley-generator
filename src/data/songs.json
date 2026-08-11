@@ -1846,5 +1846,17 @@
     "youtubeId": null,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "science",
+    "title": "サイエンス",
+    "artist": "MIMI",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
