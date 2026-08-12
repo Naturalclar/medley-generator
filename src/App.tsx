@@ -10,6 +10,11 @@ import {
 } from "./lib/generator";
 import type { Mastery, Song } from "./lib/types";
 import { MASTERY_LABEL } from "./lib/types";
+import {
+  createPlaylist,
+  isYoutubePlaylistEnabled,
+  requestAccessToken,
+} from "./lib/youtube";
 import "./App.css";
 
 const songs = songsData as Song[];
@@ -166,6 +171,48 @@ function App() {
     [setlist],
   );
 
+  // プレイリスト作成(OAuth)。クライアントID未設定の環境では機能ごと出さない。
+  const [playlistState, setPlaylistState] = useState<
+    | { status: "idle" }
+    | { status: "working"; added: number; total: number }
+    | { status: "done"; url: string; added: number; failed: number }
+    | { status: "error"; message: string }
+  >({ status: "idle" });
+
+  const handleCreatePlaylist = async () => {
+    const videoIds = setlist
+      .map((s) => s.youtubeId)
+      .filter((id): id is string => !!id);
+    if (videoIds.length === 0) return;
+
+    setPlaylistState({ status: "working", added: 0, total: videoIds.length });
+    try {
+      const token = await requestAccessToken();
+      const result = await createPlaylist(
+        token,
+        formatSetlistText(setlist, generatedAt ?? new Date()).split("\n")[0],
+        videoIds,
+        (p) =>
+          setPlaylistState({
+            status: "working",
+            added: p.added,
+            total: p.total,
+          }),
+      );
+      setPlaylistState({
+        status: "done",
+        url: result.url,
+        added: result.added,
+        failed: result.failed,
+      });
+    } catch (e) {
+      setPlaylistState({
+        status: "error",
+        message: e instanceof Error ? e.message : "プレイリストを作成できませんでした",
+      });
+    }
+  };
+
   const handleCopy = async () => {
     await navigator.clipboard.writeText(setlistText);
     setCopied(true);
@@ -258,6 +305,17 @@ function App() {
                 {youtubeCount < setlist.length && ` (${youtubeCount}曲)`}
               </a>
             )}
+            {youtubeUrl && isYoutubePlaylistEnabled() && (
+              <button
+                className="secondary"
+                onClick={handleCreatePlaylist}
+                disabled={playlistState.status === "working"}
+              >
+                {playlistState.status === "working"
+                  ? `作成中… (${playlistState.added}/${playlistState.total})`
+                  : "プレイリストに保存"}
+              </button>
+            )}
             <label className="checkbox mark-toggle">
               <input
                 type="checkbox"
@@ -267,6 +325,19 @@ function App() {
               挑戦曲に🔰(コピー用)
             </label>
           </div>
+          {playlistState.status === "done" && (
+            <p className="hint">
+              プレイリストを作成しました({playlistState.added}曲
+              {playlistState.failed > 0 && ` / ${playlistState.failed}曲は失敗`}
+              )。{" "}
+              <a href={playlistState.url} target="_blank" rel="noreferrer">
+                YouTubeで開く
+              </a>
+            </p>
+          )}
+          {playlistState.status === "error" && (
+            <p className="hint error">{playlistState.message}</p>
+          )}
           {!youtubeUrl && (
             <p className="hint">
               このセトリの曲にはまだ YouTube の動画IDが登録されていないため、

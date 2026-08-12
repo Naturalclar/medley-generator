@@ -341,3 +341,7 @@ button.secondary {
   color: var(--text-sub);
   font-size: 0.8rem;
 }
+
+.hint.error {
+  color: #c4302b;
+}

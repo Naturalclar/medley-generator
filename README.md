@@ -40,12 +40,13 @@ pnpm test:watch  # 変更を監視
   "bpm": 120,
   "mastery": "ready | practicing | wishlist",
   "lastPlayedAt": "2026-08-04",
+  "youtubeId": "dQw4w9WgXcQ",
   "tags": ["ボカロ"],
   "memo": ""
 }
 ```
 
-`key` / `bpm` / `lastPlayedAt` は不明なら `null` でOK(無くても動く)。
+`key` / `bpm` / `lastPlayedAt` / `youtubeId` は不明なら `null` でOK(無くても動く)。
 
 ## デプロイ
 
@@ -61,6 +62,39 @@ https://naturalclar.github.io/medley-generator/
 https://naturalclar.github.io/medley-generator/songs.json
 
 > 公開エンドポイントなので、`memo` などに個人を特定できる情報を書かないこと。
+
+## YouTube プレイリスト作成 (任意)
+
+セトリの `youtubeId` が入っている曲は、生成後に2通りの方法で再生できる。
+
+1. **連続再生リンク** — 常に表示される。`youtube.com/watch_videos` を使う一時的な
+   プレイリスト(ログイン不要・最大50曲・保存はされない)。
+2. **プレイリストに保存** — 環境変数 `VITE_YOUTUBE_CLIENT_ID` が設定されている
+   ビルドでのみ表示される。閲覧者が自分の Google アカウントで認証し、自分の
+   YouTube に限定公開のプレイリストとして保存する。
+
+### クライアントIDの設定
+
+Google Cloud で OAuth 2.0 クライアント(種別: ウェブアプリケーション)を作り、
+YouTube Data API v3 を有効化する。「承認済みの JavaScript 生成元」には配信元の
+オリジン(例: `https://naturalclar.github.io`)を登録する。
+
+ローカルでは `.env.local` に置く:
+
+```sh
+VITE_YOUTUBE_CLIENT_ID=xxxxxxxx.apps.googleusercontent.com
+```
+
+GitHub Pages へのデプロイでは、リポジトリの Variables に
+`VITE_YOUTUBE_CLIENT_ID` を登録すると `deploy.yml` がビルド時に注入する
+(未設定でもビルドは通り、その場合は保存ボタンが出ないだけ)。
+
+クライアントIDはビルド成果物に埋め込まれるが、client secret を使わない
+暗黙的フローなので公開して問題ない値。アクセストークンはメモリにしか置かず、
+保存もサーバー送信もしない。
+
+> 無料枠は1日10,000ユニット。プレイリスト作成50 + 1曲追加ごとに50なので、
+> 20曲のセトリで約1,050ユニット(1日およそ9回)。超えると翌日まで作成できない。
 
 ## 元ネタ
 
