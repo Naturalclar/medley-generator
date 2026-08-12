@@ -1894,5 +1894,89 @@
     "youtubeId": null,
     "tags": ["アニソン", "メジャー", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "non-breath-oblige",
+    "title": "ノンブレス・オブリージュ",
+    "artist": "ピノキオピー",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "idol",
+    "title": "アイドル",
+    "artist": "YOASOBI",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["アニソン", "推しの子"],
+    "memo": ""
+  },
+  {
+    "id": "dry-flower",
+    "title": "ドライフラワー",
+    "artist": "優里",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "silhouette",
+    "title": "シルエット",
+    "artist": "KANA-BOON",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["アニソン", "NARUTO"],
+    "memo": ""
+  },
+  {
+    "id": "shukufuku",
+    "title": "祝福",
+    "artist": "YOASOBI",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["アニソン", "水星の魔女"],
+    "memo": ""
+  },
+  {
+    "id": "mixed-nuts",
+    "title": "ミックスナッツ",
+    "artist": "Official髭男dism",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["アニソン", "SPY×FAMILY"],
+    "memo": ""
+  },
+  {
+    "id": "theo",
+    "title": "テオ",
+    "artist": "Omoi",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
