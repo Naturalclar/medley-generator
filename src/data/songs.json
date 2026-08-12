@@ -2098,5 +2098,113 @@
     "youtubeId": "jpV5jeFlt_E",
     "tags": ["アニソン", "化物語"],
     "memo": ""
+  },
+  {
+    "id": "lag-train",
+    "title": "ラグトレイン",
+    "artist": "稲葉曇",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "UnIhRpIT7nc",
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "homura",
+    "title": "炎",
+    "artist": "LiSA",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "4DxL6IKmXx4",
+    "tags": ["アニソン", "鬼滅の刃"],
+    "memo": ""
+  },
+  {
+    "id": "only-my-railgun",
+    "title": "only my railgun",
+    "artist": "fripSide",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "cFqaN3vgxLc",
+    "tags": ["アニソン", "レールガン"],
+    "memo": ""
+  },
+  {
+    "id": "rewrite",
+    "title": "リライト",
+    "artist": "ASIAN KUNG-FU GENERATION",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "cr8magEp0Ho",
+    "tags": ["アニソン", "ハガレン"],
+    "memo": ""
+  },
+  {
+    "id": "sugar-song-to-bitter-step",
+    "title": "シュガーソングとビターステップ",
+    "artist": "UNISON SQUARE GARDEN",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "ERLEeGVWYxg",
+    "tags": ["アニソン", "血界戦線"],
+    "memo": ""
+  },
+  {
+    "id": "takane-no-hanakosan",
+    "title": "高嶺の花子さん",
+    "artist": "back number",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "SII-S-zCg-c",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "koi",
+    "title": "恋",
+    "artist": "星野源",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "jhOVibLEDhA",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "lost-ones-weeping",
+    "title": "ロストワンの号哭",
+    "artist": "Neru",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "8oBV3jPTW4s",
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "bitter-choco-decoration",
+    "title": "ビターチョコデコレーション",
+    "artist": "syudou",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "XCyKJD6uQyg",
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
