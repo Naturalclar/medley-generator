@@ -25,7 +25,10 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      # 未設定なら空文字になり、プレイリスト保存ボタンが出ないだけ(ビルドは通る)
       - run: pnpm run build
+        env:
+          VITE_YOUTUBE_CLIENT_ID: ${{ vars.VITE_YOUTUBE_CLIENT_ID }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
