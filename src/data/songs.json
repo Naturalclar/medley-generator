@@ -2314,5 +2314,17 @@
     "youtubeId": "tLQLa6lM3Us",
     "tags": ["アニソン", "鬼滅の刃"],
     "memo": ""
+  },
+  {
+    "id": "racy",
+    "title": "racy",
+    "artist": "ako",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
