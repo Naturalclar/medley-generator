@@ -1848,6 +1848,18 @@
     "memo": ""
   },
   {
+    "id": "science",
+    "title": "サイエンス",
+    "artist": "MIMI",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
     "id": "shinpakusuu-0822",
     "title": "心拍数♯0822",
     "artist": "蝶々P",
