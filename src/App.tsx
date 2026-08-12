@@ -459,6 +459,41 @@ function App() {
           (Gitが履歴になる)
         </p>
       </section>
+
+      <section className="about">
+        <h2>このアプリについて</h2>
+        <p>
+          配信で演奏するメドレーの曲目を、登録した曲プールから自動で組むツールです。
+          練習中の曲が1曲だけ自然に混ざるように選び、BPMが緩→急→緩の山型になるよう
+          並べます。サーバーもデータベースも無く、すべてブラウザの中だけで動きます。
+        </p>
+
+        <h3>YouTube との連携</h3>
+        <p>
+          セトリの曲に YouTube の動画IDが登録されていれば、「▶ YouTubeで再生」から
+          その場限りのプレイリストとして連続再生できます(ログイン不要・保存もされません)。
+        </p>
+        <p>
+          「プレイリストに保存」を使うと、Google アカウントで認証したうえで
+          <strong>あなた自身の YouTube アカウントに限定公開のプレイリストを作成し</strong>、
+          セトリの曲を追加します。<code>youtube</code> 権限はこの目的のためだけに要求し、
+          既存のプレイリストや動画の読み取り・変更・削除は行いません。アクセストークンは
+          ブラウザのメモリにのみ保持し、保存も外部送信もしません。詳しくは
+          <a href="./privacy.html">プライバシーポリシー</a>を参照してください。
+        </p>
+      </section>
+
+      <footer className="site-footer">
+        <a href="./privacy.html">プライバシーポリシー</a>
+        <span aria-hidden="true">·</span>
+        <a
+          href="https://github.com/naturalclar/medley-generator"
+          target="_blank"
+          rel="noreferrer"
+        >
+          GitHub
+        </a>
+      </footer>
     </div>
   );
 }
