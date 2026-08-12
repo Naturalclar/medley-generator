@@ -2314,5 +2314,17 @@
     "youtubeId": "tLQLa6lM3Us",
     "tags": ["アニソン", "鬼滅の刃"],
     "memo": ""
+  },
+  {
+    "id": "genkou",
+    "title": "眩光",
+    "artist": "WANIMA",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
