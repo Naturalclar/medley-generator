@@ -1848,6 +1848,18 @@
     "memo": ""
   },
   {
+    "id": "science",
+    "title": "サイエンス",
+    "artist": "MIMI",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
     "id": "kokoroe",
     "title": "心絵",
     "artist": "ロードオブメジャー",
