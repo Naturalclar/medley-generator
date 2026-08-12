@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import songsData from "./data/songs.json";
 import {
+  buildYoutubePlaylistUrl,
+  countPlayableOnYoutube,
   formatSetlistText,
   generateSetlist,
   isChallenge,
@@ -157,6 +159,13 @@ function App() {
     [setlist],
   );
 
+  // YouTube 連続再生用のURL(youtubeId が設定済みの曲のみ)
+  const youtubeUrl = useMemo(() => buildYoutubePlaylistUrl(setlist), [setlist]);
+  const youtubeCount = useMemo(
+    () => countPlayableOnYoutube(setlist),
+    [setlist],
+  );
+
   const handleCopy = async () => {
     await navigator.clipboard.writeText(setlistText);
     setCopied(true);
@@ -237,6 +246,18 @@ function App() {
             <button className="secondary" onClick={handleGenerate}>
               再生成
             </button>
+            {youtubeUrl && (
+              <a
+                className="button youtube"
+                href={youtubeUrl}
+                target="_blank"
+                rel="noreferrer"
+                title="YouTubeで連続再生(その場限りのプレイリスト)"
+              >
+                ▶ YouTubeで再生
+                {youtubeCount < setlist.length && ` (${youtubeCount}曲)`}
+              </a>
+            )}
             <label className="checkbox mark-toggle">
               <input
                 type="checkbox"
@@ -246,6 +267,12 @@ function App() {
               挑戦曲に🔰(コピー用)
             </label>
           </div>
+          {!youtubeUrl && (
+            <p className="hint">
+              このセトリの曲にはまだ YouTube の動画IDが登録されていないため、
+              連続再生リンクを作れません。
+            </p>
+          )}
           <pre className="preview">{setlistText}</pre>
         </section>
       )}

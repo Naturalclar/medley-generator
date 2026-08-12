@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   arrangeBpmArc,
+  buildYoutubePlaylistUrl,
+  countPlayableOnYoutube,
   formatSetlistText,
   generateSetlist,
   isChallenge,
@@ -307,5 +309,57 @@ describe("isChallenge", () => {
   it("practicing / wishlist は挑戦枠", () => {
     expect(isChallenge(song({ id: "b", mastery: "practicing" }))).toBe(true);
     expect(isChallenge(song({ id: "c", mastery: "wishlist" }))).toBe(true);
+  });
+});
+
+describe("buildYoutubePlaylistUrl", () => {
+  it("youtubeId を並び順どおりに繋いだURLを作る", () => {
+    const setlist = [
+      song({ id: "a", youtubeId: "aaaaaaaaaaa" }),
+      song({ id: "b", youtubeId: "bbbbbbbbbbb" }),
+      song({ id: "c", youtubeId: "ccccccccccc" }),
+    ];
+    expect(buildYoutubePlaylistUrl(setlist)).toBe(
+      "https://www.youtube.com/watch_videos?video_ids=aaaaaaaaaaa,bbbbbbbbbbb,ccccccccccc",
+    );
+  });
+
+  it("youtubeId が無い曲は飛ばす", () => {
+    const setlist = [
+      song({ id: "a", youtubeId: "aaaaaaaaaaa" }),
+      song({ id: "no-id", youtubeId: null }),
+      song({ id: "b", youtubeId: "bbbbbbbbbbb" }),
+    ];
+    expect(buildYoutubePlaylistUrl(setlist)).toBe(
+      "https://www.youtube.com/watch_videos?video_ids=aaaaaaaaaaa,bbbbbbbbbbb",
+    );
+  });
+
+  it("1曲も youtubeId が無ければ null", () => {
+    expect(buildYoutubePlaylistUrl([song({ id: "a", youtubeId: null })])).toBe(
+      null,
+    );
+    expect(buildYoutubePlaylistUrl([])).toBe(null);
+  });
+
+  it("50曲を超える分は切り捨てる(watch_videos の上限)", () => {
+    const setlist = Array.from({ length: 60 }, (_, i) =>
+      song({ id: `s${i}`, youtubeId: `id${String(i).padStart(9, "0")}` }),
+    );
+    const url = buildYoutubePlaylistUrl(setlist);
+    const ids = url!.split("video_ids=")[1].split(",");
+    expect(ids).toHaveLength(50);
+  });
+});
+
+describe("countPlayableOnYoutube", () => {
+  it("youtubeId が設定済みの曲数を数える", () => {
+    const setlist = [
+      song({ id: "a", youtubeId: "aaaaaaaaaaa" }),
+      song({ id: "b", youtubeId: null }),
+      song({ id: "c", youtubeId: "ccccccccccc" }),
+    ];
+    expect(countPlayableOnYoutube(setlist)).toBe(2);
+    expect(countPlayableOnYoutube([])).toBe(0);
   });
 });

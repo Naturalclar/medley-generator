@@ -120,3 +120,29 @@ export function formatSetlistText(
   });
   return [`🎹 ${dateStr} メドレーセトリ`, ...lines].join("\n");
 }
+
+/** watch_videos が一度に受け付ける動画数の上限。 */
+const WATCH_VIDEOS_LIMIT = 50;
+
+/**
+ * セトリから YouTube の一時プレイリストURLを作る。
+ *
+ * `youtube.com/watch_videos?video_ids=...` は、指定した動画を並び順どおりに
+ * 連続再生してくれる。OAuth もアカウントも要らない代わりに、アカウントには
+ * 保存されない(その場限りのプレイリスト)。
+ *
+ * youtubeId が未設定の曲は含められないので飛ばす。1曲も無ければ null。
+ */
+export function buildYoutubePlaylistUrl(setlist: Song[]): string | null {
+  const ids = setlist
+    .map((s) => s.youtubeId)
+    .filter((id): id is string => !!id)
+    .slice(0, WATCH_VIDEOS_LIMIT);
+  if (ids.length === 0) return null;
+  return `https://www.youtube.com/watch_videos?video_ids=${ids.join(",")}`;
+}
+
+/** セトリのうち youtubeId が設定済みの曲数(UIで「N曲中M曲」を出すため)。 */
+export function countPlayableOnYoutube(setlist: Song[]): number {
+  return setlist.filter((s) => s.youtubeId).length;
+}

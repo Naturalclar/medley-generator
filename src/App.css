@@ -61,6 +61,27 @@ button {
   transition: background 0.15s;
 }
 
+/* リンクをボタンとして見せる(YouTube連続再生など、遷移が本質のもの) */
+a.button {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-decoration: none;
+  background: var(--accent);
+  color: #fff;
+  transition: background 0.15s;
+}
+
+a.button.youtube {
+  background: #c4302b;
+}
+
+a.button.youtube:hover {
+  background: #a52722;
+}
+
 button:hover {
   background: var(--accent-hover);
 }
