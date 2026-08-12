@@ -2206,5 +2206,113 @@
     "youtubeId": "XCyKJD6uQyg",
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "dance-robot-dance",
+    "title": "ダンスロボットダンス",
+    "artist": "ナユタン星人",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "g7dvpD_zlIM",
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "kanden",
+    "title": "感電",
+    "artist": "米津玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "UFQEttrn6CQ",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "nai-mono-nedari",
+    "title": "ないものねだり",
+    "artist": "KANA-BOON",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "UgS7vgquBvo",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "betelgeuse",
+    "title": "ベテルギウス",
+    "artist": "優里",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "cbqvxDTLMps",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "android-girl",
+    "title": "アンドロイドガール",
+    "artist": "Deco*27",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": "uFRPeiAEO0M",
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
+  },
+  {
+    "id": "lilac",
+    "title": "ライラック",
+    "artist": "Mrs. GREEN APPLE",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "QjrkrVmC-8M",
+    "tags": ["アニソン", "忘却バッテリー"],
+    "memo": ""
+  },
+  {
+    "id": "kanzen-kankaku-dreamer",
+    "title": "完全感覚Dreamer",
+    "artist": "ONE OK ROCK",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "xGbxsiBZGPI",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "yuusha",
+    "title": "勇者",
+    "artist": "YOASOBI",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "OIBODIPC_8Y",
+    "tags": ["アニソン", "フリーレン"],
+    "memo": ""
+  },
+  {
+    "id": "zankyou-sanka",
+    "title": "残響散歌",
+    "artist": "Aimer",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "tLQLa6lM3Us",
+    "tags": ["アニソン", "鬼滅の刃"],
+    "memo": ""
   }
 ]
