@@ -345,3 +345,44 @@ button.secondary {
 .hint.error {
   color: #c4302b;
 }
+
+/* アプリの説明。OAuth審査で求められる「ホームページでの用途説明」も兼ねる。 */
+.about h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.15rem;
+}
+
+.about h3 {
+  margin: 1.25rem 0 0.5rem;
+  font-size: 0.95rem;
+}
+
+.about p {
+  margin: 0 0 0.75rem;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
+
+.about p:last-child {
+  margin-bottom: 0;
+}
+
+.about a {
+  color: var(--accent);
+}
+
+.site-footer {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  color: var(--text-sub);
+  font-size: 0.8rem;
+}
+
+.site-footer a {
+  color: var(--text-sub);
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}

@@ -92,3 +92,24 @@ test.describe("曲プールの絞り込み・並べ替え", () => {
     ).toBeVisible();
   });
 });
+
+// OAuth審査の要件(ホームページでの用途説明とプライバシーポリシーへのリンク)を
+// うっかり消してしまわないための回帰テスト。
+test.describe("アプリ説明とプライバシーポリシー", () => {
+  test("説明セクションに YouTube 権限の用途が書かれている", async ({ page }) => {
+    const about = page.locator("section.about");
+    await expect(about).toContainText("限定公開のプレイリストを作成");
+    await expect(about).toContainText("読み取り・変更・削除は行いません");
+  });
+
+  test("フッターからプライバシーポリシーへ遷移できる", async ({ page }) => {
+    await page
+      .locator(".site-footer")
+      .getByRole("link", { name: "プライバシーポリシー" })
+      .click();
+    await expect(page).toHaveURL(/\/medley-generator\/privacy\.html$/);
+    await expect(
+      page.getByRole("heading", { name: "プライバシーポリシー", level: 1 }),
+    ).toBeVisible();
+  });
+});
