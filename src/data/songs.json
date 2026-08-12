@@ -1966,5 +1966,17 @@
     "youtubeId": null,
     "tags": ["アニソン", "SPY×FAMILY"],
     "memo": ""
+  },
+  {
+    "id": "theo",
+    "title": "テオ",
+    "artist": "Omoi",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
