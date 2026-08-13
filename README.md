@@ -52,14 +52,26 @@ pnpm test:watch  # 変更を監視
 
 `main` へのpushで GitHub Actions が GitHub Pages へ自動デプロイする。
 
-https://naturalclar.github.io/medley-generator/
+公開URLは smashcat.dev 側:
+
+https://smashcat.dev/medley-generator/
+
+GitHub Pages は配信元(オリジン)のまま変わらない。smashcat.dev のルートは
+Cloudflare にあり、`/medley-generator/*` を Cloudflare Worker が GitHub Pages へ
+プロキシしている。URLはブラウザ上でも smashcat.dev のまま保たれる。
+
+同じ内容が GitHub Pages 側のURLからも見えるため、`index.html` で canonical を
+smashcat.dev に向けている。検索結果に出したいのはこちらなので、この指定は消さないこと。
+
+`vite.config.ts` の `base` は `/medley-generator/` のままでよい。プロキシ先の
+パス接頭辞が一致しているため、ビルド設定の変更は不要。
 
 ### 曲データのJSONエンドポイント
 
 ビルド時に `src/data/songs.json` を `dist/songs.json` にもコピーしているため
 (`vite.config.ts` の `copySongsJson` プラグイン)、曲データは以下のURLで生のJSONとして取得できる:
 
-https://naturalclar.github.io/medley-generator/songs.json
+https://smashcat.dev/medley-generator/songs.json
 
 > 公開エンドポイントなので、`memo` などに個人を特定できる情報を書かないこと。
 
@@ -76,8 +88,11 @@ https://naturalclar.github.io/medley-generator/songs.json
 ### クライアントIDの設定
 
 Google Cloud で OAuth 2.0 クライアント(種別: ウェブアプリケーション)を作り、
-YouTube Data API v3 を有効化する。「承認済みの JavaScript 生成元」には配信元の
-オリジン(例: `https://naturalclar.github.io`)を登録する。
+YouTube Data API v3 を有効化する。「承認済みの JavaScript 生成元」には**ブラウザから
+見えるオリジン**、つまり `https://smashcat.dev` を登録する。
+
+プロキシ先の `https://naturalclar.github.io` ではない点に注意。ブラウザが認証を
+行うのは smashcat.dev 上なので、そちらを登録しないとプレイリスト保存が失敗する。
 
 ローカルでは `.env.local` に置く:
 
