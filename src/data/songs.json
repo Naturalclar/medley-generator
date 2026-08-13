@@ -2422,5 +2422,41 @@
     "youtubeId": "86_kvUqhY-A",
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "genkou",
+    "title": "眩光",
+    "artist": "WANIMA",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": "TCYy8Uyf400",
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "racy",
+    "title": "racy",
+    "artist": "a子",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": "Cd2A5N9RGlY",
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "stone-cold-summer",
+    "title": "stone cold summer",
+    "artist": "South Arcade",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": "Mfwmxfn3nyM",
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
