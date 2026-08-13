@@ -2458,5 +2458,53 @@
     "youtubeId": "Mfwmxfn3nyM",
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "hitorinbo-envy",
+    "title": "独りんぼエンヴィー",
+    "artist": "koyori",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "UKVioegPPds",
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "junky-night-town-orchestra",
+    "title": "ジャンキーナイトタウンオーケストラ",
+    "artist": "すりぃ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "E1PGiyRjqkU",
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "bansanka",
+    "title": "晩餐歌",
+    "artist": "tuki.",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "oZpYEEcvu5I",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "tondemo-wonderz",
+    "title": "トンデモワンダーズ",
+    "artist": "sasakure.UK",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "dBQg24mx45Y",
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
