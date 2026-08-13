@@ -7,6 +7,8 @@ import {
   generateSetlist,
   isChallenge,
   maxSetlistSize,
+  requestableSongs,
+  workCodeOf,
 } from "./generator";
 import type { Mastery, Song } from "./types";
 
@@ -363,5 +365,39 @@ describe("countPlayableOnYoutube", () => {
     ];
     expect(countPlayableOnYoutube(setlist)).toBe(2);
     expect(countPlayableOnYoutube([])).toBe(0);
+  });
+});
+
+describe("workCodeOf", () => {
+  it("JASRAC / NexTone のうち入っている方を返す", () => {
+    expect(workCodeOf(song({ id: "a", jasracCode: "052-2119-3" }))).toBe(
+      "052-2119-3",
+    );
+    expect(workCodeOf(song({ id: "b", nextoneCode: "N12345678" }))).toBe(
+      "N12345678",
+    );
+  });
+
+  it("どちらも無ければ null", () => {
+    expect(workCodeOf(song({ id: "c" }))).toBe(null);
+  });
+});
+
+describe("requestableSongs", () => {
+  it("作品コードを持つ曲だけをセトリの並び順で返す", () => {
+    const setlist = [
+      song({ id: "a", jasracCode: "052-2119-3" }),
+      song({ id: "b" }), // コード未登録なので申請できない
+      song({ id: "c", nextoneCode: "N12345678" }),
+    ];
+    expect(requestableSongs(setlist)).toEqual([
+      { song: setlist[0], code: "052-2119-3" },
+      { song: setlist[2], code: "N12345678" },
+    ]);
+  });
+
+  it("1曲もコードが無ければ空", () => {
+    expect(requestableSongs([song({ id: "a" })])).toEqual([]);
+    expect(requestableSongs([])).toEqual([]);
   });
 });
