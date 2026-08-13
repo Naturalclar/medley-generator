@@ -485,14 +485,6 @@ function App() {
 
       <footer className="site-footer">
         <a href="./privacy.html">プライバシーポリシー</a>
-        <span aria-hidden="true">·</span>
-        <a
-          href="https://github.com/naturalclar/medley-generator"
-          target="_blank"
-          rel="noreferrer"
-        >
-          GitHub
-        </a>
       </footer>
     </div>
   );
