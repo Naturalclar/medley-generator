@@ -2314,5 +2314,113 @@
     "youtubeId": "tLQLa6lM3Us",
     "tags": ["アニソン", "鬼滅の刃"],
     "memo": ""
+  },
+  {
+    "id": "lion",
+    "title": "ライオン",
+    "artist": "May'n/中島愛",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "QQHSICbMHbY",
+    "tags": ["アニソン", "マクロスF"],
+    "memo": ""
+  },
+  {
+    "id": "sobakasu",
+    "title": "そばかす",
+    "artist": "JUDY AND MARY",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "8iSG4jIUkcU",
+    "tags": ["アニソン", "るろうに剣心"],
+    "memo": ""
+  },
+  {
+    "id": "chala-head-chala",
+    "title": "CHA-LA HEAD-CHA-LA",
+    "artist": "影山ヒロノブ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "fGbWJ0YPEH8",
+    "tags": ["アニソン", "ドラゴンボール"],
+    "memo": ""
+  },
+  {
+    "id": "mezase-pokemon-master",
+    "title": "めざせポケモンマスター",
+    "artist": "松本梨香",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "E_BsL8_cFnE",
+    "tags": ["アニソン", "ポケモン"],
+    "memo": ""
+  },
+  {
+    "id": "chiisana-koi-no-uta",
+    "title": "小さな恋のうた",
+    "artist": "MONGOL800",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "JoJ6lnF07U4",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "konayuki",
+    "title": "粉雪",
+    "artist": "レミオロメン",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "1wxTksLZ1Mw",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "kanade",
+    "title": "奏",
+    "artist": "スキマスイッチ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "J5Z7tIq7bco",
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "byoumei-wa-ai-datta",
+    "title": "病名は愛だった",
+    "artist": "Neru & z'5",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "2IH-toUoq3w",
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "melancholic",
+    "title": "メランコリック",
+    "artist": "Junky",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "86_kvUqhY-A",
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
