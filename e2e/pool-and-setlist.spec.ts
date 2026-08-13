@@ -113,3 +113,20 @@ test.describe("アプリ説明とプライバシーポリシー", () => {
     ).toBeVisible();
   });
 });
+
+test.describe("楽曲申請", () => {
+  test("セトリ生成後に申請セクションとフォームへのリンクが出る", async ({
+    page,
+  }) => {
+    // 生成前は出ない
+    await expect(page.locator("section.request")).toHaveCount(0);
+
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+
+    const section = page.locator("section.request");
+    await expect(section).toBeVisible();
+    await expect(
+      section.getByRole("link", { name: "申請フォームを開く" }),
+    ).toHaveAttribute("href", "https://app.avvy.live/music-use-request");
+  });
+});

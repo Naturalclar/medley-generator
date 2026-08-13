@@ -146,3 +146,32 @@ export function buildYoutubePlaylistUrl(setlist: Song[]): string | null {
 export function countPlayableOnYoutube(setlist: Song[]): number {
   return setlist.filter((s) => s.youtubeId).length;
 }
+
+/** avvy の楽曲申請フォーム。1曲ずつ申請する形式で、初期値の受け渡しには非対応。 */
+export const MUSIC_USE_REQUEST_URL = "https://app.avvy.live/music-use-request";
+
+/**
+ * 申請フォームに入れる作品コード。1曲はJASRAC/NexToneのどちらか一方の管理なので、
+ * 入っている方を返す。両方 null(管理外・未調査)なら null。
+ */
+export function workCodeOf(song: Song): string | null {
+  return song.jasracCode ?? song.nextoneCode ?? null;
+}
+
+export interface MusicUseRequestItem {
+  song: Song;
+  code: string;
+}
+
+/**
+ * セトリのうち申請に出せる曲(作品コードが分かっている曲)を、セトリの並び順で返す。
+ *
+ * 申請は1曲ずつ・初期値の受け渡し不可なので、UI側はこの一覧を出して
+ * 値をコピーさせる。コード未登録の曲は出しても手入力できないため除く。
+ */
+export function requestableSongs(setlist: Song[]): MusicUseRequestItem[] {
+  return setlist.flatMap((song) => {
+    const code = workCodeOf(song);
+    return code ? [{ song, code }] : [];
+  });
+}

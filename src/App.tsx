@@ -7,6 +7,8 @@ import {
   generateSetlist,
   isChallenge,
   maxSetlistSize,
+  MUSIC_USE_REQUEST_URL,
+  requestableSongs,
 } from "./lib/generator";
 import type { Mastery, Song } from "./lib/types";
 import { MASTERY_LABEL } from "./lib/types";
@@ -213,6 +215,16 @@ function App() {
     }
   };
 
+  // 楽曲申請は1曲ずつ・初期値の受け渡し不可なので、値をコピーさせる形にする。
+  const requestable = useMemo(() => requestableSongs(setlist), [setlist]);
+  const [copiedField, setCopiedField] = useState<string | null>(null);
+
+  const copyValue = async (key: string, value: string) => {
+    await navigator.clipboard.writeText(value);
+    setCopiedField(key);
+    setTimeout(() => setCopiedField(null), 1500);
+  };
+
   const handleCopy = async () => {
     await navigator.clipboard.writeText(setlistText);
     setCopied(true);
@@ -345,6 +357,71 @@ function App() {
             </p>
           )}
           <pre className="preview">{setlistText}</pre>
+        </section>
+      )}
+
+      {setlist.length > 0 && (
+        <section className="request">
+          <h2>楽曲申請 (avvy)</h2>
+          <p className="hint">
+            申請は1曲ずつで、フォームに値を渡す手段が無いため、ここからコピーして
+            貼り付ける。値をクリックするとコピーされる。
+          </p>
+          <div className="actions">
+            <a
+              className="button"
+              href={MUSIC_USE_REQUEST_URL}
+              target="_blank"
+              rel="noreferrer"
+            >
+              申請フォームを開く
+            </a>
+          </div>
+          {requestable.length === 0 ? (
+            <p className="hint">
+              このセトリの曲にはまだ作品コードが登録されていないため、申請に必要な
+              値を出せません。JASRAC / NexTone で調べて songs.json に登録すると
+              ここに並びます。
+            </p>
+          ) : (
+            <>
+              <p className="hint">
+                {setlist.length}曲中 {requestable.length}曲を申請できます
+                {requestable.length < setlist.length &&
+                  `(${setlist.length - requestable.length}曲は作品コード未登録)`}
+              </p>
+              <ol className="request-list">
+                {requestable.map(({ song, code }) => (
+                  <li key={song.id}>
+                    <button
+                      className="copy-value title"
+                      onClick={() => copyValue(`${song.id}:title`, song.title)}
+                    >
+                      {copiedField === `${song.id}:title` ? "コピー ✓" : song.title}
+                    </button>
+                    {song.artist && (
+                      <button
+                        className="copy-value"
+                        onClick={() =>
+                          copyValue(`${song.id}:artist`, song.artist as string)
+                        }
+                      >
+                        {copiedField === `${song.id}:artist`
+                          ? "コピー ✓"
+                          : song.artist}
+                      </button>
+                    )}
+                    <button
+                      className="copy-value code"
+                      onClick={() => copyValue(`${song.id}:code`, code)}
+                    >
+                      {copiedField === `${song.id}:code` ? "コピー ✓" : code}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </>
+          )}
         </section>
       )}
 

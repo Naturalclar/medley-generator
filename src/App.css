@@ -346,6 +346,56 @@ button.secondary {
   color: #c4302b;
 }
 
+/* 楽曲申請。フォームに貼る値をクリックでコピーできるようにする。 */
+.request h2 {
+  margin: 0 0 0.5rem;
+  font-size: 1.15rem;
+}
+
+.request .actions {
+  margin: 0.75rem 0;
+}
+
+.request-list {
+  margin: 0.5rem 0 0;
+  padding-left: 1.5rem;
+}
+
+.request-list li {
+  padding: 0.35rem 0;
+}
+
+/* 値そのものをボタンにする。押すまでは普通のテキストに見せる。 */
+.copy-value {
+  padding: 0.1rem 0.4rem;
+  margin-right: 0.4rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text-sub);
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.copy-value:hover {
+  background: var(--bg);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+.copy-value.title {
+  font-weight: 600;
+  color: var(--text);
+}
+
+.copy-value.code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
 /* アプリの説明。OAuth審査で求められる「ホームページでの用途説明」も兼ねる。 */
 .about h2 {
   margin: 0 0 0.75rem;
