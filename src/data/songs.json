@@ -2566,5 +2566,17 @@
     "youtubeId": null,
     "tags": ["アニソン", "小市民シリーズ", "リスナーリクエスト"],
     "memo": "第2期 OP"
+  },
+  {
+    "id": "watagashi",
+    "title": "わたがし",
+    "artist": "back number",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
