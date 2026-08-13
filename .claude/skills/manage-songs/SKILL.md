@@ -30,6 +30,8 @@ DB は無く **Git が履歴**なので、変更は必ず**最小差分**で入�
   "mastery": "ready | practicing | wishlist",  // 既定は wishlist
   "lastPlayedAt": "2026-08-04",                // 不明なら null
   "youtubeId": "dQw4w9WgXcQ",                  // YouTube動画ID(11文字)。不明なら null
+  "jasracCode": "052-2119-3",                  // JASRAC作品コード。管理外・不明なら null
+  "nextoneCode": null,                         // NexTone作品コード。管理外・不明なら null
   "tags": ["ボカロ"],        // 無ければ []
   "memo": ""
 }
@@ -72,11 +74,30 @@ node .claude/skills/manage-songs/scripts/songs.mjs add \
   [--artist "<名>"] [--key "<調>"] [--bpm <整数>] \
   [--mastery ready|practicing|wishlist] \
   [--tags "タグA, タグB"] [--memo "<メモ>"] [--last-played YYYY-MM-DD] \
-  [--youtube-id <動画ID または YouTubeのURL>]
+  [--youtube-id <動画ID または YouTubeのURL>] \
+  [--jasrac-code <123-4567-8>] [--nextone-code <N12345678>]
 ```
 
 `--youtube-id` は生のID(11文字)でも URL でもよい。URL の場合はIDを自動抽出する
 (`youtu.be/<id>` / `watch?v=<id>` / `music.youtube.com/watch?v=<id>` / `/shorts/<id>` に対応)。
+
+## 作品コード(JASRAC / NexTone)
+
+楽曲利用の申請に使う。**1曲はどちらか一方の管理**なので、両方を同時に埋めない
+(両方入っているとスキーマテストが落ちる)。分からなければ両方 `null` のままでよい。
+
+| 管理団体 | 形式 | 例 |
+|---|---|---|
+| JASRAC(内国作品) | 数字3桁 - 数字4桁 - 数字1桁 | `052-2119-3` |
+| JASRAC(外国作品) | 2桁目のみ英字、他は数字 | `0A1-2345-6` |
+| NexTone | `N` + 半角数字8桁 | `N12345678` |
+
+スクリプト側で正規化するので、ハイフン無し(`05221193`)や小文字英字、NexTone の
+先頭 `N` 省略(`12345678`)で渡しても正しい形で保存される。桁数や文字種が合わない
+値はエラーで弾かれる。
+
+コードは J-WID(JASRAC)や NexTone の作品検索で調べる。**推測で埋めないこと。**
+分からない曲は `null` のままにして、申請が必要になった時点で調べる。
 
 `--id` と `--title` は必須。省いたフィールドは既定値(null / [] / "" / mastery は wishlist)。
 新規に発見・登録する曲は基本 `wishlist`。ユーザーが「弾ける」「練習中」と言えばそれに従う。

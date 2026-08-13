@@ -41,12 +41,18 @@ pnpm test:watch  # 変更を監視
   "mastery": "ready | practicing | wishlist",
   "lastPlayedAt": "2026-08-04",
   "youtubeId": "dQw4w9WgXcQ",
+  "jasracCode": "052-2119-3",
+  "nextoneCode": null,
   "tags": ["ボカロ"],
   "memo": ""
 }
 ```
 
 `key` / `bpm` / `lastPlayedAt` / `youtubeId` は不明なら `null` でOK(無くても動く)。
+
+`jasracCode` / `nextoneCode` は楽曲利用の申請に使う作品コード。1曲はどちらか一方の
+管理なので、両方を同時に埋めない。JASRAC は内国作品が `052-2119-3`、外国作品は
+2桁目のみ英字で `0A1-2345-6`。NexTone は `N` + 数字8桁。分からなければ `null`。
 
 ## デプロイ
 

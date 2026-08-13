@@ -20,6 +20,8 @@ function song(partial: Partial<Song> & { id: string }): Song {
     mastery: "ready",
     lastPlayedAt: null,
     youtubeId: null,
+    jasracCode: null,
+    nextoneCode: null,
     tags: [],
     memo: "",
     ...partial,
