@@ -2506,5 +2506,77 @@
     "youtubeId": "dBQg24mx45Y",
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "mela",
+    "title": "Mela!",
+    "artist": "緑黄色社会",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "aRDURmIYBZ4",
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "balleriico",
+    "title": "バレリーコ",
+    "artist": "みきとP",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": "4Ohpj2GDbRQ",
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "jane-doe",
+    "title": "JANE DOE",
+    "artist": "米津玄師 × 宇多田ヒカル",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "E8N8CAihLT0",
+    "tags": ["アニソン", "チェンソーマン", "リスナーリクエスト"],
+    "memo": "劇場版 レゼ篇 ED"
+  },
+  {
+    "id": "makeinu-ni-encore-wa-iranai",
+    "title": "負け犬にアンコールはいらない",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "CpAUv-DMTd0",
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "kaseijin",
+    "title": "火星人",
+    "artist": "ヨルシカ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "OLRbIc8KZ_8",
+    "tags": ["アニソン", "小市民シリーズ", "リスナーリクエスト"],
+    "memo": "第2期 OP"
+  },
+  {
+    "id": "watagashi",
+    "title": "わたがし",
+    "artist": "back number",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "uy_BaRBJIzQ",
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
