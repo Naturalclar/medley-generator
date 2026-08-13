@@ -484,6 +484,14 @@ function App() {
       </section>
 
       <footer className="site-footer">
+        <a
+          href="https://app.avvy.live/music-use-request"
+          target="_blank"
+          rel="noreferrer"
+        >
+          楽曲申請 (avvy)
+        </a>
+        <span aria-hidden="true">·</span>
         <a href="./privacy.html">プライバシーポリシー</a>
       </footer>
     </div>
