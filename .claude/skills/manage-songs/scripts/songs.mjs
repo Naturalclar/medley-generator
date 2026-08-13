@@ -10,6 +10,7 @@
 //                         [--bpm <n>] [--mastery ready|practicing|wishlist]
 //                         [--tags "a,b"] [--memo <m>] [--last-played YYYY-MM-DD]
 //                         [--youtube-id <id|URL>]
+//                         [--jasrac-code <123-4567-8>] [--nextone-code <N12345678>]
 //   node songs.mjs edit   <id> [同上の --field ...]   (渡したフィールドだけ更新 / "null" で消去)
 //   node songs.mjs remove <id>
 //   node songs.mjs list   [--mastery <m>]
@@ -34,9 +35,17 @@ const FIELD_ORDER = [
   "mastery",
   "lastPlayedAt",
   "youtubeId",
+  "jasracCode",
+  "nextoneCode",
   "tags",
   "memo",
 ];
+
+// 作品コード。avvy の楽曲申請に必要で、JASRAC と NexTone で形式が違う。
+// JASRAC: 内国 123-4567-8 / 外国は2桁目のみ英字 0A1-2345-6
+const JASRAC_CODE = /^\d[0-9A-Z]\d-\d{4}-\d$/;
+// NexTone: N + 半角数字8桁(先頭の N を含めて9文字)
+const NEXTONE_CODE = /^N\d{8}$/;
 
 const scriptDir = dirname(fileURLToPath(import.meta.url));
 // scripts -> manage-songs -> skills -> .claude -> <repo>
@@ -122,6 +131,38 @@ function parseYoutubeId(v) {
   fail(`youtube-id は11文字の動画IDかYouTubeのURL: ${v}`);
 }
 
+/**
+ * JASRAC 作品コード。J-WID からのコピペは揺れやすいので正規形 `123-4567-8` に寄せる:
+ * 英字は大文字化し、8桁揃っていればハイフンを引き直す(区切り位置違いも直る)。
+ * 桁数や文字種が合わないものは弾く。
+ */
+function parseJasracCode(v) {
+  const n = nullable(v);
+  if (n === null || n === undefined) return n;
+  const s = String(n).trim().toUpperCase();
+  const compact = s.replace(/-/g, "");
+  const formatted =
+    compact.length === 8
+      ? `${compact.slice(0, 3)}-${compact.slice(3, 7)}-${compact.slice(7)}`
+      : s;
+  if (!JASRAC_CODE.test(formatted)) {
+    fail(`jasrac-code は 123-4567-8 (外国作品は 0A1-2345-6) の形式: ${v}`);
+  }
+  return formatted;
+}
+
+/** NexTone 作品コード。先頭 N を省いて数字8桁だけ渡された場合は補う。 */
+function parseNextoneCode(v) {
+  const n = nullable(v);
+  if (n === null || n === undefined) return n;
+  const s = String(n).trim().toUpperCase().replace(/-/g, "");
+  const normalized = /^\d{8}$/.test(s) ? `N${s}` : s;
+  if (!NEXTONE_CODE.test(normalized)) {
+    fail(`nextone-code は N + 数字8桁 (例 N12345678): ${v}`);
+  }
+  return normalized;
+}
+
 /** 1曲を既存スタイル(4スペースインデント / tags はインライン)で文字列化。 */
 function serializeSong(song) {
   const line = (key) => {
@@ -170,6 +211,10 @@ function fieldsFromFlags(flags) {
   if (flags.mastery !== undefined) f.mastery = validateMastery(flags.mastery);
   if (flags.lastPlayed !== undefined) f.lastPlayedAt = parseLastPlayed(flags.lastPlayed);
   if (flags.youtubeId !== undefined) f.youtubeId = parseYoutubeId(flags.youtubeId);
+  if (flags.jasracCode !== undefined) f.jasracCode = parseJasracCode(flags.jasracCode);
+  if (flags.nextoneCode !== undefined) {
+    f.nextoneCode = parseNextoneCode(flags.nextoneCode);
+  }
   if (flags.tags !== undefined) f.tags = parseTags(flags.tags);
   if (flags.memo !== undefined) f.memo = nullable(flags.memo) ?? "";
   return f;
@@ -194,6 +239,8 @@ function cmdAdd(file, flags) {
     mastery: overrides.mastery ?? "wishlist",
     lastPlayedAt: "lastPlayedAt" in overrides ? overrides.lastPlayedAt : null,
     youtubeId: "youtubeId" in overrides ? overrides.youtubeId : null,
+    jasracCode: "jasracCode" in overrides ? overrides.jasracCode : null,
+    nextoneCode: "nextoneCode" in overrides ? overrides.nextoneCode : null,
     tags: overrides.tags ?? [],
     memo: overrides.memo ?? "",
   };

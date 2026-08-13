@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 import songsData from "./songs.json";
-import { MASTERY_LABEL } from "../lib/types";
+import {
+  JASRAC_CODE_PATTERN,
+  MASTERY_LABEL,
+  NEXTONE_CODE_PATTERN,
+} from "../lib/types";
 
 // songs.json は `as Song[]` で型アサーションされて使われるため、TypeScript では
 // 中身が検証されない(壊れた値が入っても build は通る)。手編集や別経路で不正な
@@ -41,6 +45,8 @@ describe("songs.json のスキーマ", () => {
       "mastery",
       "lastPlayedAt",
       "youtubeId",
+      "jasracCode",
+      "nextoneCode",
       "tags",
       "memo",
     ];
@@ -126,6 +132,38 @@ describe("songs.json のスキーマ", () => {
         (typeof s.youtubeId === "string" && YOUTUBE_ID_RE.test(s.youtubeId)),
       "youtubeId",
     );
+    expect(bad).toEqual([]);
+  });
+
+  it("jasracCode は 123-4567-8 形式 or null", () => {
+    const bad = findViolations(
+      (s) =>
+        s.jasracCode === null ||
+        (typeof s.jasracCode === "string" &&
+          JASRAC_CODE_PATTERN.test(s.jasracCode)),
+      "jasracCode",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  it("nextoneCode は N + 数字8桁 or null", () => {
+    const bad = findViolations(
+      (s) =>
+        s.nextoneCode === null ||
+        (typeof s.nextoneCode === "string" &&
+          NEXTONE_CODE_PATTERN.test(s.nextoneCode)),
+      "nextoneCode",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  // 1つの作品を JASRAC と NexTone が同時に管理することは通常ない。両方入って
+  // いたら取り違えの可能性が高いので気付けるようにしておく。
+  it("jasracCode と nextoneCode が同時に埋まっていない", () => {
+    const bad = songs
+      .map((s) => s as Record<string, unknown>)
+      .filter((s) => s.jasracCode !== null && s.nextoneCode !== null)
+      .map((s) => `${String(s.id)}: ${String(s.jasracCode)} / ${String(s.nextoneCode)}`);
     expect(bad).toEqual([]);
   });
 

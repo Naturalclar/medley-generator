@@ -10,9 +10,21 @@ export interface Song {
   lastPlayedAt: string | null;
   /** YouTube の動画ID(11文字)。不明なら null。YouTube Music とも共通。 */
   youtubeId: string | null;
+  /**
+   * JASRAC 作品コード。管理外・不明なら null。
+   * 内国作品は `123-4567-8`、外国作品は2桁目のみ英字で `0A1-2345-6`。
+   */
+  jasracCode: string | null;
+  /** NexTone 作品コード。`N` + 半角数字8桁。管理外・不明なら null。 */
+  nextoneCode: string | null;
   tags: string[];
   memo: string;
 }
+
+/** JASRAC 作品コード(内国 `123-4567-8` / 外国 `0A1-2345-6`)。 */
+export const JASRAC_CODE_PATTERN = /^\d[0-9A-Z]\d-\d{4}-\d$/;
+/** NexTone 作品コード(`N` + 数字8桁)。 */
+export const NEXTONE_CODE_PATTERN = /^N\d{8}$/;
 
 export const MASTERY_LABEL: Record<Mastery, string> = {
   ready: "弾ける",
