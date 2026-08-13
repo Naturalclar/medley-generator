@@ -2506,5 +2506,41 @@
     "youtubeId": "dBQg24mx45Y",
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "mela",
+    "title": "Mela!",
+    "artist": "緑黄色社会",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "balleriico",
+    "title": "バレリーコ",
+    "artist": "みきとP",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "jane-doe",
+    "title": "JANE DOE",
+    "artist": "米津玄師 × 宇多田ヒカル",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "tags": ["アニソン", "チェンソーマン", "リスナーリクエスト"],
+    "memo": "劇場版 レゼ篇 ED"
   }
 ]
