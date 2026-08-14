@@ -21,6 +21,15 @@ import {
   WORK_CODE_STATUSES,
 } from "./lib/types";
 import {
+  isRequested,
+  loadProgress,
+  requestedCount,
+  saveProgress,
+  toDateKey,
+  toggleRequested,
+  type RequestProgress,
+} from "./lib/requestProgress";
+import {
   createPlaylist,
   isYoutubePlaylistEnabled,
   requestAccessToken,
@@ -252,6 +261,63 @@ function App() {
     setTimeout(() => setCopiedField(null), 1500);
   };
 
+  // 申請の進捗(日付ごと)。1曲ずつ往復するので、中断しても再開できるよう残す。
+  const [progress, setProgress] = useState<RequestProgress>({});
+  // localStorage は初回描画後に読む(SSRしないので実害は無いが、初期値は空で揃える)
+  useEffect(() => setProgress(loadProgress()), []);
+
+  const requestDate = useMemo(
+    () => toDateKey(generatedAt ?? new Date()),
+    [generatedAt],
+  );
+
+  const doneCount = useMemo(
+    () =>
+      requestedCount(
+        progress,
+        requestDate,
+        requestable.map((r) => r.song.id),
+      ),
+    [progress, requestDate, requestable],
+  );
+
+  const markRequested = (songId: string) => {
+    setProgress((prev) => {
+      const next = toggleRequested(prev, requestDate, songId);
+      saveProgress(next);
+      return next;
+    });
+  };
+
+  // 申請ウィザード。1曲ずつ大きく出して、コピー忘れと進捗の取りこぼしを防ぐ。
+  const [wizardIndex, setWizardIndex] = useState<number | null>(null);
+  // 今のステップでコピー済みのフィールド。曲が変わったらリセットする。
+  const [stepCopied, setStepCopied] = useState<Set<string>>(new Set());
+
+  const wizardItem =
+    wizardIndex !== null ? (requestable[wizardIndex] ?? null) : null;
+
+  // 中断して戻ってきたとき、済んだ曲を頭からなぞり直さずに済むよう未申請から開く。
+  const firstUndoneIndex = useMemo(() => {
+    const i = requestable.findIndex(
+      (r) => !isRequested(progress, requestDate, r.song.id),
+    );
+    return i === -1 ? 0 : i;
+  }, [requestable, progress, requestDate]);
+
+  const goToStep = (index: number) => {
+    setWizardIndex(index);
+    setStepCopied(new Set());
+  };
+
+  const copyInWizard = async (field: string, value: string) => {
+    await navigator.clipboard.writeText(value);
+    setStepCopied((prev) => new Set(prev).add(field));
+  };
+
+  // セトリを組み直したらウィザードは畳む(別のセトリの途中状態を残さない)
+  useEffect(() => setWizardIndex(null), [setlist]);
+
   const handleCopy = async () => {
     await navigator.clipboard.writeText(setlistText);
     setCopied(true);
@@ -403,7 +469,119 @@ function App() {
             >
               申請フォームを開く
             </a>
+            {requestable.length > 0 && wizardIndex === null && (
+              <button onClick={() => goToStep(firstUndoneIndex)}>
+                {doneCount > 0 ? "申請を再開" : "申請を始める"}
+              </button>
+            )}
+            {requestable.length > 0 && (
+              <span className="request-progress">
+                申請済み {doneCount} / {requestable.length}
+              </span>
+            )}
           </div>
+          {wizardItem && wizardIndex !== null && (
+            <div className="wizard">
+              <div className="wizard-head">
+                <strong>
+                  {wizardIndex + 1} / {requestable.length} 曲目
+                </strong>
+                <button
+                  className="wizard-close"
+                  onClick={() => setWizardIndex(null)}
+                >
+                  × 閉じる
+                </button>
+              </div>
+              <dl className="wizard-fields">
+                <dt>曲名</dt>
+                <dd>
+                  <button
+                    className="copy-value title"
+                    onClick={() => copyInWizard("title", wizardItem.song.title)}
+                  >
+                    {wizardItem.song.title}
+                  </button>
+                  {stepCopied.has("title") && (
+                    <span className="copied-mark">コピー済み ✓</span>
+                  )}
+                </dd>
+                {wizardItem.song.artist && (
+                  <>
+                    <dt>アーティスト</dt>
+                    <dd>
+                      <button
+                        className="copy-value"
+                        onClick={() =>
+                          copyInWizard(
+                            "artist",
+                            wizardItem.song.artist as string,
+                          )
+                        }
+                      >
+                        {wizardItem.song.artist}
+                      </button>
+                      {stepCopied.has("artist") && (
+                        <span className="copied-mark">コピー済み ✓</span>
+                      )}
+                    </dd>
+                  </>
+                )}
+                <dt>作品コード</dt>
+                <dd>
+                  <button
+                    className="copy-value code"
+                    onClick={() => copyInWizard("code", wizardItem.code)}
+                  >
+                    {wizardItem.code}
+                  </button>
+                  <span className={`society ${wizardItem.society.toLowerCase()}`}>
+                    {wizardItem.society}
+                  </span>
+                  {stepCopied.has("code") && (
+                    <span className="copied-mark">コピー済み ✓</span>
+                  )}
+                </dd>
+              </dl>
+              <p className="hint">
+                値をクリックするとコピーされる。フォームに貼ったら「申請済みにして次へ」。
+              </p>
+              <div className="wizard-actions">
+                <button
+                  className="secondary"
+                  disabled={wizardIndex === 0}
+                  onClick={() => goToStep(wizardIndex - 1)}
+                >
+                  ← 前へ
+                </button>
+                <button
+                  className="secondary"
+                  disabled={wizardIndex >= requestable.length - 1}
+                  onClick={() => goToStep(wizardIndex + 1)}
+                >
+                  スキップ
+                </button>
+                <button
+                  onClick={() => {
+                    if (
+                      !isRequested(progress, requestDate, wizardItem.song.id)
+                    ) {
+                      markRequested(wizardItem.song.id);
+                    }
+                    if (wizardIndex < requestable.length - 1) {
+                      goToStep(wizardIndex + 1);
+                    } else {
+                      setWizardIndex(null);
+                    }
+                  }}
+                >
+                  {wizardIndex >= requestable.length - 1
+                    ? "申請済みにして終了"
+                    : "申請済みにして次へ →"}
+                </button>
+              </div>
+            </div>
+          )}
           {requestable.length === 0 ? (
             <p className="hint">
               このセトリの曲には作品コードが1つも入っていないため、申請に必要な値を
@@ -416,7 +594,20 @@ function App() {
               </p>
               <ol className="request-list">
                 {requestable.map(({ song, code, society }) => (
-                  <li key={song.id}>
+                  <li
+                    key={song.id}
+                    className={
+                      isRequested(progress, requestDate, song.id) ? "done" : ""
+                    }
+                  >
+                    <label className="request-done">
+                      <input
+                        type="checkbox"
+                        checked={isRequested(progress, requestDate, song.id)}
+                        onChange={() => markRequested(song.id)}
+                        aria-label={`${song.title} を申請済みにする`}
+                      />
+                    </label>
                     <button
                       className="copy-value title"
                       onClick={() => copyValue(`${song.id}:title`, song.title)}

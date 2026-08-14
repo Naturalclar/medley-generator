@@ -477,6 +477,97 @@ button.secondary {
   color: var(--wishlist);
 }
 
+/* 申請の進捗。1曲ずつ往復するので、どこまで出したかが常に見えるようにする。 */
+.request-progress {
+  margin-left: 0.5rem;
+  color: var(--text-sub);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.request-list li.done {
+  opacity: 0.55;
+}
+
+.request-list li.done .copy-value.title {
+  text-decoration: line-through;
+}
+
+.request-done {
+  margin-right: 0.35rem;
+}
+
+/* 申請ウィザード。1曲だけを大きく出して、貼る値とコピー状況を一目で分かるように。 */
+.wizard {
+  margin: 0.75rem 0;
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  background: var(--bg);
+}
+
+.wizard-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+}
+
+.wizard-close {
+  padding: 0.15rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: var(--text-sub);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.wizard-close:hover {
+  background: transparent;
+  color: var(--text);
+}
+
+.wizard-fields {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.35rem 0.75rem;
+  margin: 0;
+  align-items: center;
+}
+
+.wizard-fields dt {
+  color: var(--text-sub);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+
+.wizard-fields dd {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+}
+
+/* コピー済みの目印。貼り忘れに気付けるよう、押した値だけに付ける。 */
+.copied-mark {
+  color: var(--ready);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.wizard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.wizard-actions button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
 .unrequestable {
   margin-top: 1.25rem;
   padding-top: 0.75rem;
