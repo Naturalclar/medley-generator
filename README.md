@@ -72,6 +72,21 @@ smashcat.dev に向けている。検索結果に出したいのはこちらな�
 `vite.config.ts` の `base` は `/medley-generator/` のままでよい。プロキシ先の
 パス接頭辞が一致しているため、ビルド設定の変更は不要。
 
+### OGP画像
+
+SNSでリンクを貼ったときのカード画像は `public/ogp.png`(1200x630)。
+版下は `tools/ogp/template.html` で、生成はこれ:
+
+```sh
+pnpm run ogp:build
+```
+
+`tools/ogp/art.png` を置くと右側にその画像が入る。無ければ文字だけの版になる。
+**素材もコミットする**こと(`ogp.png` は公開される成果物なので隠す意味が無く、
+素材が無いまま再生成すると文字だけの版に戻ってしまう)。
+
+`index.html` の `og:image` は**絶対URL**で書く。SNSのクローラは相対パスを辿らない。
+
 ### 曲データのJSONエンドポイント
 
 ビルド時に `src/data/songs.json` を `dist/songs.json` にもコピーしているため
