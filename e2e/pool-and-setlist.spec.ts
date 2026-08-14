@@ -181,6 +181,85 @@ test.describe("楽曲申請", () => {
     }
   });
 
+  // #102: 1曲ずつ往復するので、コピー状況と進捗が見えるようにした。
+  test("ウィザードで1曲ずつ進められ、コピー済みが分かる", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.fill('input[type="number"]', "5");
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+
+    await page.getByRole("button", { name: "申請を始める" }).click();
+    const wizard = page.locator(".wizard");
+    // 分母は「作品コードがある曲」の数なので、セトリの曲数とは限らない
+    await expect(wizard.locator(".wizard-head strong")).toHaveText(
+      /^1 \/ \d+ 曲目$/,
+    );
+    // 最初は「前へ」が押せない
+    await expect(wizard.getByRole("button", { name: "← 前へ" })).toBeDisabled();
+
+    // コピーすると、その値にだけ印が付く
+    await expect(wizard.locator(".copied-mark")).toHaveCount(0);
+    await wizard.locator(".copy-value.code").click();
+    await expect(wizard.locator(".copied-mark")).toHaveCount(1);
+
+    await page.getByRole("button", { name: /申請済みにして次へ/ }).click();
+    await expect(wizard.locator(".wizard-head strong")).toHaveText(
+      /^2 \/ \d+ 曲目$/,
+    );
+    // 曲が変わったらコピー済みの印はリセットされる(前の曲の状態を持ち越さない)
+    await expect(wizard.locator(".copied-mark")).toHaveCount(0);
+    await expect(page.locator(".request-progress")).toHaveText(
+      /^申請済み 1 \/ \d+$/,
+    );
+    await expect(page.locator(".request-list li.done")).toHaveCount(1);
+  });
+
+  test("中断して開き直すと、未申請の曲から再開する", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.fill('input[type="number"]', "5");
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+
+    // 1曲目を申請済みにして閉じる
+    await page.getByRole("button", { name: "申請を始める" }).click();
+    await page.getByRole("button", { name: /申請済みにして次へ/ }).click();
+    await page.getByRole("button", { name: "× 閉じる" }).click();
+
+    // 済んだ曲を頭からなぞり直さず、2曲目から開く
+    await page.getByRole("button", { name: "申請を再開" }).click();
+    await expect(page.locator(".wizard .wizard-head strong")).toHaveText(
+      /^2 \/ \d+ 曲目$/,
+    );
+  });
+
+  test("申請の進捗はリロードしても残る", async ({ page }) => {
+    // セトリはランダムなので、リロード後も必ず入る「弾ける」曲を対象にする
+    // (練習中の曲は1枠に1曲だけランダムに入るので、再生成で消えることがある)
+    const TARGET = "千本桜 を申請済みにする";
+    const generateAll = async () => {
+      await page.fill('input[type="number"]', "999");
+      await page.getByRole("checkbox", { name: /覚えたい曲も含める/ }).uncheck();
+      await page.getByRole("button", { name: "セトリ生成" }).click();
+      await expect(page.locator(".request-list li").first()).toBeVisible();
+    };
+
+    await generateAll();
+    await page.getByRole("checkbox", { name: TARGET }).check();
+    await expect(page.getByRole("checkbox", { name: TARGET })).toBeChecked();
+
+    await page.reload();
+    await generateAll();
+
+    await expect(page.getByRole("checkbox", { name: TARGET })).toBeChecked();
+    await expect(
+      page.getByRole("button", { name: "申請を再開" }),
+    ).toBeVisible();
+  });
+
   // #101: 除外された曲を黙って落とさず、理由付きで出す。
   test("申請できない曲が理由付きで出る", async ({ page }) => {
     // 弾ける曲のうち作品コードが無いのは2曲だけなので、多めに生成して引き当てる
