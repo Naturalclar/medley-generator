@@ -141,10 +141,15 @@ function RequestWizard({
           × 閉じる
         </button>
       </div>
+      {/*
+        並びは avvy のフォームの入力欄と同じ順にする(作品コード → 作品名 →
+        アーティスト名 → 作詞者名 → 作曲者名)。上から順に貼っていけるので、
+        視線が往復せず貼り忘れも起きにくい。項目を足すときもこの順を崩さないこと。
+      */}
       <dl className="wizard-fields">
+        {field("作品コード", "code", item.code, "code")}
         {field("曲名", "title", item.song.title, "title")}
         {item.song.artist && field("アーティスト", "artist", item.song.artist)}
-        {field("作品コード", "code", item.code, "code")}
       </dl>
       <p className="hint">
         値をクリックするとコピーされる。フォームに貼ったら「申請済みにして
@@ -652,6 +657,16 @@ function App() {
                         aria-label={`${song.title} を申請済みにする`}
                       />
                     </label>
+                    {/* ウィザードと同じく avvy のフォームの入力順に並べる */}
+                    <button
+                      className="copy-value code"
+                      onClick={() => copyValue(`${song.id}:code`, code)}
+                    >
+                      {copiedField === `${song.id}:code` ? "コピー ✓" : code}
+                    </button>
+                    <span className={`society ${society.toLowerCase()}`}>
+                      {society}
+                    </span>
                     <button
                       className="copy-value title"
                       onClick={() => copyValue(`${song.id}:title`, song.title)}
@@ -670,15 +685,6 @@ function App() {
                           : song.artist}
                       </button>
                     )}
-                    <button
-                      className="copy-value code"
-                      onClick={() => copyValue(`${song.id}:code`, code)}
-                    >
-                      {copiedField === `${song.id}:code` ? "コピー ✓" : code}
-                    </button>
-                    <span className={`society ${society.toLowerCase()}`}>
-                      {society}
-                    </span>
                   </li>
                 ))}
               </ol>

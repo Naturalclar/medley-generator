@@ -181,6 +181,25 @@ test.describe("楽曲申請", () => {
     }
   });
 
+  // #111: フォームに上から順に貼れるよう、セトリ側も avvy の入力順に並べる。
+  test("申請リストの値が avvy のフォームと同じ順に並ぶ", async ({ page }) => {
+    await page.fill('input[type="number"]', "20");
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+
+    // アーティストが null の曲だと3つ目が無いので、artist 付きの行で見る
+    const row = page
+      .locator(".request-list li")
+      .filter({ has: page.locator(".copy-value:nth-of-type(3)") })
+      .first();
+    const classes = await row
+      .locator(".copy-value")
+      .evaluateAll((els) => els.map((e) => e.className));
+    expect(classes[0]).toContain("code");
+    expect(classes[1]).toContain("title");
+    expect(classes[2]).not.toContain("code");
+    expect(classes[2]).not.toContain("title");
+  });
+
   // #102: 1曲ずつ往復するので、コピー状況と進捗が見えるようにした。
   test("ウィザードで1曲ずつ進められ、コピー済みが分かる", async ({
     page,
@@ -300,11 +319,11 @@ test.describe("一覧からの単発申請", () => {
     await expect(wizard.getByRole("button", { name: "スキップ" })).toHaveCount(
       0,
     );
-    // 申請に必要な値が揃っている
+    // 申請に必要な値が、avvy のフォームと同じ入力順で揃っている (#111)
     await expect(wizard.locator("dt")).toHaveText([
+      "作品コード",
       "曲名",
       "アーティスト",
-      "作品コード",
     ]);
 
     await wizard.locator(".copy-value.code").click();
