@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import songsData from "./data/songs.json";
 import {
   buildYoutubePlaylistUrl,
@@ -863,8 +863,13 @@ function App() {
               const society = workSocietyOf(song);
               const status = workCodeStatusOf(song);
               const codeKey = `pool:${song.id}:code`;
+              // この行から開いた申請情報が展開中か
+              const expanded =
+                queue?.source === "pool" &&
+                queue.items[queue.index]?.song.id === song.id;
               return (
-                <tr key={song.id}>
+                <Fragment key={song.id}>
+                <tr className={expanded ? "expanded" : ""}>
                   <td>{song.title}</td>
                   <td>{song.artist ?? "-"}</td>
                   <td>
@@ -895,9 +900,12 @@ function App() {
                   <td className="col-request">
                     {code && society && (
                       <button
-                        className="row-request"
+                        className={`row-request ${expanded ? "on" : ""}`.trim()}
+                        aria-expanded={expanded}
                         onClick={() =>
-                          openQueue("pool", [{ song, code, society }], 0)
+                          expanded
+                            ? setQueue(null)
+                            : openQueue("pool", [{ song, code, society }], 0)
                         }
                       >
                         {isRequested(progress, requestDate, song.id)
@@ -907,6 +915,28 @@ function App() {
                     )}
                   </td>
                 </tr>
+                {/*
+                  申請情報は表の下ではなく、押した行の直下に開く。どの曲の値を
+                  見ているかが目で追えるので、貼り間違いが起きにくい。
+                */}
+                {expanded && wizardItem && (
+                  <tr className="request-row">
+                    <td colSpan={6}>
+                      <RequestWizard
+                        item={wizardItem}
+                        index={queue.index}
+                        total={queue.items.length}
+                        copied={stepCopied}
+                        onCopy={copyInWizard}
+                        onPrev={() => goToStep(queue.index - 1)}
+                        onSkip={() => goToStep(queue.index + 1)}
+                        onDone={completeStep}
+                        onClose={() => setQueue(null)}
+                      />
+                    </td>
+                  </tr>
+                )}
+                </Fragment>
               );
             })}
             {filteredPool.length === 0 && (
@@ -919,21 +949,8 @@ function App() {
           </tbody>
         </table>
         </div>
-        {queue?.source === "pool" && wizardItem && (
-          <RequestWizard
-            item={wizardItem}
-            index={queue.index}
-            total={queue.items.length}
-            copied={stepCopied}
-            onCopy={copyInWizard}
-            onPrev={() => goToStep(queue.index - 1)}
-            onSkip={() => goToStep(queue.index + 1)}
-            onDone={completeStep}
-            onClose={() => setQueue(null)}
-          />
-        )}
         <p className="hint">
-          「申請」を押すとその曲の申請情報が出る。セトリを組まなくても、ここから
+          「申請」を押すとその行が開いて申請情報が出る。セトリを組まなくても、ここから
           <a href={MUSIC_USE_REQUEST_URL} target="_blank" rel="noreferrer">
             楽曲申請 (avvy)
           </a>
