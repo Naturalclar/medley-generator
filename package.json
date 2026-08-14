@@ -11,7 +11,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "ogp:build": "node tools/ogp/build.mjs"
   },
   "dependencies": {
     "react": "^19.2.8",
