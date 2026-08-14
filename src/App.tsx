@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { Fragment, useEffect, useMemo, useState } from "react";
 import songsData from "./data/songs.json";
 import {
   buildYoutubePlaylistUrl,
@@ -315,6 +315,29 @@ function App() {
     setStepCopied((prev) => new Set(prev).add(field));
   };
 
+  // ウィザードに出す項目。申請フォームに要る値を上から順に貼っていける並びにする。
+  const wizardFields: {
+    key: string;
+    label: string;
+    value: string | null;
+    className?: string;
+    society?: string;
+  }[] = wizardItem
+    ? [
+        { key: "title", label: "曲名", value: wizardItem.song.title, className: "title" },
+        { key: "artist", label: "アーティスト", value: wizardItem.song.artist },
+        { key: "lyricist", label: "作詞者", value: wizardItem.song.lyricist },
+        { key: "composer", label: "作曲者", value: wizardItem.song.composer },
+        {
+          key: "code",
+          label: "作品コード",
+          value: wizardItem.code,
+          className: "code",
+          society: wizardItem.society,
+        },
+      ]
+    : [];
+
   // セトリを組み直したらウィザードは畳む(別のセトリの途中状態を残さない)
   useEffect(() => setWizardIndex(null), [setlist]);
 
@@ -494,54 +517,40 @@ function App() {
                 </button>
               </div>
               <dl className="wizard-fields">
-                <dt>曲名</dt>
-                <dd>
-                  <button
-                    className="copy-value title"
-                    onClick={() => copyInWizard("title", wizardItem.song.title)}
-                  >
-                    {wizardItem.song.title}
-                  </button>
-                  {stepCopied.has("title") && (
-                    <span className="copied-mark">コピー済み ✓</span>
-                  )}
-                </dd>
-                {wizardItem.song.artist && (
-                  <>
-                    <dt>アーティスト</dt>
+                {wizardFields.map((f) => {
+                  // クロージャの中でも null 除外が効くようローカルに取り出す
+                  const value = f.value;
+                  return (
+                  <Fragment key={f.key}>
+                    <dt>{f.label}</dt>
                     <dd>
-                      <button
-                        className="copy-value"
-                        onClick={() =>
-                          copyInWizard(
-                            "artist",
-                            wizardItem.song.artist as string,
-                          )
-                        }
-                      >
-                        {wizardItem.song.artist}
-                      </button>
-                      {stepCopied.has("artist") && (
-                        <span className="copied-mark">コピー済み ✓</span>
+                      {value === null ? (
+                        // 申請に要る値なので、欠けていることが分かるように行は残す
+                        <span className="value-missing">未登録</span>
+                      ) : (
+                        <>
+                          <button
+                            className={`copy-value ${f.className ?? ""}`}
+                            onClick={() => copyInWizard(f.key, value)}
+                          >
+                            {value}
+                          </button>
+                          {f.society && (
+                            <span
+                              className={`society ${f.society.toLowerCase()}`}
+                            >
+                              {f.society}
+                            </span>
+                          )}
+                          {stepCopied.has(f.key) && (
+                            <span className="copied-mark">コピー済み ✓</span>
+                          )}
+                        </>
                       )}
                     </dd>
-                  </>
-                )}
-                <dt>作品コード</dt>
-                <dd>
-                  <button
-                    className="copy-value code"
-                    onClick={() => copyInWizard("code", wizardItem.code)}
-                  >
-                    {wizardItem.code}
-                  </button>
-                  <span className={`society ${wizardItem.society.toLowerCase()}`}>
-                    {wizardItem.society}
-                  </span>
-                  {stepCopied.has("code") && (
-                    <span className="copied-mark">コピー済み ✓</span>
-                  )}
-                </dd>
+                  </Fragment>
+                  );
+                })}
               </dl>
               <p className="hint">
                 値をクリックするとコピーされる。フォームに貼ったら「申請済みにして次へ」。
@@ -624,6 +633,32 @@ function App() {
                         {copiedField === `${song.id}:artist`
                           ? "コピー ✓"
                           : song.artist}
+                      </button>
+                    )}
+                    {song.lyricist && (
+                      <button
+                        className="copy-value credit"
+                        title="作詞者"
+                        onClick={() =>
+                          copyValue(`${song.id}:lyricist`, song.lyricist as string)
+                        }
+                      >
+                        {copiedField === `${song.id}:lyricist`
+                          ? "コピー ✓"
+                          : `詞 ${song.lyricist}`}
+                      </button>
+                    )}
+                    {song.composer && (
+                      <button
+                        className="copy-value credit"
+                        title="作曲者"
+                        onClick={() =>
+                          copyValue(`${song.id}:composer`, song.composer as string)
+                        }
+                      >
+                        {copiedField === `${song.id}:composer`
+                          ? "コピー ✓"
+                          : `曲 ${song.composer}`}
                       </button>
                     )}
                     <button

@@ -20,6 +20,8 @@ function song(partial: Partial<Song> & { id: string }): Song {
   return {
     title: partial.id,
     artist: null,
+    lyricist: null,
+    composer: null,
     key: null,
     bpm: null,
     mastery: "ready",

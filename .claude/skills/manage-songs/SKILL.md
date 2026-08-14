@@ -24,7 +24,9 @@ DB は無く **Git が履歴**なので、変更は必ず**最小差分**で入�
 {
   "id": "unique-slug",       // 英小文字・数字・ハイフンのみ。タイトルのローマ字化
   "title": "曲名",           // 必須
-  "artist": "アーティスト",   // 不明なら null
+  "artist": "アーティスト",   // 実演者(歌手・バンド・キャラ名義)。不明なら null
+  "lyricist": "作詞者",       // 楽曲申請に使う。不明なら null
+  "composer": "作曲者",       // 楽曲申請に使う。不明なら null
   "key": "Am",               // 不明なら null
   "bpm": 120,                // 正の整数。不明なら null
   "mastery": "ready | practicing | wishlist",  // 既定は wishlist
@@ -72,7 +74,8 @@ node .claude/skills/manage-songs/scripts/songs.mjs list --mastery wishlist
 ```sh
 node .claude/skills/manage-songs/scripts/songs.mjs add \
   --id <slug> --title "<曲名>" \
-  [--artist "<名>"] [--key "<調>"] [--bpm <整数>] \
+  [--artist "<名>"] [--lyricist "<作詞者>"] [--composer "<作曲者>"] \
+  [--key "<調>"] [--bpm <整数>] \
   [--mastery ready|practicing|wishlist] \
   [--tags "タグA, タグB"] [--memo "<メモ>"] [--last-played YYYY-MM-DD] \
   [--youtube-id <動画ID または YouTubeのURL>] \
@@ -111,6 +114,22 @@ node .claude/skills/manage-songs/scripts/songs.mjs add \
 J-WID の作品詳細画面に利用分野(演奏 / 配信 / 放送 / 録音 …)ごとの管理状況が出るので、
 そこで判定する。配信の管理団体は JASRAC 側・NexTone 側どちらにも振れるため、
 アーティスト単位ではなく**作品単位**で見ること。
+
+### 作詞者・作曲者
+
+申請には作品コードだけでなく**作詞者名・作曲者名**も要る。`artist` は実演者
+(歌手・バンド・キャラ名義)であって著作者ではないので、**`artist` から作詞者・
+作曲者を導かないこと**(例: Butter-Fly の artist は 和田光司 だが作詞作曲は 千綿偉功)。
+
+作品コードと同じDBで調べられる。作品コードが入っていれば**コードで完全一致検索**
+できるので、同名異曲を取り違える心配が無い。
+
+- **J-WID**: 作品詳細の「著作者/出版者情報」に `識別: 作詞 / 作曲` が出る。
+  外国作品は `作曲作詞` のように1つにまとまっていることがあり、その場合は両方に入れる
+- **NexTone**: 作品詳細の「著作者情報」に `役割: 作詞 / 作曲` が出る
+
+複数人いる場合は `"A / B"` のように1つの文字列にまとめる。インスト曲など作詞者が
+いない曲は `lyricist` を null にする。
 
 ### 調べたが見つからなかった場合
 

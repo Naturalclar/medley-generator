@@ -549,6 +549,17 @@ button.secondary {
   flex-wrap: wrap;
 }
 
+/* 申請に要るのに未登録の値。行ごと消さずに、欠けていることを見せる。 */
+.value-missing {
+  color: var(--text-sub);
+  font-size: 0.8rem;
+}
+
+/* 一覧に出す作詞者・作曲者。「詞」「曲」の接頭辞で区別する。 */
+.copy-value.credit {
+  font-size: 0.8rem;
+}
+
 /* コピー済みの目印。貼り忘れに気付けるよう、押した値だけに付ける。 */
 .copied-mark {
   color: var(--ready);
