@@ -32,6 +32,7 @@ DB は無く **Git が履歴**なので、変更は必ず**最小差分**で入�
   "youtubeId": "dQw4w9WgXcQ",                  // YouTube動画ID(11文字)。不明なら null
   "jasracCode": "052-2119-3",                  // JASRAC作品コード。管理外・不明なら null
   "nextoneCode": null,                         // NexTone作品コード。管理外・不明なら null
+  "workCodeNotFound": false,                   // 両DBを調べたが登録が無かった曲は true
   "tags": ["ボカロ"],        // 無ければ []
   "memo": ""
 }
@@ -75,7 +76,8 @@ node .claude/skills/manage-songs/scripts/songs.mjs add \
   [--mastery ready|practicing|wishlist] \
   [--tags "タグA, タグB"] [--memo "<メモ>"] [--last-played YYYY-MM-DD] \
   [--youtube-id <動画ID または YouTubeのURL>] \
-  [--jasrac-code <123-4567-8>] [--nextone-code <N12345678>]
+  [--jasrac-code <123-4567-8>] [--nextone-code <N12345678>] \
+  [--work-code-not-found true|false]
 ```
 
 `--youtube-id` は生のID(11文字)でも URL でもよい。URL の場合はIDを自動抽出する
@@ -83,8 +85,8 @@ node .claude/skills/manage-songs/scripts/songs.mjs add \
 
 ## 作品コード(JASRAC / NexTone)
 
-楽曲利用の申請に使う。**1曲はどちらか一方の管理**なので、両方を同時に埋めない
-(両方入っているとスキーマテストが落ちる)。分からなければ両方 `null` のままでよい。
+楽曲利用の申請に使う。**1曲につきどちらか片方だけ**入れる(両方入っているとスキーマ
+テストが落ちる)。分からなければ両方 `null` のままでよい。
 
 | 管理団体 | 形式 | 例 |
 |---|---|---|
@@ -97,7 +99,41 @@ node .claude/skills/manage-songs/scripts/songs.mjs add \
 値はエラーで弾かれる。
 
 コードは J-WID(JASRAC)や NexTone の作品検索で調べる。**推測で埋めないこと。**
-分からない曲は `null` のままにして、申請が必要になった時点で調べる。
+許諾番号(`9013388002Y30005` のような番号)は作品コードとは別物なので混同しない。
+
+### どちらの団体のコードを入れるか
+
+同じ作品が JASRAC と NexTone の**両方に載っていることはよくある**(支分権ごとに管理
+団体が分かれるため)。片方しか持てないので、**「配信(インターネット上での音楽利用)を
+管理している方」**を採用する。この曲プールの用途は配信での演奏なので、必要な支分権が
+配信だから。
+
+J-WID の作品詳細画面に利用分野(演奏 / 配信 / 放送 / 録音 …)ごとの管理状況が出るので、
+そこで判定する。配信の管理団体は JASRAC 側・NexTone 側どちらにも振れるため、
+アーティスト単位ではなく**作品単位**で見ること。
+
+### 調べたが見つからなかった場合
+
+`workCodeNotFound` に `true` を入れる。両コードが `null` なだけでは「まだ調べていない」
+のか「調べたが無かった」のか区別できず、何度も同じ曲を調べ直すことになるため。
+
+```sh
+node .claude/skills/manage-songs/scripts/songs.mjs edit <id> --work-code-not-found true
+```
+
+後からコードが見つかったら、コードと一緒に `--work-code-not-found false` を渡して
+印を下ろす(コードと印が同時に立つ状態はスクリプトとテストの両方で弾かれる)。
+
+**未調査の曲を探すとき**は `workCodeNotFound` が `false` かつ両コードが `null` の曲を
+拾えばよい:
+
+```sh
+node -e "
+const s=require('./src/data/songs.json');
+s.filter(x=>!x.jasracCode&&!x.nextoneCode&&!x.workCodeNotFound)
+ .forEach(x=>console.log(x.id,'|',x.title,'|',x.artist));
+"
+```
 
 `--id` と `--title` は必須。省いたフィールドは既定値(null / [] / "" / mastery は wishlist)。
 新規に発見・登録する曲は基本 `wishlist`。ユーザーが「弾ける」「練習中」と言えばそれに従う。

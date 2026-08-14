@@ -11,6 +11,7 @@
 //                         [--tags "a,b"] [--memo <m>] [--last-played YYYY-MM-DD]
 //                         [--youtube-id <id|URL>]
 //                         [--jasrac-code <123-4567-8>] [--nextone-code <N12345678>]
+//                         [--work-code-not-found true|false]
 //   node songs.mjs edit   <id> [同上の --field ...]   (渡したフィールドだけ更新 / "null" で消去)
 //   node songs.mjs remove <id>
 //   node songs.mjs list   [--mastery <m>]
@@ -37,9 +38,16 @@ const FIELD_ORDER = [
   "youtubeId",
   "jasracCode",
   "nextoneCode",
+  "workCodeNotFound",
   "tags",
   "memo",
 ];
+
+// 既存データにフィールドが無いときに補う既定値(null 以外のもの)。
+// スキーマにフィールドを足したときの移行を、次の save で自動的に済ませるため。
+const FIELD_DEFAULTS = {
+  workCodeNotFound: false,
+};
 
 // 作品コード。avvy の楽曲申請に必要で、JASRAC と NexTone で形式が違う。
 // JASRAC: 内国 123-4567-8 / 外国は2桁目のみ英字 0A1-2345-6
@@ -151,6 +159,16 @@ function parseJasracCode(v) {
   return formatted;
 }
 
+/** 真偽値フラグ。値なし(`--work-code-not-found` だけ)なら true 扱い。 */
+function parseBoolean(v, label) {
+  if (v === undefined) return undefined;
+  if (v === true) return true;
+  const s = String(v).trim().toLowerCase();
+  if (s === "true" || s === "1" || s === "yes") return true;
+  if (s === "false" || s === "0" || s === "no" || s === "null") return false;
+  fail(`${label} は true / false: ${v}`);
+}
+
 /** NexTone 作品コード。先頭 N を省いて数字8桁だけ渡された場合は補う。 */
 function parseNextoneCode(v) {
   const n = nullable(v);
@@ -166,7 +184,7 @@ function parseNextoneCode(v) {
 /** 1曲を既存スタイル(4スペースインデント / tags はインライン)で文字列化。 */
 function serializeSong(song) {
   const line = (key) => {
-    const value = song[key];
+    const value = song[key] ?? FIELD_DEFAULTS[key];
     if (key === "tags") {
       const inner = (value ?? []).map((t) => JSON.stringify(t)).join(", ");
       return `    "tags": [${inner}]`;
@@ -215,9 +233,25 @@ function fieldsFromFlags(flags) {
   if (flags.nextoneCode !== undefined) {
     f.nextoneCode = parseNextoneCode(flags.nextoneCode);
   }
+  if (flags.workCodeNotFound !== undefined) {
+    f.workCodeNotFound = parseBoolean(flags.workCodeNotFound, "work-code-not-found");
+  }
   if (flags.tags !== undefined) f.tags = parseTags(flags.tags);
   if (flags.memo !== undefined) f.memo = nullable(flags.memo) ?? "";
   return f;
+}
+
+/**
+ * 「両DBに登録なし」の印と作品コードは同時に立たない。矛盾した状態で保存されると
+ * 「調べたが無かった」の意味が壊れるので弾く。
+ */
+function validateWorkCode(song) {
+  if (song.workCodeNotFound && (song.jasracCode || song.nextoneCode)) {
+    fail(
+      `workCodeNotFound が true なのに作品コードが入っている: ${song.id} — ` +
+        "コードを入れるなら --work-code-not-found false も一緒に渡す",
+    );
+  }
 }
 
 function cmdAdd(file, flags) {
@@ -241,9 +275,11 @@ function cmdAdd(file, flags) {
     youtubeId: "youtubeId" in overrides ? overrides.youtubeId : null,
     jasracCode: "jasracCode" in overrides ? overrides.jasracCode : null,
     nextoneCode: "nextoneCode" in overrides ? overrides.nextoneCode : null,
+    workCodeNotFound: overrides.workCodeNotFound ?? false,
     tags: overrides.tags ?? [],
     memo: overrides.memo ?? "",
   };
+  validateWorkCode(song);
 
   songs.push(song);
   save(file, songs);
@@ -259,6 +295,7 @@ function cmdEdit(file, id, flags) {
   const updates = fieldsFromFlags(flags);
   if (Object.keys(updates).length === 0) fail("更新するフィールドが無い");
   Object.assign(song, updates);
+  validateWorkCode(song);
 
   save(file, songs);
   console.log(`編集: ${song.title} (id: ${id}) — 更新 ${Object.keys(updates).join(", ")}`);
