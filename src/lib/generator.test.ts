@@ -24,6 +24,7 @@ function song(partial: Partial<Song> & { id: string }): Song {
     youtubeId: null,
     jasracCode: null,
     nextoneCode: null,
+    workCodeNotFound: false,
     tags: [],
     memo: "",
     ...partial,

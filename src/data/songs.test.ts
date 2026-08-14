@@ -47,6 +47,7 @@ describe("songs.json のスキーマ", () => {
       "youtubeId",
       "jasracCode",
       "nextoneCode",
+      "workCodeNotFound",
       "tags",
       "memo",
     ];
@@ -157,13 +158,39 @@ describe("songs.json のスキーマ", () => {
     expect(bad).toEqual([]);
   });
 
-  // 1つの作品を JASRAC と NexTone が同時に管理することは通常ない。両方入って
-  // いたら取り違えの可能性が高いので気付けるようにしておく。
+  // 同じ作品が JASRAC と NexTone の両方に載っていること自体はよくある(支分権ごとに
+  // 管理団体が分かれるため)。この曲プールでは「配信を管理している方」の作品コードを
+  // 1つだけ持つ運用なので、両方入っていたら選び損ねか取り違えとして気付けるようにする。
   it("jasracCode と nextoneCode が同時に埋まっていない", () => {
     const bad = songs
       .map((s) => s as Record<string, unknown>)
       .filter((s) => s.jasracCode !== null && s.nextoneCode !== null)
       .map((s) => `${String(s.id)}: ${String(s.jasracCode)} / ${String(s.nextoneCode)}`);
+    expect(bad).toEqual([]);
+  });
+
+  it("workCodeNotFound は真偽値", () => {
+    const bad = findViolations(
+      (s) => typeof s.workCodeNotFound === "boolean",
+      "workCodeNotFound",
+    );
+    expect(bad).toEqual([]);
+  });
+
+  // workCodeNotFound は「両DBを調べたが無かった」の印。コードが取れているのに
+  // 立っていたら意味が矛盾するので弾く。
+  it("workCodeNotFound が true の曲は作品コードを持たない", () => {
+    const bad = songs
+      .map((s) => s as Record<string, unknown>)
+      .filter(
+        (s) =>
+          s.workCodeNotFound === true &&
+          (s.jasracCode !== null || s.nextoneCode !== null),
+      )
+      .map(
+        (s) =>
+          `${String(s.id)}: ${String(s.jasracCode)} / ${String(s.nextoneCode)}`,
+      );
     expect(bad).toEqual([]);
   });
 

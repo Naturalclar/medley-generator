@@ -17,6 +17,14 @@ export interface Song {
   jasracCode: string | null;
   /** NexTone 作品コード。`N` + 半角数字8桁。管理外・不明なら null。 */
   nextoneCode: string | null;
+  /**
+   * JASRAC・NexTone の両方を調べたが、どちらにも登録が無かった曲の印。
+   *
+   * 作品コードが両方 null なだけでは「まだ調べていない」のか「調べたが無かった」のか
+   * 区別がつかない。true の曲は調査済みなので、再検索しなくてよい。
+   * true のとき jasracCode / nextoneCode は必ず null。
+   */
+  workCodeNotFound: boolean;
   tags: string[];
   memo: string;
 }
