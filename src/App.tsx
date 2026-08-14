@@ -14,6 +14,7 @@ import {
   workCodeStatusOf,
   workSocietyOf,
 } from "./lib/generator";
+import type { MusicUseRequestItem } from "./lib/generator";
 import type { Mastery, Song, WorkCodeStatus } from "./lib/types";
 import {
   MASTERY_LABEL,
@@ -65,6 +66,112 @@ const UNREQUESTABLE_REASON: Record<
   unchecked: "まだ調べていない。調べれば申請できるかもしれない",
   "not-found": "JASRAC・NexTone のどちらにも登録なし。申請不要の可能性",
 };
+
+/**
+ * 申請ウィザードで扱う待ち行列。
+ *
+ * セトリからの通し申請と、一覧から1曲だけの申請を同じ仕組みで動かすための入れ物。
+ * source は「どこに描画するか」を決めるためだけに持つ(セトリ側と一覧側で
+ * ウィザードが出る位置が違う)。
+ */
+interface RequestQueue {
+  source: "setlist" | "pool";
+  items: MusicUseRequestItem[];
+  index: number;
+}
+
+interface RequestWizardProps {
+  item: MusicUseRequestItem;
+  index: number;
+  total: number;
+  /** 今の曲でコピー済みのフィールド名。 */
+  copied: Set<string>;
+  onCopy: (field: string, value: string) => void;
+  onPrev: () => void;
+  onSkip: () => void;
+  onDone: () => void;
+  onClose: () => void;
+}
+
+/**
+ * 1曲ぶんの申請情報を大きく出して、コピーと進捗記録を促すウィザード。
+ *
+ * セトリからの通し申請(#106)と一覧からの単発申請(#108)で共有する。項目が
+ * 増えたときに片方だけ古くなるのを防ぐため、描画はここ1箇所に集約している。
+ */
+function RequestWizard({
+  item,
+  index,
+  total,
+  copied,
+  onCopy,
+  onPrev,
+  onSkip,
+  onDone,
+  onClose,
+}: RequestWizardProps) {
+  const isLast = index >= total - 1;
+  const field = (label: string, name: string, value: string, cls = "") => (
+    <>
+      <dt>{label}</dt>
+      <dd>
+        <button
+          className={`copy-value ${cls}`.trim()}
+          onClick={() => onCopy(name, value)}
+        >
+          {value}
+        </button>
+        {name === "code" && (
+          <span className={`society ${item.society.toLowerCase()}`}>
+            {item.society}
+          </span>
+        )}
+        {copied.has(name) && <span className="copied-mark">コピー済み ✓</span>}
+      </dd>
+    </>
+  );
+
+  return (
+    <div className="wizard">
+      <div className="wizard-head">
+        <strong>
+          {total > 1 ? `${index + 1} / ${total} 曲目` : item.song.title}
+        </strong>
+        <button className="wizard-close" onClick={onClose}>
+          × 閉じる
+        </button>
+      </div>
+      <dl className="wizard-fields">
+        {field("曲名", "title", item.song.title, "title")}
+        {item.song.artist && field("アーティスト", "artist", item.song.artist)}
+        {field("作品コード", "code", item.code, "code")}
+      </dl>
+      <p className="hint">
+        値をクリックするとコピーされる。フォームに貼ったら「申請済みにして
+        {isLast ? "終了" : "次へ"}」。
+      </p>
+      <div className="wizard-actions">
+        {total > 1 && (
+          <>
+            <button
+              className="secondary"
+              disabled={index === 0}
+              onClick={onPrev}
+            >
+              ← 前へ
+            </button>
+            <button className="secondary" disabled={isLast} onClick={onSkip}>
+              スキップ
+            </button>
+          </>
+        )}
+        <button onClick={onDone}>
+          {isLast ? "申請済みにして終了" : "申請済みにして次へ →"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 function App() {
   // 入力そのものは文字列で保持し、生成に使う値は [1, maxSelectable] にクランプする。
@@ -290,12 +397,12 @@ function App() {
   };
 
   // 申請ウィザード。1曲ずつ大きく出して、コピー忘れと進捗の取りこぼしを防ぐ。
-  const [wizardIndex, setWizardIndex] = useState<number | null>(null);
+  // セトリからの通し申請と、一覧からの1曲だけの申請を同じ待ち行列で扱う。
+  const [queue, setQueue] = useState<RequestQueue | null>(null);
   // 今のステップでコピー済みのフィールド。曲が変わったらリセットする。
   const [stepCopied, setStepCopied] = useState<Set<string>>(new Set());
 
-  const wizardItem =
-    wizardIndex !== null ? (requestable[wizardIndex] ?? null) : null;
+  const wizardItem = queue ? (queue.items[queue.index] ?? null) : null;
 
   // 中断して戻ってきたとき、済んだ曲を頭からなぞり直さずに済むよう未申請から開く。
   const firstUndoneIndex = useMemo(() => {
@@ -305,9 +412,28 @@ function App() {
     return i === -1 ? 0 : i;
   }, [requestable, progress, requestDate]);
 
-  const goToStep = (index: number) => {
-    setWizardIndex(index);
+  const openQueue = (
+    source: RequestQueue["source"],
+    items: MusicUseRequestItem[],
+    index: number,
+  ) => {
+    setQueue({ source, items, index });
     setStepCopied(new Set());
+  };
+
+  const goToStep = (index: number) => {
+    setQueue((prev) => (prev ? { ...prev, index } : prev));
+    setStepCopied(new Set());
+  };
+
+  /** 今の曲を申請済みにして次へ。最後なら閉じる。 */
+  const completeStep = () => {
+    if (!queue || !wizardItem) return;
+    if (!isRequested(progress, requestDate, wizardItem.song.id)) {
+      markRequested(wizardItem.song.id);
+    }
+    if (queue.index < queue.items.length - 1) goToStep(queue.index + 1);
+    else setQueue(null);
   };
 
   const copyInWizard = async (field: string, value: string) => {
@@ -315,8 +441,11 @@ function App() {
     setStepCopied((prev) => new Set(prev).add(field));
   };
 
-  // セトリを組み直したらウィザードは畳む(別のセトリの途中状態を残さない)
-  useEffect(() => setWizardIndex(null), [setlist]);
+  // セトリを組み直したらセトリ由来のウィザードは畳む(別のセトリの途中状態を
+  // 残さない)。一覧から開いた1曲はセトリと無関係なので残す。
+  useEffect(() => {
+    setQueue((prev) => (prev?.source === "setlist" ? null : prev));
+  }, [setlist]);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(setlistText);
@@ -469,8 +598,12 @@ function App() {
             >
               申請フォームを開く
             </a>
-            {requestable.length > 0 && wizardIndex === null && (
-              <button onClick={() => goToStep(firstUndoneIndex)}>
+            {requestable.length > 0 && queue?.source !== "setlist" && (
+              <button
+                onClick={() =>
+                  openQueue("setlist", requestable, firstUndoneIndex)
+                }
+              >
                 {doneCount > 0 ? "申請を再開" : "申請を始める"}
               </button>
             )}
@@ -480,107 +613,18 @@ function App() {
               </span>
             )}
           </div>
-          {wizardItem && wizardIndex !== null && (
-            <div className="wizard">
-              <div className="wizard-head">
-                <strong>
-                  {wizardIndex + 1} / {requestable.length} 曲目
-                </strong>
-                <button
-                  className="wizard-close"
-                  onClick={() => setWizardIndex(null)}
-                >
-                  × 閉じる
-                </button>
-              </div>
-              <dl className="wizard-fields">
-                <dt>曲名</dt>
-                <dd>
-                  <button
-                    className="copy-value title"
-                    onClick={() => copyInWizard("title", wizardItem.song.title)}
-                  >
-                    {wizardItem.song.title}
-                  </button>
-                  {stepCopied.has("title") && (
-                    <span className="copied-mark">コピー済み ✓</span>
-                  )}
-                </dd>
-                {wizardItem.song.artist && (
-                  <>
-                    <dt>アーティスト</dt>
-                    <dd>
-                      <button
-                        className="copy-value"
-                        onClick={() =>
-                          copyInWizard(
-                            "artist",
-                            wizardItem.song.artist as string,
-                          )
-                        }
-                      >
-                        {wizardItem.song.artist}
-                      </button>
-                      {stepCopied.has("artist") && (
-                        <span className="copied-mark">コピー済み ✓</span>
-                      )}
-                    </dd>
-                  </>
-                )}
-                <dt>作品コード</dt>
-                <dd>
-                  <button
-                    className="copy-value code"
-                    onClick={() => copyInWizard("code", wizardItem.code)}
-                  >
-                    {wizardItem.code}
-                  </button>
-                  <span className={`society ${wizardItem.society.toLowerCase()}`}>
-                    {wizardItem.society}
-                  </span>
-                  {stepCopied.has("code") && (
-                    <span className="copied-mark">コピー済み ✓</span>
-                  )}
-                </dd>
-              </dl>
-              <p className="hint">
-                値をクリックするとコピーされる。フォームに貼ったら「申請済みにして次へ」。
-              </p>
-              <div className="wizard-actions">
-                <button
-                  className="secondary"
-                  disabled={wizardIndex === 0}
-                  onClick={() => goToStep(wizardIndex - 1)}
-                >
-                  ← 前へ
-                </button>
-                <button
-                  className="secondary"
-                  disabled={wizardIndex >= requestable.length - 1}
-                  onClick={() => goToStep(wizardIndex + 1)}
-                >
-                  スキップ
-                </button>
-                <button
-                  onClick={() => {
-                    if (
-                      !isRequested(progress, requestDate, wizardItem.song.id)
-                    ) {
-                      markRequested(wizardItem.song.id);
-                    }
-                    if (wizardIndex < requestable.length - 1) {
-                      goToStep(wizardIndex + 1);
-                    } else {
-                      setWizardIndex(null);
-                    }
-                  }}
-                >
-                  {wizardIndex >= requestable.length - 1
-                    ? "申請済みにして終了"
-                    : "申請済みにして次へ →"}
-                </button>
-              </div>
-            </div>
+          {queue?.source === "setlist" && wizardItem && (
+            <RequestWizard
+              item={wizardItem}
+              index={queue.index}
+              total={queue.items.length}
+              copied={stepCopied}
+              onCopy={copyInWizard}
+              onPrev={() => goToStep(queue.index - 1)}
+              onSkip={() => goToStep(queue.index + 1)}
+              onDone={completeStep}
+              onClose={() => setQueue(null)}
+            />
           )}
           {requestable.length === 0 ? (
             <p className="hint">
@@ -757,6 +801,7 @@ function App() {
                 </button>
               </th>
               <th className="col-tags">タグ</th>
+              <th className="col-request">申請</th>
             </tr>
           </thead>
           <tbody>
@@ -794,12 +839,26 @@ function App() {
                     </span>
                   </td>
                   <td className="col-tags">{song.tags.join(", ")}</td>
+                  <td className="col-request">
+                    {code && society && (
+                      <button
+                        className="row-request"
+                        onClick={() =>
+                          openQueue("pool", [{ song, code, society }], 0)
+                        }
+                      >
+                        {isRequested(progress, requestDate, song.id)
+                          ? "申請済 ✓"
+                          : "申請"}
+                      </button>
+                    )}
+                  </td>
                 </tr>
               );
             })}
             {filteredPool.length === 0 && (
               <tr>
-                <td colSpan={5} className="pool-empty">
+                <td colSpan={6} className="pool-empty">
                   該当する曲がありません
                 </td>
               </tr>
@@ -807,12 +866,25 @@ function App() {
           </tbody>
         </table>
         </div>
+        {queue?.source === "pool" && wizardItem && (
+          <RequestWizard
+            item={wizardItem}
+            index={queue.index}
+            total={queue.items.length}
+            copied={stepCopied}
+            onCopy={copyInWizard}
+            onPrev={() => goToStep(queue.index - 1)}
+            onSkip={() => goToStep(queue.index + 1)}
+            onDone={completeStep}
+            onClose={() => setQueue(null)}
+          />
+        )}
         <p className="hint">
-          作品コードはクリックでコピーできる。セトリを組まなくても、ここから
+          「申請」を押すとその曲の申請情報が出る。セトリを組まなくても、ここから
           <a href={MUSIC_USE_REQUEST_URL} target="_blank" rel="noreferrer">
             楽曲申請 (avvy)
           </a>
-          に貼って申請できる。
+          に貼って申請できる。作品コードだけならクリックでコピーできる。
         </p>
         <p className="hint">
           曲の追加・編集は <code>src/data/songs.json</code> を直接編集
