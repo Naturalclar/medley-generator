@@ -1,4 +1,4 @@
-import type { Song } from "./types";
+import type { Song, WorkCodeStatus, WorkSociety } from "./types";
 
 export interface GenerateOptions {
   count: number;
@@ -158,9 +158,30 @@ export function workCodeOf(song: Song): string | null {
   return song.jasracCode ?? song.nextoneCode ?? null;
 }
 
+/**
+ * 作品コードを管理している団体。コードが無ければ null。
+ * 申請フォームでの取り違えを防ぐため、コードと一緒に画面へ出す。
+ */
+export function workSocietyOf(song: Song): WorkSociety | null {
+  if (song.jasracCode) return "JASRAC";
+  if (song.nextoneCode) return "NexTone";
+  return null;
+}
+
+/**
+ * 作品コードから見た曲の状態。
+ * コードが無い場合、workCodeNotFound(調査済みで両DBに登録なし)かどうかで
+ * 「調べても無駄」と「調べれば申請できるかも」を分ける。
+ */
+export function workCodeStatusOf(song: Song): WorkCodeStatus {
+  if (workCodeOf(song)) return "requestable";
+  return song.workCodeNotFound ? "not-found" : "unchecked";
+}
+
 export interface MusicUseRequestItem {
   song: Song;
   code: string;
+  society: WorkSociety;
 }
 
 /**
@@ -172,6 +193,25 @@ export interface MusicUseRequestItem {
 export function requestableSongs(setlist: Song[]): MusicUseRequestItem[] {
   return setlist.flatMap((song) => {
     const code = workCodeOf(song);
-    return code ? [{ song, code }] : [];
+    const society = workSocietyOf(song);
+    return code && society ? [{ song, code, society }] : [];
+  });
+}
+
+export interface UnrequestableItem {
+  song: Song;
+  status: Exclude<WorkCodeStatus, "requestable">;
+}
+
+/**
+ * セトリのうち申請に出せない曲を、理由付きでセトリの並び順で返す。
+ *
+ * 単に除外して曲数だけ出すと「なぜ出せないのか」「調べる価値があるのか」が
+ * 分からないので、状態を添えて UI に見せる。
+ */
+export function unrequestableSongs(setlist: Song[]): UnrequestableItem[] {
+  return setlist.flatMap((song) => {
+    const status = workCodeStatusOf(song);
+    return status === "requestable" ? [] : [{ song, status }];
   });
 }

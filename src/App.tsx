@@ -9,9 +9,17 @@ import {
   maxSetlistSize,
   MUSIC_USE_REQUEST_URL,
   requestableSongs,
+  unrequestableSongs,
+  workCodeOf,
+  workCodeStatusOf,
+  workSocietyOf,
 } from "./lib/generator";
-import type { Mastery, Song } from "./lib/types";
-import { MASTERY_LABEL } from "./lib/types";
+import type { Mastery, Song, WorkCodeStatus } from "./lib/types";
+import {
+  MASTERY_LABEL,
+  WORK_CODE_STATUS_LABEL,
+  WORK_CODE_STATUSES,
+} from "./lib/types";
 import {
   createPlaylist,
   isYoutubePlaylistEnabled,
@@ -40,6 +48,15 @@ const ALL_TAGS = (() => {
 
 type SortKey = "title" | "artist" | "mastery";
 
+/** 申請できない曲に添える一言。次に何をすべきかが分かる文言にする。 */
+const UNREQUESTABLE_REASON: Record<
+  Exclude<WorkCodeStatus, "requestable">,
+  string
+> = {
+  unchecked: "まだ調べていない。調べれば申請できるかもしれない",
+  "not-found": "JASRAC・NexTone のどちらにも登録なし。申請不要の可能性",
+};
+
 function App() {
   // 入力そのものは文字列で保持し、生成に使う値は [1, maxSelectable] にクランプする。
   // これで空欄・NaN・上限超過でも生成が壊れない。
@@ -62,11 +79,16 @@ function App() {
   const [activeTags, setActiveTags] = useState<Set<string>>(new Set());
   const [sortKey, setSortKey] = useState<SortKey | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
+  // 作品コードの状態での絞り込み(申請可 / 未調査 / 登録なし)
+  const [workCodeFilter, setWorkCodeFilter] = useState<
+    Record<WorkCodeStatus, boolean>
+  >({ requestable: true, unchecked: true, "not-found": true });
 
   const filteredPool = useMemo(() => {
     const q = poolSearch.trim().toLowerCase();
     const result = songs.filter((s) => {
       if (!masteryFilter[s.mastery]) return false;
+      if (!workCodeFilter[workCodeStatusOf(s)]) return false;
       // タグは OR: 選択タグのいずれかを持つ曲を表示(未選択なら全通過)
       if (activeTags.size > 0 && !s.tags.some((t) => activeTags.has(t))) {
         return false;
@@ -93,10 +115,13 @@ function App() {
       });
     }
     return result;
-  }, [poolSearch, masteryFilter, activeTags, sortKey, sortDir]);
+  }, [poolSearch, masteryFilter, workCodeFilter, activeTags, sortKey, sortDir]);
 
   const toggleMastery = (m: Mastery) =>
     setMasteryFilter((prev) => ({ ...prev, [m]: !prev[m] }));
+
+  const toggleWorkCode = (st: WorkCodeStatus) =>
+    setWorkCodeFilter((prev) => ({ ...prev, [st]: !prev[st] }));
 
   const toggleTag = (t: string) =>
     setActiveTags((prev) => {
@@ -217,6 +242,8 @@ function App() {
 
   // 楽曲申請は1曲ずつ・初期値の受け渡し不可なので、値をコピーさせる形にする。
   const requestable = useMemo(() => requestableSongs(setlist), [setlist]);
+  // 申請に出せない曲。理由(未調査 / 登録なし)で次の動きが変わるので出し分ける。
+  const unrequestable = useMemo(() => unrequestableSongs(setlist), [setlist]);
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   const copyValue = async (key: string, value: string) => {
@@ -379,19 +406,16 @@ function App() {
           </div>
           {requestable.length === 0 ? (
             <p className="hint">
-              このセトリの曲にはまだ作品コードが登録されていないため、申請に必要な
-              値を出せません。JASRAC / NexTone で調べて songs.json に登録すると
-              ここに並びます。
+              このセトリの曲には作品コードが1つも入っていないため、申請に必要な値を
+              出せません。
             </p>
           ) : (
             <>
               <p className="hint">
                 {setlist.length}曲中 {requestable.length}曲を申請できます
-                {requestable.length < setlist.length &&
-                  `(${setlist.length - requestable.length}曲は作品コード未登録)`}
               </p>
               <ol className="request-list">
-                {requestable.map(({ song, code }) => (
+                {requestable.map(({ song, code, society }) => (
                   <li key={song.id}>
                     <button
                       className="copy-value title"
@@ -417,10 +441,30 @@ function App() {
                     >
                       {copiedField === `${song.id}:code` ? "コピー ✓" : code}
                     </button>
+                    <span className={`society ${society.toLowerCase()}`}>
+                      {society}
+                    </span>
                   </li>
                 ))}
               </ol>
             </>
+          )}
+          {unrequestable.length > 0 && (
+            <div className="unrequestable">
+              <h3>申請できない曲 ({unrequestable.length})</h3>
+              <ul className="unrequestable-list">
+                {unrequestable.map(({ song, status }) => (
+                  <li key={song.id}>
+                    <span className="title">{song.title}</span>
+                    {song.artist && <span className="artist">{song.artist}</span>}
+                    <span className={`work-status ${status}`}>
+                      {WORK_CODE_STATUS_LABEL[status]}
+                    </span>
+                    <span className="reason">{UNREQUESTABLE_REASON[status]}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </section>
       )}
@@ -445,6 +489,19 @@ function App() {
                 onClick={() => toggleMastery(m)}
               >
                 {MASTERY_LABEL[m]}
+              </button>
+            ))}
+          </div>
+          <div className="work-code-chips">
+            {WORK_CODE_STATUSES.map((st) => (
+              <button
+                key={st}
+                type="button"
+                className={`chip work-${st} ${workCodeFilter[st] ? "on" : "off"}`}
+                aria-pressed={workCodeFilter[st]}
+                onClick={() => toggleWorkCode(st)}
+              >
+                {WORK_CODE_STATUS_LABEL[st]}
               </button>
             ))}
           </div>
@@ -476,6 +533,7 @@ function App() {
             )}
           </div>
         )}
+        <div className="pool-table-wrap">
         <table>
           <thead>
             <tr>
@@ -497,7 +555,8 @@ function App() {
                   アーティスト{sortIndicator("artist")}
                 </button>
               </th>
-              <th>
+              <th>作品コード</th>
+              <th className="col-mastery">
                 <button
                   type="button"
                   className="sort-th"
@@ -506,31 +565,64 @@ function App() {
                   習熟度{sortIndicator("mastery")}
                 </button>
               </th>
-              <th>タグ</th>
+              <th className="col-tags">タグ</th>
             </tr>
           </thead>
           <tbody>
-            {filteredPool.map((song) => (
-              <tr key={song.id}>
-                <td>{song.title}</td>
-                <td>{song.artist ?? "-"}</td>
-                <td>
-                  <span className={`badge ${song.mastery}`}>
-                    {MASTERY_LABEL[song.mastery]}
-                  </span>
-                </td>
-                <td>{song.tags.join(", ")}</td>
-              </tr>
-            ))}
+            {filteredPool.map((song) => {
+              const code = workCodeOf(song);
+              const society = workSocietyOf(song);
+              const status = workCodeStatusOf(song);
+              const codeKey = `pool:${song.id}:code`;
+              return (
+                <tr key={song.id}>
+                  <td>{song.title}</td>
+                  <td>{song.artist ?? "-"}</td>
+                  <td>
+                    {code && society ? (
+                      <>
+                        <button
+                          className="copy-value code"
+                          onClick={() => copyValue(codeKey, code)}
+                        >
+                          {copiedField === codeKey ? "コピー ✓" : code}
+                        </button>
+                        <span className={`society ${society.toLowerCase()}`}>
+                          {society}
+                        </span>
+                      </>
+                    ) : (
+                      <span className={`work-status ${status}`}>
+                        {WORK_CODE_STATUS_LABEL[status]}
+                      </span>
+                    )}
+                  </td>
+                  <td className="col-mastery">
+                    <span className={`badge ${song.mastery}`}>
+                      {MASTERY_LABEL[song.mastery]}
+                    </span>
+                  </td>
+                  <td className="col-tags">{song.tags.join(", ")}</td>
+                </tr>
+              );
+            })}
             {filteredPool.length === 0 && (
               <tr>
-                <td colSpan={4} className="pool-empty">
+                <td colSpan={5} className="pool-empty">
                   該当する曲がありません
                 </td>
               </tr>
             )}
           </tbody>
         </table>
+        </div>
+        <p className="hint">
+          作品コードはクリックでコピーできる。セトリを組まなくても、ここから
+          <a href={MUSIC_USE_REQUEST_URL} target="_blank" rel="noreferrer">
+            楽曲申請 (avvy)
+          </a>
+          に貼って申請できる。
+        </p>
         <p className="hint">
           曲の追加・編集は <code>src/data/songs.json</code> を直接編集
           (Gitが履歴になる)

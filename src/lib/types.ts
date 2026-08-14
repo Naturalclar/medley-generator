@@ -39,3 +39,26 @@ export const MASTERY_LABEL: Record<Mastery, string> = {
   practicing: "練習中",
   wishlist: "覚えたい",
 };
+
+/** 作品コードの管理団体。1曲につきどちらか一方。 */
+export type WorkSociety = "JASRAC" | "NexTone";
+
+/**
+ * 作品コードから見た曲の状態。
+ *
+ * `unchecked` と `not-found` はどちらも「コードが無い」だが、次にやることが
+ * 正反対(調べる価値がある / 調べても無駄)なので分けている。
+ */
+export type WorkCodeStatus = "requestable" | "unchecked" | "not-found";
+
+export const WORK_CODE_STATUSES: WorkCodeStatus[] = [
+  "requestable",
+  "unchecked",
+  "not-found",
+];
+
+export const WORK_CODE_STATUS_LABEL: Record<WorkCodeStatus, string> = {
+  requestable: "申請可",
+  unchecked: "未調査",
+  "not-found": "登録なし",
+};
