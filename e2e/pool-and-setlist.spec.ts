@@ -186,18 +186,34 @@ test.describe("楽曲申請", () => {
     await page.fill('input[type="number"]', "20");
     await page.getByRole("button", { name: "セトリ生成" }).click();
 
-    // アーティストが null の曲だと3つ目が無いので、artist 付きの行で見る
-    const row = page
-      .locator(".request-list li")
-      .filter({ has: page.locator(".copy-value:nth-of-type(3)") })
-      .first();
-    const classes = await row
-      .locator(".copy-value")
-      .evaluateAll((els) => els.map((e) => e.className));
-    expect(classes[0]).toContain("code");
-    expect(classes[1]).toContain("title");
-    expect(classes[2]).not.toContain("code");
-    expect(classes[2]).not.toContain("title");
+    // 値は曲によって欠けうる(アーティスト・作詞者・作曲者が null の曲がある)ので、
+    // 「出ている値が作品コード → 曲名 → アーティスト → 作詞/作曲 の順に並ぶ」で見る。
+    const rows = page.locator(".request-list li");
+    const n = await rows.count();
+    expect(n).toBeGreaterThan(0);
+    for (let i = 0; i < n; i++) {
+      const kinds = await rows
+        .nth(i)
+        .locator(".copy-value")
+        .evaluateAll((els) =>
+          els.map((e) =>
+            e.classList.contains("code")
+              ? "code"
+              : e.classList.contains("title")
+                ? "title"
+                : e.classList.contains("credit")
+                  ? "credit"
+                  : "artist",
+          ),
+        );
+      const rank = { code: 0, title: 1, artist: 2, credit: 3 } as const;
+      const ranks = kinds.map((k) => rank[k as keyof typeof rank]);
+      expect(
+        ranks,
+        `${i + 1}行目の並びがフォームの入力順と違う: ${kinds.join(" → ")}`,
+      ).toEqual([...ranks].sort((a, b) => a - b));
+      expect(kinds[0]).toBe("code");
+    }
   });
 
   // #102: 1曲ずつ往復するので、コピー状況と進捗が見えるようにした。
@@ -233,6 +249,29 @@ test.describe("楽曲申請", () => {
       /^申請済み 1 \/ \d+$/,
     );
     await expect(page.locator(".request-list li.done")).toHaveCount(1);
+  });
+
+  // #107: 申請には作詞者・作曲者も要るので、ウィザードに項目として出す。
+  test("ウィザードに作詞者・作曲者が出る", async ({ page, context }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.fill('input[type="number"]', "999");
+    await page.getByRole("checkbox", { name: /覚えたい曲も含める/ }).uncheck();
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+    await page.getByRole("button", { name: "申請を始める" }).click();
+
+    const wizard = page.locator(".wizard");
+    // 未登録の曲でも項目自体は消さない(申請に要る値が欠けていると分かるように)
+    await expect(wizard.locator("dt", { hasText: "作詞者" })).toBeVisible();
+    await expect(wizard.locator("dt", { hasText: "作曲者" })).toBeVisible();
+
+    // 登録済みの曲まで進めると、値がコピーできる状態で出る
+    for (let i = 0; i < 60; i++) {
+      if ((await wizard.locator(".value-missing").count()) === 0) break;
+      await page.getByRole("button", { name: "スキップ" }).click();
+    }
+    await expect(wizard.locator(".value-missing")).toHaveCount(0);
+    // 曲名・アーティスト・作詞者・作曲者・作品コードの5項目すべてが値を持つ
+    await expect(wizard.locator("dd .copy-value")).toHaveCount(5);
   });
 
   test("中断して開き直すと、未申請の曲から再開する", async ({
@@ -319,11 +358,13 @@ test.describe("一覧からの単発申請", () => {
     await expect(wizard.getByRole("button", { name: "スキップ" })).toHaveCount(
       0,
     );
-    // 申請に必要な値が、avvy のフォームと同じ入力順で揃っている (#111)
+    // 申請に必要な値が、avvy のフォームと同じ入力順で揃っている (#107 / #111)
     await expect(wizard.locator("dt")).toHaveText([
       "作品コード",
       "曲名",
       "アーティスト",
+      "作詞者",
+      "作曲者",
     ]);
 
     await wizard.locator(".copy-value.code").click();

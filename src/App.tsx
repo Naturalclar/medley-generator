@@ -111,22 +111,41 @@ function RequestWizard({
   onClose,
 }: RequestWizardProps) {
   const isLast = index >= total - 1;
-  const field = (label: string, name: string, value: string, cls = "") => (
+  /**
+   * 1項目ぶんの行。
+   *
+   * value が null の項目(作詞者・作曲者が未取得など)も行ごと消さずに「未登録」
+   * と出す。申請に要る値が欠けていることが分かる方が、黙って消えるより親切。
+   */
+  const field = (
+    label: string,
+    name: string,
+    value: string | null,
+    cls = "",
+  ) => (
     <>
       <dt>{label}</dt>
       <dd>
-        <button
-          className={`copy-value ${cls}`.trim()}
-          onClick={() => onCopy(name, value)}
-        >
-          {value}
-        </button>
-        {name === "code" && (
-          <span className={`society ${item.society.toLowerCase()}`}>
-            {item.society}
-          </span>
+        {value === null ? (
+          <span className="value-missing">未登録</span>
+        ) : (
+          <>
+            <button
+              className={`copy-value ${cls}`.trim()}
+              onClick={() => onCopy(name, value)}
+            >
+              {value}
+            </button>
+            {name === "code" && (
+              <span className={`society ${item.society.toLowerCase()}`}>
+                {item.society}
+              </span>
+            )}
+            {copied.has(name) && (
+              <span className="copied-mark">コピー済み ✓</span>
+            )}
+          </>
         )}
-        {copied.has(name) && <span className="copied-mark">コピー済み ✓</span>}
       </dd>
     </>
   );
@@ -150,6 +169,8 @@ function RequestWizard({
         {field("作品コード", "code", item.code, "code")}
         {field("曲名", "title", item.song.title, "title")}
         {item.song.artist && field("アーティスト", "artist", item.song.artist)}
+        {field("作詞者", "lyricist", item.song.lyricist)}
+        {field("作曲者", "composer", item.song.composer)}
       </dl>
       <p className="hint">
         値をクリックするとコピーされる。フォームに貼ったら「申請済みにして
@@ -683,6 +704,32 @@ function App() {
                         {copiedField === `${song.id}:artist`
                           ? "コピー ✓"
                           : song.artist}
+                      </button>
+                    )}
+                    {song.lyricist && (
+                      <button
+                        className="copy-value credit"
+                        title="作詞者"
+                        onClick={() =>
+                          copyValue(`${song.id}:lyricist`, song.lyricist as string)
+                        }
+                      >
+                        {copiedField === `${song.id}:lyricist`
+                          ? "コピー ✓"
+                          : `詞 ${song.lyricist}`}
+                      </button>
+                    )}
+                    {song.composer && (
+                      <button
+                        className="copy-value credit"
+                        title="作曲者"
+                        onClick={() =>
+                          copyValue(`${song.id}:composer`, song.composer as string)
+                        }
+                      >
+                        {copiedField === `${song.id}:composer`
+                          ? "コピー ✓"
+                          : `曲 ${song.composer}`}
                       </button>
                     )}
                   </li>
