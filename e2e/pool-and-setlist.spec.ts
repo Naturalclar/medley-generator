@@ -80,6 +80,44 @@ test.describe("曲プールの絞り込み・並べ替え", () => {
     }
   });
 
+  // #103: 一覧から申請できるように、作品コード列とその状態フィルタを足した。
+  test("作品コード列が出て、クリックでコピーできる", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+
+    // 「申請可」だけに絞れば、全行がコピー可能なコードを持つ
+    await page.getByRole("button", { name: "未調査", exact: true }).click();
+    await page.getByRole("button", { name: "登録なし", exact: true }).click();
+
+    const codeButtons = page.locator(".pool tbody .copy-value.code");
+    expect(await codeButtons.count()).toBeGreaterThan(0);
+
+    await codeButtons.first().click();
+    await expect(
+      page.locator(".pool tbody").getByRole("button", { name: "コピー ✓" }),
+    ).toBeVisible();
+  });
+
+  test("作品コードの状態チップで絞り込める", async ({ page }) => {
+    const rows = page.locator(".pool tbody tr");
+    const all = await rows.count();
+
+    // 「申請可」を OFF にすると、コードを持つ曲が消えて行数が減る
+    await page.getByRole("button", { name: "申請可", exact: true }).click();
+    const withoutRequestable = await rows.count();
+    expect(withoutRequestable).toBeLessThan(all);
+    // 残った行にはコードのコピーボタンが1つも無い
+    await expect(page.locator(".pool tbody .copy-value.code")).toHaveCount(0);
+
+    // 「登録なし」だけに絞る(未調査は現在0曲なのでカウントは指定しない)
+    await page.getByRole("button", { name: "未調査", exact: true }).click();
+    const onlyNotFound = page.locator(".pool tbody .work-status.not-found");
+    expect(await onlyNotFound.count()).toBeGreaterThan(0);
+    expect(await onlyNotFound.count()).toBe(await rows.count());
+  });
+
   test("アーティスト列ヘッダで昇順⇄降順ソートできる", async ({ page }) => {
     await page.getByRole("button", { name: /^アーティスト/ }).click();
     await expect(
@@ -128,5 +166,33 @@ test.describe("楽曲申請", () => {
     await expect(
       section.getByRole("link", { name: "申請フォームを開く" }),
     ).toHaveAttribute("href", "https://app.avvy.live/music-use-request");
+  });
+
+  // #100: 申請フォームでの取り違え防止に、コードと一緒に管理団体を出す。
+  test("申請できる曲に管理団体(JASRAC / NexTone)が付く", async ({ page }) => {
+    await page.fill('input[type="number"]', "20");
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+
+    const societies = page.locator(".request-list .society");
+    const n = await societies.count();
+    expect(n).toBeGreaterThan(0);
+    for (let i = 0; i < n; i++) {
+      await expect(societies.nth(i)).toHaveText(/^(JASRAC|NexTone)$/);
+    }
+  });
+
+  // #101: 除外された曲を黙って落とさず、理由付きで出す。
+  test("申請できない曲が理由付きで出る", async ({ page }) => {
+    // 弾ける曲のうち作品コードが無いのは2曲だけなので、多めに生成して引き当てる
+    await page.fill('input[type="number"]', "129");
+    await page.getByRole("checkbox", { name: /覚えたい曲も含める/ }).uncheck();
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+
+    const list = page.locator(".unrequestable-list li");
+    expect(await list.count()).toBeGreaterThan(0);
+    // 調査済みで両DBに登録が無い曲には「登録なし」が付く
+    await expect(
+      page.locator(".unrequestable-list .work-status.not-found").first(),
+    ).toHaveText("登録なし");
   });
 });

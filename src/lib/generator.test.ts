@@ -8,7 +8,10 @@ import {
   isChallenge,
   maxSetlistSize,
   requestableSongs,
+  unrequestableSongs,
   workCodeOf,
+  workCodeStatusOf,
+  workSocietyOf,
 } from "./generator";
 import type { Mastery, Song } from "./types";
 
@@ -384,21 +387,92 @@ describe("workCodeOf", () => {
   });
 });
 
+describe("workSocietyOf", () => {
+  it("コードが入っている側の団体を返す", () => {
+    expect(workSocietyOf(song({ id: "a", jasracCode: "052-2119-3" }))).toBe(
+      "JASRAC",
+    );
+    expect(workSocietyOf(song({ id: "b", nextoneCode: "N12345678" }))).toBe(
+      "NexTone",
+    );
+  });
+
+  it("どちらも無ければ null", () => {
+    expect(workSocietyOf(song({ id: "c" }))).toBe(null);
+    expect(
+      workSocietyOf(song({ id: "d", workCodeNotFound: true })),
+    ).toBe(null);
+  });
+});
+
+describe("workCodeStatusOf", () => {
+  it("コードがあれば requestable", () => {
+    expect(workCodeStatusOf(song({ id: "a", jasracCode: "052-2119-3" }))).toBe(
+      "requestable",
+    );
+    expect(workCodeStatusOf(song({ id: "b", nextoneCode: "N12345678" }))).toBe(
+      "requestable",
+    );
+  });
+
+  // コードが無い曲は、調査済みかどうかで次にやることが変わる。
+  it("コードが無ければ workCodeNotFound で未調査と登録なしを分ける", () => {
+    expect(workCodeStatusOf(song({ id: "c" }))).toBe("unchecked");
+    expect(
+      workCodeStatusOf(song({ id: "d", workCodeNotFound: true })),
+    ).toBe("not-found");
+  });
+});
+
 describe("requestableSongs", () => {
-  it("作品コードを持つ曲だけをセトリの並び順で返す", () => {
+  it("作品コードを持つ曲だけをセトリの並び順で、管理団体付きで返す", () => {
     const setlist = [
       song({ id: "a", jasracCode: "052-2119-3" }),
       song({ id: "b" }), // コード未登録なので申請できない
       song({ id: "c", nextoneCode: "N12345678" }),
     ];
     expect(requestableSongs(setlist)).toEqual([
-      { song: setlist[0], code: "052-2119-3" },
-      { song: setlist[2], code: "N12345678" },
+      { song: setlist[0], code: "052-2119-3", society: "JASRAC" },
+      { song: setlist[2], code: "N12345678", society: "NexTone" },
     ]);
   });
 
   it("1曲もコードが無ければ空", () => {
     expect(requestableSongs([song({ id: "a" })])).toEqual([]);
     expect(requestableSongs([])).toEqual([]);
+  });
+});
+
+describe("unrequestableSongs", () => {
+  it("申請できない曲を理由付きでセトリの並び順で返す", () => {
+    const setlist = [
+      song({ id: "a", jasracCode: "052-2119-3" }),
+      song({ id: "b" }),
+      song({ id: "c", workCodeNotFound: true }),
+    ];
+    expect(unrequestableSongs(setlist)).toEqual([
+      { song: setlist[1], status: "unchecked" },
+      { song: setlist[2], status: "not-found" },
+    ]);
+  });
+
+  it("全曲にコードがあれば空", () => {
+    expect(
+      unrequestableSongs([song({ id: "a", jasracCode: "052-2119-3" })]),
+    ).toEqual([]);
+    expect(unrequestableSongs([])).toEqual([]);
+  });
+
+  // requestable と unrequestable は互いに排他で、合わせるとセトリ全体になる。
+  it("requestableSongs と合わせるとセトリの全曲になる", () => {
+    const setlist = [
+      song({ id: "a", jasracCode: "052-2119-3" }),
+      song({ id: "b" }),
+      song({ id: "c", workCodeNotFound: true }),
+      song({ id: "d", nextoneCode: "N12345678" }),
+    ];
+    expect(
+      requestableSongs(setlist).length + unrequestableSongs(setlist).length,
+    ).toBe(setlist.length);
   });
 });

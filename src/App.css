@@ -245,6 +245,24 @@ button.secondary {
   opacity: 0.6;
 }
 
+/* 作品コードの状態チップ。習熟度チップと同じ形で、色だけ状態に合わせる。 */
+.work-code-chips {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.chip.work-requestable.on {
+  background: var(--ready);
+}
+
+.chip.work-unchecked.on {
+  background: var(--practicing);
+}
+
+.chip.work-not-found.on {
+  background: var(--wishlist);
+}
+
 .pool-count {
   margin-left: auto;
   color: var(--text-sub);
@@ -317,10 +335,48 @@ button.secondary {
   color: var(--text);
 }
 
+/* 列が増えたので、狭い画面では表だけ横スクロールさせる(ページ全体は動かさない)。 */
+.pool-table-wrap {
+  overflow-x: auto;
+}
+
 .pool table {
   width: 100%;
+  /* 狭い画面で列を潰して1文字ずつ折り返すより、横スクロールさせた方が読める。 */
+  min-width: 40rem;
   border-collapse: collapse;
   font-size: 0.9rem;
+}
+
+.pool td .copy-value {
+  margin-right: 0.2rem;
+}
+
+/* 作品コードは途中で改行させない。 */
+.pool td .copy-value.code {
+  white-space: nowrap;
+}
+
+/*
+ * 狭い画面では列が入りきらず、作品コードが右端で切れて「短いコード」に見えてしまう。
+ * 申請に使う値を読み違えるのは危険なので、優先度の低い列(タグ・習熟度)を落として
+ * 曲・アーティスト・作品コードが最後まで見える幅に収める。
+ * 習熟度とタグは上のフィルタチップで絞り込めるので、表から消えても操作は塞がらない。
+ */
+@media (max-width: 640px) {
+  .pool table {
+    min-width: 0;
+  }
+
+  .pool .col-tags {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .pool .col-mastery {
+    display: none;
+  }
 }
 
 .pool th,
@@ -394,6 +450,67 @@ button.secondary {
 
 .copy-value.code {
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+/* 管理団体(JASRAC / NexTone)。申請フォームでの取り違え防止に添える。 */
+.society {
+  padding: 0.05rem 0.4rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-size: 0.7rem;
+  color: var(--text-sub);
+  white-space: nowrap;
+}
+
+/* コードが無い曲の状態。未調査と登録なしで次にやることが違うので色を分ける。 */
+.work-status {
+  font-size: 0.78rem;
+  color: var(--text-sub);
+  white-space: nowrap;
+}
+
+.work-status.unchecked {
+  color: var(--practicing);
+}
+
+.work-status.not-found {
+  color: var(--wishlist);
+}
+
+.unrequestable {
+  margin-top: 1.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.unrequestable h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
+
+.unrequestable-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+}
+
+.unrequestable-list li {
+  padding: 0.2rem 0;
+}
+
+.unrequestable-list .title {
+  font-weight: 600;
+}
+
+.unrequestable-list .artist,
+.unrequestable-list .reason {
+  color: var(--text-sub);
+  margin-left: 0.5rem;
+}
+
+.unrequestable-list .work-status {
+  margin-left: 0.5rem;
 }
 
 /* アプリの説明。OAuth審査で求められる「ホームページでの用途説明」も兼ねる。 */
