@@ -181,6 +181,41 @@ test.describe("楽曲申請", () => {
     }
   });
 
+  // #111: フォームに上から順に貼れるよう、セトリ側も avvy の入力順に並べる。
+  test("申請リストの値が avvy のフォームと同じ順に並ぶ", async ({ page }) => {
+    await page.fill('input[type="number"]', "20");
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+
+    // 値は曲によって欠けうる(アーティスト・作詞者・作曲者が null の曲がある)ので、
+    // 「出ている値が作品コード → 曲名 → アーティスト → 作詞/作曲 の順に並ぶ」で見る。
+    const rows = page.locator(".request-list li");
+    const n = await rows.count();
+    expect(n).toBeGreaterThan(0);
+    for (let i = 0; i < n; i++) {
+      const kinds = await rows
+        .nth(i)
+        .locator(".copy-value")
+        .evaluateAll((els) =>
+          els.map((e) =>
+            e.classList.contains("code")
+              ? "code"
+              : e.classList.contains("title")
+                ? "title"
+                : e.classList.contains("credit")
+                  ? "credit"
+                  : "artist",
+          ),
+        );
+      const rank = { code: 0, title: 1, artist: 2, credit: 3 } as const;
+      const ranks = kinds.map((k) => rank[k as keyof typeof rank]);
+      expect(
+        ranks,
+        `${i + 1}行目の並びがフォームの入力順と違う: ${kinds.join(" → ")}`,
+      ).toEqual([...ranks].sort((a, b) => a - b));
+      expect(kinds[0]).toBe("code");
+    }
+  });
+
   // #102: 1曲ずつ往復するので、コピー状況と進捗が見えるようにした。
   test("ウィザードで1曲ずつ進められ、コピー済みが分かる", async ({
     page,
@@ -323,13 +358,13 @@ test.describe("一覧からの単発申請", () => {
     await expect(wizard.getByRole("button", { name: "スキップ" })).toHaveCount(
       0,
     );
-    // 申請に必要な値が揃っている(#107 で作詞者・作曲者を追加)
+    // 申請に必要な値が、avvy のフォームと同じ入力順で揃っている (#107 / #111)
     await expect(wizard.locator("dt")).toHaveText([
+      "作品コード",
       "曲名",
       "アーティスト",
       "作詞者",
       "作曲者",
-      "作品コード",
     ]);
 
     await wizard.locator(".copy-value.code").click();
