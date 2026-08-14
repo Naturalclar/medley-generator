@@ -298,3 +298,61 @@ test.describe("楽曲申請", () => {
     ).toHaveText("登録なし");
   });
 });
+
+// #108: セトリを組まずに、一覧から1曲だけ申請情報を出せる。
+test.describe("一覧からの単発申請", () => {
+  const poolRow = (page: import("@playwright/test").Page) =>
+    page.locator(".pool tbody tr").first();
+
+  test("セトリを生成せずに1曲の申請情報を出してコピーできる", async ({
+    page,
+    context,
+  }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+
+    // セトリは作らない
+    await expect(page.locator("section.setlist")).toHaveCount(0);
+
+    await page.fill(".pool-search", "千本桜");
+    await poolRow(page).getByRole("button", { name: "申請" }).click();
+
+    const wizard = page.locator("section.pool .wizard");
+    await expect(wizard).toBeVisible();
+    // 1曲だけなので曲名が見出しになり、前へ/スキップは出ない
+    await expect(wizard.locator(".wizard-head strong")).toHaveText("千本桜");
+    await expect(wizard.getByRole("button", { name: "スキップ" })).toHaveCount(
+      0,
+    );
+    // 申請に必要な値が揃っている(#107 で作詞者・作曲者を追加)
+    await expect(wizard.locator("dt")).toHaveText([
+      "曲名",
+      "アーティスト",
+      "作詞者",
+      "作曲者",
+      "作品コード",
+    ]);
+
+    await wizard.locator(".copy-value.code").click();
+    await expect(wizard.locator(".copied-mark")).toBeVisible();
+    expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+      "N00099604",
+    );
+  });
+
+  test("申請済みにすると行に印が付き、リロードしても残る", async ({ page }) => {
+    await page.fill(".pool-search", "千本桜");
+    await poolRow(page).getByRole("button", { name: "申請", exact: true }).click();
+
+    await page
+      .locator("section.pool .wizard")
+      .getByRole("button", { name: "申請済みにして終了" })
+      .click();
+
+    await expect(page.locator("section.pool .wizard")).toHaveCount(0);
+    await expect(poolRow(page).locator(".row-request")).toHaveText("申請済 ✓");
+
+    await page.reload();
+    await page.fill(".pool-search", "千本桜");
+    await expect(poolRow(page).locator(".row-request")).toHaveText("申請済 ✓");
+  });
+});

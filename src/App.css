@@ -379,6 +379,27 @@ button.secondary {
   }
 }
 
+/* 一覧から1曲だけ申請するボタン。行を圧迫しないよう小さく、折り返さない。 */
+.pool .col-request {
+  width: 1%;
+  white-space: nowrap;
+}
+
+.row-request {
+  padding: 0.2rem 0.6rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.row-request:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
 .pool th,
 .pool td {
   text-align: left;
