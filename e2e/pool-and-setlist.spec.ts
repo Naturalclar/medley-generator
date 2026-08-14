@@ -391,3 +391,47 @@ test.describe("一覧からの単発申請", () => {
     await expect(poolRow(page).locator(".row-request")).toHaveText("申請済 ✓");
   });
 });
+
+// 申請情報は表の末尾ではなく、押した行の直下に開く。
+test.describe("一覧の行が展開して申請情報を出す", () => {
+  test("押した行の直下に開き、もう一度押すと閉じる", async ({ page }) => {
+    await page.fill(".pool-search", "ヨルシカ");
+    const rows = page.locator(".pool tbody tr");
+    const target = rows.nth(2);
+    const title = (await target.locator("td").first().innerText()).trim();
+
+    await target.locator(".row-request").click();
+
+    // 展開行は押した行のすぐ次(表の末尾ではない)
+    await expect(rows.nth(3)).toHaveClass(/request-row/);
+    await expect(rows.nth(3).locator(".wizard-head strong")).toHaveText(title);
+    // 開いている行は1つだけ
+    await expect(page.locator(".pool tr.request-row")).toHaveCount(1);
+    await expect(target.locator(".row-request")).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+
+    await target.locator(".row-request").click();
+    await expect(page.locator(".pool tr.request-row")).toHaveCount(0);
+  });
+
+  test("別の行を押すと前の行は閉じる", async ({ page }) => {
+    await page.fill(".pool-search", "ヨルシカ");
+    const rows = page.locator(".pool tbody tr");
+
+    await rows.nth(0).locator(".row-request").click();
+    await expect(rows.nth(1)).toHaveClass(/request-row/);
+
+    // 展開行が1行挟まるので、この時点で2曲目は index 2 にある
+    await rows.nth(2).locator(".row-request").click();
+
+    // 前の展開が閉じたぶん行がつめられ、2曲目(index 1)の直下に開き直る
+    await expect(page.locator(".pool tr.request-row")).toHaveCount(1);
+    await expect(rows.nth(2)).toHaveClass(/request-row/);
+    await expect(rows.nth(1).locator(".row-request")).toHaveAttribute(
+      "aria-expanded",
+      "true",
+    );
+  });
+});

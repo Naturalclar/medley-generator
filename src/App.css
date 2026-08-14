@@ -395,9 +395,29 @@ button.secondary {
   white-space: nowrap;
 }
 
-.row-request:hover {
+.row-request:hover,
+.row-request.on {
   background: var(--accent);
   color: #fff;
+}
+
+/*
+ * 申請情報は押した行の直下に開く。展開元の行と続きに見えるよう、間の罫線を
+ * 消して同じ色で塗り、左に帯を出してどの曲の続きかを分かるようにする。
+ */
+.pool tr.expanded > td {
+  border-bottom: none;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.pool tr.request-row > td {
+  padding: 0 0.5rem 0.75rem;
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.pool tr.request-row .wizard {
+  margin: 0;
+  border-left: 3px solid var(--accent);
 }
 
 .pool th,
