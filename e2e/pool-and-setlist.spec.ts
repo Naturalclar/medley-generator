@@ -374,21 +374,25 @@ test.describe("一覧からの単発申請", () => {
     );
   });
 
-  test("申請済みにすると行に印が付き、リロードしても残る", async ({ page }) => {
+  // 一覧からの単発申請では申請済みの記録は取らず、申請ページへの導線だけ出す。
+  test("申請ページへのリンクが別タブで開く形で出る", async ({ page }) => {
     await page.fill(".pool-search", "千本桜");
     await poolRow(page).getByRole("button", { name: "申請", exact: true }).click();
 
-    await page
-      .locator("section.pool .wizard")
-      .getByRole("button", { name: "申請済みにして終了" })
-      .click();
+    const wizard = page.locator("section.pool .wizard");
+    const open = wizard.getByRole("link", { name: "申請ページを開く" });
+    await expect(open).toHaveAttribute(
+      "href",
+      "https://app.avvy.live/music-use-request",
+    );
+    // 別タブで開く(コピーし直しに一覧へ戻ってこられる)
+    await expect(open).toHaveAttribute("target", "_blank");
 
-    await expect(page.locator("section.pool .wizard")).toHaveCount(0);
-    await expect(poolRow(page).locator(".row-request")).toHaveText("申請済 ✓");
-
-    await page.reload();
-    await page.fill(".pool-search", "千本桜");
-    await expect(poolRow(page).locator(".row-request")).toHaveText("申請済 ✓");
+    // 一覧側には申請済みの操作を出さない
+    await expect(
+      wizard.getByRole("button", { name: /申請済み/ }),
+    ).toHaveCount(0);
+    await expect(poolRow(page).locator(".row-request")).toHaveText("申請");
   });
 });
 

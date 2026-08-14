@@ -84,6 +84,14 @@ interface RequestWizardProps {
   item: MusicUseRequestItem;
   index: number;
   total: number;
+  /**
+   * 下部の操作。
+   * "setlist" はセトリの通し申請なので、前へ/スキップ/申請済みにして次へ で進む。
+   * "pool" は一覧から1曲だけ開いた場合で、申請済みの記録は取らず申請ページへの
+   * 導線だけ出す(この画面まで来た時点でどの曲か分かっており、印を付ける手間の
+   * 割に得るものが無いため)。
+   */
+  variant: "setlist" | "pool";
   /** 今の曲でコピー済みのフィールド名。 */
   copied: Set<string>;
   onCopy: (field: string, value: string) => void;
@@ -103,6 +111,7 @@ function RequestWizard({
   item,
   index,
   total,
+  variant,
   copied,
   onCopy,
   onPrev,
@@ -173,27 +182,45 @@ function RequestWizard({
         {field("作曲者", "composer", item.song.composer)}
       </dl>
       <p className="hint">
-        値をクリックするとコピーされる。フォームに貼ったら「申請済みにして
-        {isLast ? "終了" : "次へ"}」。
+        {variant === "pool"
+          ? "値をクリックするとコピーされる。申請ページは別タブで開くので、コピーし直しに戻ってこられる。"
+          : `値をクリックするとコピーされる。フォームに貼ったら「申請済みにして${isLast ? "終了" : "次へ"}」。`}
       </p>
       <div className="wizard-actions">
-        {total > 1 && (
+        {variant === "pool" ? (
+          <a
+            className="button"
+            href={MUSIC_USE_REQUEST_URL}
+            target="_blank"
+            rel="noreferrer"
+          >
+            申請ページを開く
+          </a>
+        ) : (
           <>
-            <button
-              className="secondary"
-              disabled={index === 0}
-              onClick={onPrev}
-            >
-              ← 前へ
-            </button>
-            <button className="secondary" disabled={isLast} onClick={onSkip}>
-              スキップ
+            {total > 1 && (
+              <>
+                <button
+                  className="secondary"
+                  disabled={index === 0}
+                  onClick={onPrev}
+                >
+                  ← 前へ
+                </button>
+                <button
+                  className="secondary"
+                  disabled={isLast}
+                  onClick={onSkip}
+                >
+                  スキップ
+                </button>
+              </>
+            )}
+            <button onClick={onDone}>
+              {isLast ? "申請済みにして終了" : "申請済みにして次へ →"}
             </button>
           </>
         )}
-        <button onClick={onDone}>
-          {isLast ? "申請済みにして終了" : "申請済みにして次へ →"}
-        </button>
       </div>
     </div>
   );
@@ -641,6 +668,7 @@ function App() {
           </div>
           {queue?.source === "setlist" && wizardItem && (
             <RequestWizard
+              variant="setlist"
               item={wizardItem}
               index={queue.index}
               total={queue.items.length}
@@ -908,9 +936,7 @@ function App() {
                             : openQueue("pool", [{ song, code, society }], 0)
                         }
                       >
-                        {isRequested(progress, requestDate, song.id)
-                          ? "申請済 ✓"
-                          : "申請"}
+                        申請
                       </button>
                     )}
                   </td>
@@ -923,6 +949,7 @@ function App() {
                   <tr className="request-row">
                     <td colSpan={6}>
                       <RequestWizard
+                        variant="pool"
                         item={wizardItem}
                         index={queue.index}
                         total={queue.items.length}
