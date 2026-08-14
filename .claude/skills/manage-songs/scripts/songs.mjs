@@ -7,6 +7,7 @@
 //
 // 使い方:
 //   node songs.mjs add    --id <slug> --title <t> [--artist <a>] [--key <k>]
+//                         [--lyricist <作詞者>] [--composer <作曲者>]
 //                         [--bpm <n>] [--mastery ready|practicing|wishlist]
 //                         [--tags "a,b"] [--memo <m>] [--last-played YYYY-MM-DD]
 //                         [--youtube-id <id|URL>]
@@ -31,6 +32,8 @@ const FIELD_ORDER = [
   "id",
   "title",
   "artist",
+  "lyricist",
+  "composer",
   "key",
   "bpm",
   "mastery",
@@ -224,6 +227,8 @@ function fieldsFromFlags(flags) {
   const f = {};
   if (flags.title !== undefined) f.title = String(flags.title);
   if (flags.artist !== undefined) f.artist = nullable(flags.artist);
+  if (flags.lyricist !== undefined) f.lyricist = nullable(flags.lyricist);
+  if (flags.composer !== undefined) f.composer = nullable(flags.composer);
   if (flags.key !== undefined) f.key = nullable(flags.key);
   if (flags.bpm !== undefined) f.bpm = parseBpm(flags.bpm);
   if (flags.mastery !== undefined) f.mastery = validateMastery(flags.mastery);
@@ -268,6 +273,8 @@ function cmdAdd(file, flags) {
     id,
     title: overrides.title,
     artist: "artist" in overrides ? overrides.artist : null,
+    lyricist: "lyricist" in overrides ? overrides.lyricist : null,
+    composer: "composer" in overrides ? overrides.composer : null,
     key: "key" in overrides ? overrides.key : null,
     bpm: "bpm" in overrides ? overrides.bpm : null,
     mastery: overrides.mastery ?? "wishlist",

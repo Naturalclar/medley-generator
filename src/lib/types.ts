@@ -3,7 +3,16 @@ export type Mastery = "ready" | "practicing" | "wishlist";
 export interface Song {
   id: string;
   title: string;
+  /** 実演者(歌手・バンド・キャラ名義)。著作者とは別物なので混同しないこと。 */
   artist: string | null;
+  /**
+   * 作詞者。楽曲申請に必要。不明なら null。
+   * 複数人いる場合は "A / B" のように1つの文字列にまとめる(申請フォームに
+   * 貼るだけの用途なので、配列にして扱いを増やす意味が無い)。
+   */
+  lyricist: string | null;
+  /** 作曲者。楽曲申請に必要。不明なら null。複数人の扱いは lyricist と同じ。 */
+  composer: string | null;
   key: string | null;
   bpm: number | null;
   mastery: Mastery;

@@ -40,6 +40,8 @@ describe("songs.json のスキーマ", () => {
       "id",
       "title",
       "artist",
+      "lyricist",
+      "composer",
       "key",
       "bpm",
       "mastery",
@@ -88,8 +90,8 @@ describe("songs.json のスキーマ", () => {
     expect(bad).toEqual([]);
   });
 
-  it("artist / key は文字列 or null", () => {
-    for (const field of ["artist", "key"]) {
+  it("artist / lyricist / composer / key は文字列 or null", () => {
+    for (const field of ["artist", "lyricist", "composer", "key"]) {
       const bad = findViolations(
         (s) => s[field] === null || typeof s[field] === "string",
         field,

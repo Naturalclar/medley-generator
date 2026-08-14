@@ -216,6 +216,29 @@ test.describe("楽曲申請", () => {
     await expect(page.locator(".request-list li.done")).toHaveCount(1);
   });
 
+  // #107: 申請には作詞者・作曲者も要るので、ウィザードに項目として出す。
+  test("ウィザードに作詞者・作曲者が出る", async ({ page, context }) => {
+    await context.grantPermissions(["clipboard-read", "clipboard-write"]);
+    await page.fill('input[type="number"]', "999");
+    await page.getByRole("checkbox", { name: /覚えたい曲も含める/ }).uncheck();
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+    await page.getByRole("button", { name: "申請を始める" }).click();
+
+    const wizard = page.locator(".wizard");
+    // 未登録の曲でも項目自体は消さない(申請に要る値が欠けていると分かるように)
+    await expect(wizard.locator("dt", { hasText: "作詞者" })).toBeVisible();
+    await expect(wizard.locator("dt", { hasText: "作曲者" })).toBeVisible();
+
+    // 登録済みの曲まで進めると、値がコピーできる状態で出る
+    for (let i = 0; i < 60; i++) {
+      if ((await wizard.locator(".value-missing").count()) === 0) break;
+      await page.getByRole("button", { name: "スキップ" }).click();
+    }
+    await expect(wizard.locator(".value-missing")).toHaveCount(0);
+    // 曲名・アーティスト・作詞者・作曲者・作品コードの5項目すべてが値を持つ
+    await expect(wizard.locator("dd .copy-value")).toHaveCount(5);
+  });
+
   test("中断して開き直すと、未申請の曲から再開する", async ({
     page,
     context,
@@ -300,10 +323,12 @@ test.describe("一覧からの単発申請", () => {
     await expect(wizard.getByRole("button", { name: "スキップ" })).toHaveCount(
       0,
     );
-    // 申請に必要な値が揃っている
+    // 申請に必要な値が揃っている(#107 で作詞者・作曲者を追加)
     await expect(wizard.locator("dt")).toHaveText([
       "曲名",
       "アーティスト",
+      "作詞者",
+      "作曲者",
       "作品コード",
     ]);
 
