@@ -4027,5 +4027,22 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "PSYCHO-PASS", "リスナーリクエスト"],
     "memo": "PSYCHO-PASS ED"
+  },
+  {
+    "id": "karma",
+    "title": "カルマ",
+    "artist": "BUMP OF CHICKEN",
+    "lyricist": "藤原基央",
+    "composer": "藤原基央",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ゲーム", "リスナーリクエスト"],
+    "memo": "テイルズ オブ ジ アビス主題歌"
   }
 ]
