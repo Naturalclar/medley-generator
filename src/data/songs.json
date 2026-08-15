@@ -3772,5 +3772,22 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "outer-science",
+    "title": "アウターサイエンス",
+    "artist": "じん",
+    "lyricist": "じん（自然の敵P）",
+    "composer": "じん（自然の敵P）",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "カゲプロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
