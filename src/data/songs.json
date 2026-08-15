@@ -3891,5 +3891,39 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "g4l",
+    "title": "G4L",
+    "artist": "Giga",
+    "lyricist": null,
+    "composer": "Giga",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "ch4nge",
+    "title": "CH4NGE",
+    "artist": "Giga",
+    "lyricist": null,
+    "composer": "Giga",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
