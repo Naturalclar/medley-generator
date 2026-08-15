@@ -3823,5 +3823,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "melu",
+    "title": "メリュー",
+    "artist": "n-buna",
+    "lyricist": "n-buna",
+    "composer": "n-buna",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
