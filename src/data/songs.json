@@ -3976,5 +3976,39 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": "劇場版ブレイブ・ストーリー主題歌"
+  },
+  {
+    "id": "alones",
+    "title": "ALONES",
+    "artist": "Aqua Timez",
+    "lyricist": "太志",
+    "composer": "太志",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["アニソン", "BLEACH", "リスナーリクエスト"],
+    "memo": "BLEACH OP"
+  },
+  {
+    "id": "sen-no-yoru-wo-koete",
+    "title": "千の夜をこえて",
+    "artist": "Aqua Timez",
+    "lyricist": "太志",
+    "composer": "太志",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["アニソン", "BLEACH", "リスナーリクエスト"],
+    "memo": "劇場版BLEACH MEMORIES OF NOBODY 主題歌"
   }
 ]
