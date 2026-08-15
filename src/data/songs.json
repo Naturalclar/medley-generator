@@ -3840,5 +3840,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "totemo-suteki-na-rokugatsu-deshita",
+    "title": "とても素敵な六月でした",
+    "artist": "Eight",
+    "lyricist": "Eight",
+    "composer": "Eight",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
