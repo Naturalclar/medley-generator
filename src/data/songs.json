@@ -4095,5 +4095,22 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "チ。", "リスナーリクエスト"],
     "memo": "チ。 ―地球の運動について― OP"
+  },
+  {
+    "id": "additional-memory",
+    "title": "アディショナルメモリー",
+    "artist": "じん",
+    "lyricist": "じん（自然の敵P）",
+    "composer": "じん（自然の敵P）",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "カゲプロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
