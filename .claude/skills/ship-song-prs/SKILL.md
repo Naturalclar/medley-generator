@@ -214,7 +214,9 @@ pnpm run lint && pnpm test --run && pnpm run build
 
 ## 6. commit・push・マージ
 
-`ship-pr` スキルと同じ手順。加えて、このワークフロー特有の落とし穴が3つある。
+**CI 待ち・マージ判定・マージ後の後片付けは `ship-pr` スキルの手順に従う**
+(そちらに head sha の取り直しやポーリングの仕方が書いてある)。ここでは曲追加の PR
+特有の、そちらには無い2点だけ挙げる。
 
 ### ブランチが動く
 
@@ -228,36 +230,14 @@ git log --oneline HEAD..origin/<branch>
 git rebase origin/<branch>
 ```
 
-### コンフリクト
+作品コードが埋まっていない曲を残したままマージしないよう、push の直前にもう一度
+未調査の曲を数える(手順3のコマンド)。
+
+### コンフリクトは「両方残す」
 
 `mergeable_state` が `dirty` のときは、たいてい `songs.json` の**末尾に別々の曲を
 追記したことによる衝突**。どちらかを捨てる話ではないので、`git merge origin/main` して
 **両方の曲を残す**形で解消する。解消後に曲数を数えて、消えた曲が無いか確認する。
-
-### マージ直前にもう一度 head sha を見る
-
-CI を確認してからマージするまでの間に新しいコミットが乗ると、**自分が検証していない
-変更ごとマージしてしまう**(実際に一度やった。作品コードの無い曲がそのまま main に入った)。
-`pull_request_read(method: "get")` で `head.sha` を取り直し、CI が通った sha と
-同じであることを確認してからマージする。
-
-### マージ判定
-
-- 全ジョブ(`check` と `e2e`)が `completed` かつ `conclusion: success` → squash マージ
-- どれか失敗 → **マージしない**。`get_job_logs`(`failed_only: true`)で原因を調べて報告
-
-CI 待ちは foreground の `sleep` が使えないので、`Bash` を `run_in_background: true` で
-`sleep 80` するか `Monitor` の until ループで待つ。e2e はブラウザ取得込みで1分程度。
-
-マージ前に PR 本文が実態とずれていたら直す(調べた結果や表記の修正が本文に無いと、
-後から履歴を読んだときに何を確認したのか分からなくなる)。
-
-マージ後は次の作業に備えてブランチを作り直す:
-
-```sh
-git fetch origin main
-git checkout -B <branch> origin/main
-```
 
 ## 報告
 
@@ -272,9 +252,9 @@ git checkout -B <branch> origin/main
 
 ## 注意
 
-- `songs.json` は公開エンドポイントとして配信される。`memo` に個人を特定できる情報
-  (配信者名・本名・SNSアカウント等)を書かない
-- 申請の進捗・履歴は `songs.json` に持たせない(localStorage 側の責務)
+- **`songs.json` は公開エンドポイント**として配信される。何を書いてよいかは
+  `manage-songs` の「memo の注意」に従う。申請の進捗・履歴もここには持たせない
+  (localStorage 側の責務)
 - J-WID / NexTone の利用規約は無断の複写・複製・転載を禁じている。調べた結果を
   `songs.json` に入れるのは申請に必要な範囲の参照だが、DB の内容をまとまった形で
   持ち出すような使い方はしない
