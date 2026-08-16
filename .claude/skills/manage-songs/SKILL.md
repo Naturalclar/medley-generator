@@ -109,6 +109,10 @@ node .claude/skills/manage-songs/scripts/songs.mjs add \
 コードは J-WID(JASRAC)や NexTone の作品検索で調べる。**推測で埋めないこと。**
 許諾番号(`9013388002Y30005` のような番号)は作品コードとは別物なので混同しない。
 
+**両DBを引く道具一式は `ship-song-prs` スキルの `scripts/` にある**
+(`resolve.py` で配信の管理団体を判定、`credits.py` / `nt_credits.py` で作詞者・作曲者)。
+表記のクセや同名異曲の外し方もそちらにまとまっているので、調べるときはそれを使う。
+
 ### どちらの団体のコードを入れるか
 
 同じ作品が JASRAC と NexTone の**両方に載っていることはよくある**(支分権ごとに管理
