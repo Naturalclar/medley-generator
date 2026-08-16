@@ -4129,5 +4129,22 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "shining-ray",
+    "title": "Shining ray",
+    "artist": "Janne Da Arc",
+    "lyricist": "yasu",
+    "composer": "yasu",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["アニソン", "ONE PIECE", "リスナーリクエスト"],
+    "memo": "ONE PIECE ED"
   }
 ]
