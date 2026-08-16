@@ -5,6 +5,7 @@ NexTone から作詞者・作曲者を取る。
 songs.json に作品コードが入っているので、作品名ではなく作品コード(完全一致)で
 引く。詳細画面の「著作者情報」に役割(作詞/作曲)が出る。
 """
+import html
 import json
 import pathlib
 import re
@@ -27,7 +28,11 @@ AUTHOR_ROW = re.compile(
 
 
 def strip(s):
-    return re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", s)).replace("\xa0", " ").strip()
+    # 実体参照をほどいてから空白を畳む。ほどかないと役割が "作曲&nbsp;" のような
+    # 文字列になり、"作曲" との突き合わせが外れて著作者を丸ごと取りこぼす
+    # (J-WID は &nbsp; を素で返すページと NBSP 文字を返すページが混在している)。
+    s = html.unescape(re.sub(r"<[^>]+>", "", s))
+    return re.sub(r"\s+", " ", s.replace("\xa0", " ")).strip()
 
 
 def search_by_code(code):
