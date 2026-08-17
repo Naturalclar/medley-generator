@@ -4743,6 +4743,23 @@
     "memo": ""
   },
   {
+    "id": "melancholy-kitchen",
+    "title": "メランコリーキッチン",
+    "artist": "米津玄師",
+    "lyricist": "米津 玄師",
+    "composer": "米津 玄師",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": "200-1842-8",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
     "id": "kimiiro-ni-somaru",
     "title": "君色に染まる",
     "artist": "TOKOTOKO（西沢さんP）",
