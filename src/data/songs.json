@@ -4775,5 +4775,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "natsu-ni-sarishi-kimi-wo-omou",
+    "title": "夏に去りし君を想フ",
+    "artist": "baker",
+    "lyricist": "むぅ",
+    "composer": "baker",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00117178",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "夏"],
+    "memo": ""
   }
 ]
