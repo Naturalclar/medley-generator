@@ -4,6 +4,13 @@ export interface GenerateOptions {
   count: number;
   includeWishlist: boolean;
   /**
+   * 覚えたい曲だけでセトリを組む。新しい曲を集中的にさらいたいとき用。
+   *
+   * includeWishlist が「弾ける曲に足す」フラグなのに対し、こちらは「絞る」指定。
+   * 立っている間は includeWishlist を見ない(足す対象が無いため)。
+   */
+  wishlistOnly?: boolean;
+  /**
    * 乱数生成器。既定は Math.random。
    * テストで決定的な結果を得たいときに差し替える([0,1) を返すこと)。
    */
@@ -50,6 +57,7 @@ export function arrangeBpmArc(songs: Song[]): Song[] {
  * - 弾ける曲を基本に選出(一様ランダム)
  * - 練習中の曲を1枠に1曲だけ混ぜる
  * - includeWishlist で「覚えたい」曲も選出対象に含める(挑戦枠)
+ * - wishlistOnly なら覚えたい曲だけで組む(練習中の枠も作らない)
  * - 並びはBPMの山(緩→急→緩)
  */
 export function generateSetlist(
@@ -57,6 +65,14 @@ export function generateSetlist(
   options: GenerateOptions,
 ): Song[] {
   const random = options.random ?? Math.random;
+
+  // 「覚えたい曲だけ」は絞り込みなので、練習中を1枠混ぜるルールより優先する。
+  // (覚えたい曲をさらう目的で選んでいるのに練習中が混ざると意図がずれる)
+  if (options.wishlistOnly) {
+    const wishlistOnlyPool = allSongs.filter((s) => s.mastery === "wishlist");
+    return arrangeBpmArc(sample(wishlistOnlyPool, options.count, random));
+  }
+
   const ready = allSongs.filter((s) => s.mastery === "ready");
   const practicing = allSongs.filter((s) => s.mastery === "practicing");
   const wishlist = options.includeWishlist
@@ -84,16 +100,21 @@ export function generateSetlist(
 /**
  * 指定オプションで generateSetlist が実際に返せる最大曲数。
  * ready + wishlist(含める場合) + 練習中スロット(あれば1)。
+ * wishlistOnly なら覚えたい曲数そのもの。
  * UI の曲数上限をこの値に合わせることで「上限は許すのに生成できない」ズレを防ぐ。
  */
 export function maxSetlistSize(
   allSongs: Song[],
   includeWishlist: boolean,
+  wishlistOnly = false,
 ): number {
+  const wishlistCount = allSongs.filter(
+    (s) => s.mastery === "wishlist",
+  ).length;
+  if (wishlistOnly) return wishlistCount;
+
   const ready = allSongs.filter((s) => s.mastery === "ready").length;
-  const wishlist = includeWishlist
-    ? allSongs.filter((s) => s.mastery === "wishlist").length
-    : 0;
+  const wishlist = includeWishlist ? wishlistCount : 0;
   const hasPracticing = allSongs.some((s) => s.mastery === "practicing");
   return ready + wishlist + (hasPracticing ? 1 : 0);
 }

@@ -231,6 +231,8 @@ function App() {
   // これで空欄・NaN・上限超過でも生成が壊れない。
   const [countInput, setCountInput] = useState("4");
   const [includeWishlist, setIncludeWishlist] = useState(true);
+  // 覚えたい曲だけでセトリを組むモード。ONの間は includeWishlist は効かない。
+  const [wishlistOnly, setWishlistOnly] = useState(false);
   const [setlist, setSetlist] = useState<Song[]>([]);
   // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
   const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
@@ -314,14 +316,16 @@ function App() {
 
   // 実際に generateSetlist が返せる最大曲数(UIの上限もこれに合わせる)
   const maxSelectable = useMemo(
-    () => maxSetlistSize(songs, includeWishlist),
-    [includeWishlist],
+    () => maxSetlistSize(songs, includeWishlist, wishlistOnly),
+    [includeWishlist, wishlistOnly],
   );
 
   const count = useMemo(() => {
     const n = Math.floor(Number(countInput));
     if (!Number.isFinite(n)) return 1;
-    return Math.min(Math.max(n, 1), maxSelectable);
+    // 選べる曲が0のときは上限も0になるが、入力欄に 0 が出ると壊れて見えるので
+    // 下限1は保つ(その状態では生成ボタン自体を無効にしている)。
+    return Math.min(Math.max(n, 1), Math.max(maxSelectable, 1));
   }, [countInput, maxSelectable]);
 
   // wishlist トグル等で上限が変わったら、入力欄の表示もクランプ後の値に追従させる。
@@ -338,8 +342,16 @@ function App() {
 
   const handleGenerate = () => {
     setCountInput(String(count));
-    setSetlist(generateSetlist(songs, { count, includeWishlist }));
+    setSetlist(generateSetlist(songs, { count, includeWishlist, wishlistOnly }));
     setGeneratedAt(new Date());
+    setCopied(false);
+  };
+
+  // 生成条件を変えると表示中のセトリは古くなる(例: 絞り込みをONにしても直前の
+  // 弾ける曲入りセトリが残る)。混乱を避けてクリアし、再生成を促す。
+  const clearSetlist = () => {
+    setSetlist([]);
+    setGeneratedAt(null);
     setCopied(false);
   };
 
@@ -526,24 +538,48 @@ function App() {
           />
           <span className="max-hint">/ 最大 {maxSelectable}</span>
         </label>
-        <label className="checkbox">
+        <label
+          className="checkbox"
+          title={
+            wishlistOnly ? "「覚えたい曲だけ」がONの間は指定できません" : undefined
+          }
+        >
           <input
             type="checkbox"
             checked={includeWishlist}
+            disabled={wishlistOnly}
             onChange={(e) => {
               setIncludeWishlist(e.target.checked);
-              // 設定を変えると表示中のセトリは古くなる(例: OFFにしても直前の
-              // wishlist入りセトリが残る)。混乱を避けてクリアし再生成を促す。
-              setSetlist([]);
-              setGeneratedAt(null);
-              setCopied(false);
+              clearSetlist();
             }}
           />
           覚えたい曲も含める(挑戦枠)
         </label>
-        <button className="generate" onClick={handleGenerate}>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={wishlistOnly}
+            onChange={(e) => {
+              setWishlistOnly(e.target.checked);
+              clearSetlist();
+            }}
+          />
+          覚えたい曲だけ
+        </label>
+        <button
+          className="generate"
+          onClick={handleGenerate}
+          disabled={maxSelectable === 0}
+        >
           セトリ生成
         </button>
+        {maxSelectable === 0 && (
+          <p className="empty-pool-hint">
+            {wishlistOnly
+              ? "覚えたい曲がありません。曲プールで習熟度を「覚えたい」にするか、絞り込みを外してください。"
+              : "選べる曲がありません。曲プールに曲を追加してください。"}
+          </p>
+        )}
       </section>
 
       {setlist.length > 0 && (
