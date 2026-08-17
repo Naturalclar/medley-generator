@@ -43,6 +43,44 @@ test.describe("セトリ生成", () => {
     await expect(page.locator(".setlist")).toBeVisible();
     await expect(page.locator(".setlist .badge.wishlist")).toHaveCount(0);
   });
+
+  // #131: 覚えたい曲だけでセトリを組めること。
+  test("「覚えたい曲だけ」をONにすると wishlist の曲だけが選ばれる", async ({
+    page,
+  }) => {
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+    await expect(page.locator(".setlist")).toBeVisible();
+
+    // ONにすると表示中のセトリはクリアされる(古い結果を残さない)
+    await page.getByRole("checkbox", { name: "覚えたい曲だけ" }).check();
+    await expect(page.locator(".setlist")).toHaveCount(0);
+
+    // 「覚えたい曲も含める」は意味を持たなくなるので操作できない
+    await expect(
+      page.getByRole("checkbox", { name: /覚えたい曲も含める/ }),
+    ).toBeDisabled();
+
+    await page.fill('input[type="number"]', "8");
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+    const items = page.locator(".setlist li");
+    await expect(items).toHaveCount(8);
+    // 全曲が「覚えたい」バッジを持つ(= ready も practicing も混ざらない)
+    await expect(page.locator(".setlist .badge.wishlist")).toHaveCount(8);
+  });
+
+  test("「覚えたい曲だけ」で曲数の上限が覚えたい曲数に下がる", async ({
+    page,
+  }) => {
+    const hint = page.locator(".max-hint");
+    const before = await hint.textContent();
+
+    await page.getByRole("checkbox", { name: "覚えたい曲だけ" }).check();
+    const after = await hint.textContent();
+
+    const num = (t: string | null) => Number(t?.replace(/[^0-9]/g, "") ?? 0);
+    expect(num(after)).toBeGreaterThan(0);
+    expect(num(after)).toBeLessThan(num(before));
+  });
 });
 
 test.describe("曲プールの絞り込み・並べ替え", () => {

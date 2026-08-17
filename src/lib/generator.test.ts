@@ -233,6 +233,74 @@ describe("generateSetlist", () => {
     });
     expect(result).toHaveLength(max);
   });
+
+  describe("wishlistOnly", () => {
+    const pool = [
+      song({ id: "r1", mastery: "ready", bpm: 100 }),
+      song({ id: "r2", mastery: "ready", bpm: 105 }),
+      song({ id: "p1", mastery: "practicing", bpm: 110 }),
+      song({ id: "w1", mastery: "wishlist", bpm: 120 }),
+      song({ id: "w2", mastery: "wishlist", bpm: 130 }),
+      song({ id: "w3", mastery: "wishlist", bpm: 140 }),
+    ];
+
+    it("覚えたい曲だけを返す", () => {
+      const result = generateSetlist(pool, {
+        count: 3,
+        includeWishlist: true,
+        wishlistOnly: true,
+        random: pickInOrder,
+      });
+      expect(result).toHaveLength(3);
+      expect(countByMastery(result, "wishlist")).toBe(3);
+    });
+
+    it("練習中を1枠混ぜるルールより絞り込みが優先される", () => {
+      // 通常なら count>1 で練習中が1曲入るが、wishlistOnly では入らない
+      const result = generateSetlist(pool, {
+        count: 3,
+        includeWishlist: false,
+        wishlistOnly: true,
+        random: pickInOrder,
+      });
+      expect(countByMastery(result, "practicing")).toBe(0);
+      expect(countByMastery(result, "ready")).toBe(0);
+    });
+
+    it("includeWishlist=false でも覚えたい曲が選ばれる(絞り込みが勝つ)", () => {
+      const result = generateSetlist(pool, {
+        count: 2,
+        includeWishlist: false,
+        wishlistOnly: true,
+        random: pickInOrder,
+      });
+      expect(result.map((s) => s.mastery)).toEqual(["wishlist", "wishlist"]);
+    });
+
+    it("要求数が覚えたい曲数を超えても在庫ぶんだけ返す", () => {
+      const result = generateSetlist(pool, {
+        count: 100,
+        includeWishlist: true,
+        wishlistOnly: true,
+        random: pickInOrder,
+      });
+      expect(result).toHaveLength(3);
+    });
+
+    it("覚えたい曲が無ければ空になる", () => {
+      const noWishlist = [
+        song({ id: "r1", mastery: "ready" }),
+        song({ id: "p1", mastery: "practicing" }),
+      ];
+      const result = generateSetlist(noWishlist, {
+        count: 3,
+        includeWishlist: true,
+        wishlistOnly: true,
+        random: pickInOrder,
+      });
+      expect(result).toEqual([]);
+    });
+  });
 });
 
 describe("maxSetlistSize", () => {
@@ -266,6 +334,19 @@ describe("maxSetlistSize", () => {
 
   it("空プールは0", () => {
     expect(maxSetlistSize([], true)).toBe(0);
+  });
+
+  it("wishlistOnly は覚えたい曲数そのもの(includeWishlist を見ない)", () => {
+    expect(maxSetlistSize(pool, true, true)).toBe(3);
+    expect(maxSetlistSize(pool, false, true)).toBe(3);
+  });
+
+  it("wishlistOnly で覚えたい曲が無ければ0", () => {
+    const noWishlist = [
+      song({ id: "r1", mastery: "ready" }),
+      song({ id: "p1", mastery: "practicing" }),
+    ];
+    expect(maxSetlistSize(noWishlist, true, true)).toBe(0);
   });
 });
 
