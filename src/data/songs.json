@@ -4741,5 +4741,39 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "kimiiro-ni-somaru",
+    "title": "君色に染まる",
+    "artist": "TOKOTOKO（西沢さんP）",
+    "lyricist": "TOKOTOKO",
+    "composer": "TOKOTOKO",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00601321",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "yomosugara-kimi-omou",
+    "title": "夜もすがら君想ふ",
+    "artist": "TOKOTOKO（西沢さんP） feat. GUMI",
+    "lyricist": "TOKOTOKO",
+    "composer": "TOKOTOKO",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00053445",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
