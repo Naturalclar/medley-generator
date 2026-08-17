@@ -4435,5 +4435,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "cinnamon",
+    "title": "シナモン",
+    "artist": "キタニタツヤ",
+    "lyricist": "キタニタツヤ",
+    "composer": "キタニタツヤ",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
