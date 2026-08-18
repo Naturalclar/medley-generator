@@ -4911,5 +4911,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "hysteric-night-girl",
+    "title": "ヒステリックナイトガール",
+    "artist": "PSYQUI feat. Such",
+    "lyricist": "PSYQUI",
+    "composer": "PSYQUI",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
