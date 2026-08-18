@@ -4894,5 +4894,22 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "リスナーリクエスト"],
     "memo": "荒川アンダー ザ ブリッジ OP"
+  },
+  {
+    "id": "isei-ni-ikoune",
+    "title": "異星にいこうね",
+    "artist": "いよわ feat. 星界",
+    "lyricist": "いよわ",
+    "composer": "いよわ",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
