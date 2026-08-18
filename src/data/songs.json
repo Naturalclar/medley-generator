@@ -4843,5 +4843,22 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "リスナーリクエスト"],
     "memo": "Fate/Zero OP"
+  },
+  {
+    "id": "flying-get",
+    "title": "フライングゲット",
+    "artist": "AKB48",
+    "lyricist": "秋元康",
+    "composer": "すみだしんや",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
