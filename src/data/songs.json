@@ -4811,23 +4811,6 @@
     "memo": ""
   },
   {
-    "id": "butterfly",
-    "title": "Butterfly",
-    "artist": "和田光司",
-    "lyricist": "千綿偉功",
-    "composer": "千綿偉功",
-    "key": null,
-    "bpm": null,
-    "mastery": "ready",
-    "lastPlayedAt": null,
-    "youtubeId": null,
-    "jasracCode": null,
-    "nextoneCode": null,
-    "workCodeNotFound": false,
-    "tags": ["アニソン", "リスナーリクエスト"],
-    "memo": "デジモンアドベンチャー OP"
-  },
-  {
     "id": "toki-wo-kizamu-uta",
     "title": "時を刻む唄",
     "artist": "Lia",
