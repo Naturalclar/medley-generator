@@ -4945,5 +4945,39 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": "ボカデュオ2024・グミねんど民放"
+  },
+  {
+    "id": "seikan-hikou",
+    "title": "星間飛行",
+    "artist": "ランカ・リー＝中島愛",
+    "lyricist": "松本 隆",
+    "composer": "菅野 よう子",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": "150-6116-7",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["アニソン", "マクロスF", "リスナーリクエスト"],
+    "memo": "マクロスF 挿入歌"
+  },
+  {
+    "id": "boujaku-no-charisma",
+    "title": "傍若のカリスマ",
+    "artist": "UNISON SQUARE GARDEN",
+    "lyricist": "田淵 智也",
+    "composer": "田淵 智也",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": "787-4796-1",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["アニソン", "ブルーロック", "リスナーリクエスト"],
+    "memo": "ブルーロック VS. U-20 JAPAN OP"
   }
 ]
