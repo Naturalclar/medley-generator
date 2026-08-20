@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
 import {
-  arrangeBpmArc,
   buildYoutubePlaylistUrl,
   countPlayableOnYoutube,
   formatSetlistText,
@@ -42,40 +41,6 @@ const pickInOrder = () => 0;
 function countByMastery(setlist: Song[], mastery: Mastery): number {
   return setlist.filter((s) => s.mastery === mastery).length;
 }
-
-describe("arrangeBpmArc", () => {
-  it("緩→急→緩の山型に並べる(ピークが中央付近)", () => {
-    const input = [130, 100, 140, 110, 120].map((bpm) =>
-      song({ id: `s${bpm}`, bpm }),
-    );
-    const bpms = arrangeBpmArc(input).map((s) => s.bpm);
-    // sorted昇順を前後交互に振り分け、最速を中央側へ
-    expect(bpms).toEqual([100, 120, 140, 130, 110]);
-  });
-
-  it("BPM不明(null)は既知の中央値として扱い、曲は落とさない", () => {
-    const input = [
-      song({ id: "known-100", bpm: 100 }),
-      song({ id: "unknown", bpm: null }),
-      song({ id: "known-140", bpm: 140 }),
-    ];
-    const out = arrangeBpmArc(input);
-    // 入力と同じ集合が返る(欠落・重複なし)
-    expect(out).toHaveLength(3);
-    expect(out.map((s) => s.id).sort()).toEqual([
-      "known-100",
-      "known-140",
-      "unknown",
-    ]);
-  });
-
-  it("元の配列を破壊しない", () => {
-    const input = [song({ id: "a", bpm: 120 }), song({ id: "b", bpm: 100 })];
-    const before = input.map((s) => s.id);
-    arrangeBpmArc(input);
-    expect(input.map((s) => s.id)).toEqual(before);
-  });
-});
 
 describe("generateSetlist", () => {
 
@@ -178,7 +143,8 @@ describe("generateSetlist", () => {
     expect(a).toEqual(b);
   });
 
-  it("結果は BPM の山型に並ぶ", () => {
+  // #142: BPMの山型並べ替えは廃止。並び順は選出順のまま返す。
+  it("並び替えず、選出した順で返す", () => {
     const pool = [130, 100, 140, 110, 120].map((bpm) =>
       song({ id: `s${bpm}`, mastery: "ready", bpm }),
     );
@@ -187,7 +153,8 @@ describe("generateSetlist", () => {
       includeWishlist: false,
       random: pickInOrder,
     });
-    expect(result.map((s) => s.bpm)).toEqual([100, 120, 140, 130, 110]);
+    // pickInOrder は常に先頭を取るので、選出順 = プールの順
+    expect(result.map((s) => s.bpm)).toEqual([130, 100, 140, 110, 120]);
   });
 
   it("1曲だけのセトリで ready があるときは本命(ready)を選ぶ", () => {
