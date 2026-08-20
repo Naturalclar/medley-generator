@@ -4979,5 +4979,22 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "ブルーロック", "リスナーリクエスト"],
     "memo": "ブルーロック VS. U-20 JAPAN OP"
+  },
+  {
+    "id": "eye",
+    "title": "EYE",
+    "artist": "Kanaria",
+    "lyricist": "Kanaria",
+    "composer": "Kanaria",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N01072485",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
