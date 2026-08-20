@@ -30,35 +30,14 @@ function sample(pool: Song[], count: number, random: () => number): Song[] {
 }
 
 /**
- * BPMの山を作る並び: 緩→急→緩。
- * BPM不明の曲は既知BPMの中央値として扱う。
- */
-export function arrangeBpmArc(songs: Song[]): Song[] {
-  const known = songs.filter((s) => s.bpm !== null).map((s) => s.bpm as number);
-  const median =
-    known.length > 0
-      ? known.sort((a, b) => a - b)[Math.floor(known.length / 2)]
-      : 120;
-  const effectiveBpm = (s: Song) => s.bpm ?? median;
-
-  const sorted = [...songs].sort((a, b) => effectiveBpm(a) - effectiveBpm(b));
-  // 遅い順に前後交互に振り分けると、最速が中央に来る山型になる
-  const front: Song[] = [];
-  const back: Song[] = [];
-  sorted.forEach((song, i) => {
-    if (i % 2 === 0) front.push(song);
-    else back.push(song);
-  });
-  return [...front, ...back.reverse()];
-}
-
-/**
  * セトリ生成:
  * - 弾ける曲を基本に選出(一様ランダム)
  * - 練習中の曲を1枠に1曲だけ混ぜる
  * - includeWishlist で「覚えたい」曲も選出対象に含める(挑戦枠)
  * - wishlistOnly なら覚えたい曲だけで組む(練習中の枠も作らない)
- * - 並びはBPMの山(緩→急→緩)
+ *
+ * 並び順は選出順のまま。以前はBPMの山(緩→急→緩)に並べ替えていたが、
+ * bpm を持つ曲がほとんど無く実質機能していなかったため外した(#142)。
  */
 export function generateSetlist(
   allSongs: Song[],
@@ -70,7 +49,7 @@ export function generateSetlist(
   // (覚えたい曲をさらう目的で選んでいるのに練習中が混ざると意図がずれる)
   if (options.wishlistOnly) {
     const wishlistOnlyPool = allSongs.filter((s) => s.mastery === "wishlist");
-    return arrangeBpmArc(sample(wishlistOnlyPool, options.count, random));
+    return sample(wishlistOnlyPool, options.count, random);
   }
 
   const ready = allSongs.filter((s) => s.mastery === "ready");
@@ -94,7 +73,7 @@ export function generateSetlist(
   const rest = mainPool.filter((s) => !picked.some((p) => p.id === s.id));
   picked.push(...sample(rest, options.count - picked.length, random));
 
-  return arrangeBpmArc(picked);
+  return picked;
 }
 
 /**

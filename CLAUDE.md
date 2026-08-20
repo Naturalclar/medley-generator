@@ -26,7 +26,7 @@ pnpm run preview   # ビルド結果のローカル確認
 - `src/lib/types.ts` — `Song` 型と `Mastery` ("ready" | "practicing" | "wishlist")、日本語ラベル定義
 - `src/lib/generator.ts` — 生成ロジックの本体(純粋関数、React非依存)。ヒューリスティック:
   - 「練習中(practicing)」の曲は1枠に1曲だけ選出
-  - 選出は一様ランダム。並び順はBPMの山型(緩→急→緩)。BPM不明の曲は既知BPMの中央値として扱う
+  - 選出は一様ランダム。並び順は選出順のまま(BPMの山型並べ替えは #142 で廃止)
 - `src/App.tsx` — 全UI(単一コンポーネント)。songs.jsonをimportしてgeneratorを呼ぶだけ
 - `src/data/songs.json` — 曲プール。`key` / `bpm` / `lastPlayedAt` / `artist` は `null` 許容
 
