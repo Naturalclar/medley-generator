@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useMemo, useState } from "react";
-import songsData from "./data/songs.json";
 import {
   buildYoutubePlaylistUrl,
   countPlayableOnYoutube,
@@ -37,7 +36,6 @@ import {
 } from "./lib/youtube";
 import "./App.css";
 
-const songs = songsData as Song[];
 const MASTERIES: Mastery[] = ["ready", "practicing", "wishlist"];
 const MASTERY_ORDER: Record<Mastery, number> = {
   ready: 0,
@@ -45,8 +43,8 @@ const MASTERY_ORDER: Record<Mastery, number> = {
   wishlist: 2,
 };
 
-// プール内の全タグを出現数の多い順に。タグフィルタのチップに使う。
-const ALL_TAGS = (() => {
+/** プール内の全タグを出現数の多い順に。タグフィルタのチップに使う。 */
+function collectTags(songs: Song[]): string[] {
   const counts = new Map<string, number>();
   for (const s of songs) {
     for (const t of s.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
@@ -54,7 +52,7 @@ const ALL_TAGS = (() => {
   return [...counts.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], "ja"))
     .map(([tag]) => tag);
-})();
+}
 
 type SortKey = "title" | "artist" | "mastery";
 
@@ -226,7 +224,9 @@ function RequestWizard({
   );
 }
 
-function App() {
+function SetlistApp({ songs }: { songs: Song[] }) {
+  const ALL_TAGS = useMemo(() => collectTags(songs), [songs]);
+
   // 入力そのものは文字列で保持し、生成に使う値は [1, maxSelectable] にクランプする。
   // これで空欄・NaN・上限超過でも生成が壊れない。
   const [countInput, setCountInput] = useState("4");
@@ -286,7 +286,15 @@ function App() {
       });
     }
     return result;
-  }, [poolSearch, masteryFilter, workCodeFilter, activeTags, sortKey, sortDir]);
+  }, [
+    songs,
+    poolSearch,
+    masteryFilter,
+    workCodeFilter,
+    activeTags,
+    sortKey,
+    sortDir,
+  ]);
 
   const toggleMastery = (m: Mastery) =>
     setMasteryFilter((prev) => ({ ...prev, [m]: !prev[m] }));
@@ -317,7 +325,7 @@ function App() {
   // 実際に generateSetlist が返せる最大曲数(UIの上限もこれに合わせる)
   const maxSelectable = useMemo(
     () => maxSetlistSize(songs, includeWishlist, wishlistOnly),
-    [includeWishlist, wishlistOnly],
+    [songs, includeWishlist, wishlistOnly],
   );
 
   const count = useMemo(() => {
@@ -1061,6 +1069,64 @@ function App() {
       </footer>
     </div>
   );
+}
+
+/**
+ * 曲プールを読み込んでから本体を描画する。
+ *
+ * songs.json は import せず fetch する。import するとJSバンドルに同梱され、
+ * 曲を1曲足すだけでバンドル全体のハッシュが変わってキャッシュが無効化される
+ * (このリポの更新はほぼ曲追加なので、実質毎回 300KB を配り直すことになる)。
+ * dist/songs.json は公開エンドポイント用に既に出しているので、それを読む。
+ */
+function App() {
+  const [songs, setSongs] = useState<Song[] | null>(null);
+  const [failed, setFailed] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    // base ('/medley-generator/') を跨ぐので BASE_URL から組み立てる
+    fetch(`${import.meta.env.BASE_URL}songs.json`)
+      .then((r) => {
+        if (!r.ok) throw new Error(`songs.json: ${r.status}`);
+        return r.json();
+      })
+      .then((data: Song[]) => {
+        if (!cancelled) setSongs(data);
+      })
+      .catch(() => {
+        if (!cancelled) setFailed(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (failed) {
+    return (
+      <div className="app">
+        <header>
+          <h1>🎹 メドレーセトリ生成</h1>
+        </header>
+        <p className="load-error">
+          曲データを読み込めませんでした。ページを再読み込みしてください。
+        </p>
+      </div>
+    );
+  }
+
+  if (!songs) {
+    return (
+      <div className="app">
+        <header>
+          <h1>🎹 メドレーセトリ生成</h1>
+        </header>
+        <p className="loading">曲データを読み込み中…</p>
+      </div>
+    );
+  }
+
+  return <SetlistApp songs={songs} />;
 }
 
 export default App;

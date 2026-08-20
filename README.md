@@ -89,10 +89,15 @@ pnpm run ogp:build
 
 ### 曲データのJSONエンドポイント
 
-ビルド時に `src/data/songs.json` を `dist/songs.json` にもコピーしているため
-(`vite.config.ts` の `copySongsJson` プラグイン)、曲データは以下のURLで生のJSONとして取得できる:
+ビルド時に `src/data/songs.json` を `dist/songs.json` にコピーしているため
+(`vite.config.ts` の `songsJson` プラグイン)、曲データは以下のURLで生のJSONとして取得できる:
 
 https://smashcat.dev/medley-generator/songs.json
+
+**アプリ本体もこの JSON を `fetch` して読む。** `import` すると JS バンドルに
+同梱され、曲を1曲足すだけでバンドル全体のハッシュが変わってキャッシュが無効化
+されるため。dev サーバーは `dist` を持たないので、同プラグインが `src/data` から
+直接返している。
 
 > 公開エンドポイントなので、`memo` などに個人を特定できる情報を書かないこと。
 
