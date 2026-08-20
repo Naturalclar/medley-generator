@@ -720,3 +720,13 @@ button.secondary {
 .site-footer a:hover {
   color: var(--accent);
 }
+
+/* 曲データの読み込み中 / 失敗時。本体は読み込み後に描画される。 */
+.loading,
+.load-error {
+  color: var(--text-sub);
+}
+
+.load-error {
+  color: var(--danger, #c4302b);
+}
