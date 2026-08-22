@@ -4996,5 +4996,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "salamander",
+    "title": "サラマンダー",
+    "artist": "Deco*27",
+    "lyricist": "DECO＊27",
+    "composer": "DECO＊27",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "-H2PCK7DJsQ",
+    "jasracCode": null,
+    "nextoneCode": "N01087256",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
   }
 ]
