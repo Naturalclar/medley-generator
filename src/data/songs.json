@@ -5013,5 +5013,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "Deco*27"],
     "memo": ""
+  },
+  {
+    "id": "ojamamushi",
+    "title": "おじゃま虫",
+    "artist": "Deco*27",
+    "lyricist": "DECO＊27",
+    "composer": "DECO＊27",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": "wv2P0PLz9fw",
+    "jasracCode": null,
+    "nextoneCode": "N00107292",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "Deco*27"],
+    "memo": ""
   }
 ]
