@@ -5200,5 +5200,39 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "リスナーリクエスト"],
     "memo": "ソードアート・オンライン フェアリィ・ダンス編OP"
+  },
+  {
+    "id": "ittai-itsukara",
+    "title": "一体いつから",
+    "artist": "初星学園",
+    "lyricist": "大橋ちっぽけ",
+    "composer": "大橋ちっぽけ",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "PE_iyDsY5xM",
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["学マス", "リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "mekurume",
+    "title": "メクルメ",
+    "artist": "初星学園",
+    "lyricist": "フロクロ",
+    "composer": "フロクロ",
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["学マス", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
