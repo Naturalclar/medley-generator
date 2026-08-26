@@ -29,13 +29,17 @@ pnpm test:watch  # 変更を監視
 
 ## 曲の追加
 
-`src/data/songs.json` を直接編集する。DBは無し、Gitが履歴になる。
+`src/data/songs.json` を直接編集する。DBは無し、Gitが履歴になる。手で編集する代わりに
+`.claude/skills/manage-songs/scripts/songs.mjs`(Claude Code 用のヘルパー)を使うと、
+既存フォーマットを崩さない最小差分で追加・編集できる。
 
 ```json
 {
   "id": "unique-slug",
   "title": "曲名",
   "artist": "アーティスト",
+  "lyricist": "作詞者",
+  "composer": "作曲者",
   "key": "Am",
   "bpm": 120,
   "mastery": "ready | practicing | wishlist",
@@ -43,16 +47,22 @@ pnpm test:watch  # 変更を監視
   "youtubeId": "dQw4w9WgXcQ",
   "jasracCode": "052-2119-3",
   "nextoneCode": null,
+  "workCodeNotFound": false,
   "tags": ["ボカロ"],
   "memo": ""
 }
 ```
 
-`key` / `bpm` / `lastPlayedAt` / `youtubeId` は不明なら `null` でOK(無くても動く)。
+`key` / `bpm` / `lastPlayedAt` / `youtubeId` / `lyricist` / `composer` は不明なら `null`
+でOK(無くても動く)。
 
 `jasracCode` / `nextoneCode` は楽曲利用の申請に使う作品コード。1曲はどちらか一方の
 管理なので、両方を同時に埋めない。JASRAC は内国作品が `052-2119-3`、外国作品は
-2桁目のみ英字で `0A1-2345-6`。NexTone は `N` + 数字8桁。分からなければ `null`。
+2桁目のみ英字で `0A1-2345-6`。NexTone は `N` + 数字8桁。分からなければ両方 `null`。
+
+`workCodeNotFound` は「両DBを調べたが登録が無かった」の印(真偽値)。単に未調査なのか
+調べても無かったのかを区別するためのフィールドで、両DBを調べていないうちは `false`
+のままにする。
 
 ## デプロイ
 
