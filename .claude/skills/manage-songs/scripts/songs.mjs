@@ -67,7 +67,11 @@ function fail(msg) {
   process.exit(1);
 }
 
-/** ["--id","x","--tags","a,b"] を { id:"x", tags:"a,b" } に。値なしフラグは true。 */
+// 値を省略して真偽値として渡せるフラグ。他の全フィールドは文字列/数値なので、
+// 値が無いのは書き忘れ(または直前のフラグの値が足りていない)であって true ではない。
+const BOOLEAN_FLAGS = new Set(["workCodeNotFound"]);
+
+/** ["--id","x","--tags","a,b"] を { id:"x", tags:"a,b" } に。値なしは BOOLEAN_FLAGS のみ true、他はエラー。 */
 function parseFlags(argv) {
   const out = {};
   for (let i = 0; i < argv.length; i++) {
@@ -77,6 +81,9 @@ function parseFlags(argv) {
     const key = keyRaw.replace(/-([a-z])/g, (_, c) => c.toUpperCase()); // last-played -> lastPlayed
     const next = argv[i + 1];
     if (next === undefined || next.startsWith("--")) {
+      if (!BOOLEAN_FLAGS.has(key)) {
+        fail(`--${keyRaw} には値が必要(値を渡さずに真偽値として使えるのは --work-code-not-found のみ)`);
+      }
       out[key] = true;
     } else {
       out[key] = next;
