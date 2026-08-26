@@ -15,11 +15,11 @@ pnpm run dev       # Vite dev server
 pnpm run build     # tsgo -b + vite build (型チェックはbuildで行う)
 pnpm run lint      # oxlint (ESLintではない — 設定は .oxlintrc.json)
 pnpm run preview   # ビルド結果のローカル確認
+pnpm test          # vitest (src/**/*.test.ts) — 生成ロジックと songs.json のスキーマを検証
+pnpm run test:e2e  # Playwright (e2e/) — 本番ビルドに対してUIを操作して確認
 ```
 
 型チェックは `tsc` ではなく `tsgo` (@typescript/native-preview) を使う。
-
-テストは無い(テストランナー未導入)。
 
 ## Architecture
 
@@ -37,4 +37,6 @@ pnpm run preview   # ビルド結果のローカル確認
 
 `main` へのpushで GitHub Actions (`.github/workflows/deploy.yml`) が GitHub Pages へ自動デプロイ。`vite.config.ts` の `base: '/medley-generator/'` はPages配信用なので削除しないこと。
 
-公開URL: https://naturalclar.github.io/medley-generator/
+公開URL: https://smashcat.dev/medley-generator/
+
+GitHub Pages は配信元(オリジン)のまま変わらない。smashcat.dev のルートは Cloudflare 上にあり、`/medley-generator/*` を Cloudflare Worker が GitHub Pages へプロキシしている。詳細は README.md の「デプロイ」節を参照。
