@@ -5523,5 +5523,22 @@
     "workCodeNotFound": false,
     "tags": ["ディズニー", "リスナーリクエスト"],
     "memo": "アラジン"
+  },
+  {
+    "id": "algernon",
+    "title": "アルジャーノン",
+    "artist": "ヨルシカ",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": "ドラマ『夕暮れに、手をつなぐ』主題歌"
   }
 ]
