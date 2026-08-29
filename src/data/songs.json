@@ -5574,5 +5574,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": "初音ミク×ソニーストア「360 Reality Audio」イメージソング"
+  },
+  {
+    "id": "laplace-chocolat",
+    "title": "ラプラスショコラ",
+    "artist": "Kai",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": "初音ミク"
   }
 ]
