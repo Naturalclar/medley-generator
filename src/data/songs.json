@@ -5557,5 +5557,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": "v flower"
+  },
+  {
+    "id": "hana-ni-kaze",
+    "title": "花に風",
+    "artist": "バルーン",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": "初音ミク×ソニーストア「360 Reality Audio」イメージソング"
   }
 ]
