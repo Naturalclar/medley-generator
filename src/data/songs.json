@@ -5591,5 +5591,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": "初音ミク"
+  },
+  {
+    "id": "sayuumou",
+    "title": "左右盲",
+    "artist": "ヨルシカ",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": "映画『今夜、世界からこの恋が消えても』主題歌"
   }
 ]
