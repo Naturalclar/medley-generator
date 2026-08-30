@@ -5625,5 +5625,22 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": "feat. mochari"
+  },
+  {
+    "id": "music-sakanaction",
+    "title": "ミュージック",
+    "artist": "サカナクション",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
