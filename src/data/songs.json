@@ -5608,5 +5608,22 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": "映画『今夜、世界からこの恋が消えても』主題歌"
+  },
+  {
+    "id": "anata-no-hifu-no-shokkan",
+    "title": "貴方の皮膚の食感を知りたい",
+    "artist": "楽園市街",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": "7zcAbse9PbA",
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": "feat. mochari"
   }
 ]
