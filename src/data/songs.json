@@ -5659,5 +5659,22 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": "初音ミク"
+  },
+  {
+    "id": "muyuubyousha",
+    "title": "夢遊病者は此岸にて",
+    "artist": "キタニタツヤ",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": "鏡音リン"
   }
 ]
