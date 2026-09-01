@@ -15,7 +15,7 @@ test.describe("セトリ生成", () => {
 
     await page.getByRole("button", { name: "セトリ生成" }).click();
     // 既定の曲数は4
-    await expect(page.locator(".setlist li")).toHaveCount(4);
+    await expect(page.locator(".setlist-songs li")).toHaveCount(4);
 
     await page.getByRole("button", { name: "テキストをコピー" }).click();
     await expect(
@@ -41,7 +41,7 @@ test.describe("セトリ生成", () => {
     // 再生成すると wishlist(覚えたい)は1曲も入らない
     await page.getByRole("button", { name: "セトリ生成" }).click();
     await expect(page.locator(".setlist")).toBeVisible();
-    await expect(page.locator(".setlist .badge.wishlist")).toHaveCount(0);
+    await expect(page.locator(".setlist-songs .badge.wishlist")).toHaveCount(0);
   });
 
   // #131: 覚えたい曲だけでセトリを組めること。
@@ -62,10 +62,40 @@ test.describe("セトリ生成", () => {
 
     await page.fill('input[type="number"]', "8");
     await page.getByRole("button", { name: "セトリ生成" }).click();
-    const items = page.locator(".setlist li");
+    const items = page.locator(".setlist-songs li");
     await expect(items).toHaveCount(8);
     // 全曲が「覚えたい」バッジを持つ(= ready も practicing も混ざらない)
-    await expect(page.locator(".setlist .badge.wishlist")).toHaveCount(8);
+    await expect(page.locator(".setlist-songs .badge.wishlist")).toHaveCount(8);
+  });
+
+  // #145: ボタンには再生できる曲数しか出ないので、どの曲が落ちたか分からなかった。
+  // 「覚えたい曲だけ」を上限いっぱいで組むと wishlist 全曲が入るので、
+  // youtubeId 未登録の曲が含まれる状況を決定的に作れる。
+  test("連続再生から落ちた曲が理由付きで出る (#145)", async ({ page }) => {
+    await page.getByRole("checkbox", { name: "覚えたい曲だけ" }).check();
+    const max = Number(
+      (await page.locator(".max-hint").textContent())?.replace(/[^0-9]/g, ""),
+    );
+    await page.fill('input[type="number"]', String(max));
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+    await expect(page.locator(".setlist")).toBeVisible();
+
+    const total = await page.locator(".setlist-songs li").count();
+    const youtube = page.getByRole("link", { name: /YouTubeで再生/ });
+    const label = await youtube.textContent();
+    // 「(N曲)」は再生できる曲数が総数より少ないときだけ出る
+    const playable = /\((\d+)曲\)/.exec(label ?? "");
+
+    if (playable) {
+      const unplayable = page.locator(".unplayable-list li");
+      await expect(unplayable).toHaveCount(total - Number(playable[1]));
+      await expect(page.locator(".unplayable h3")).toContainText(
+        `YouTubeで再生できない曲 (${total - Number(playable[1])})`,
+      );
+    } else {
+      // 全曲に youtubeId があるなら、落ちた曲の欄自体を出さない
+      await expect(page.locator(".unplayable")).toHaveCount(0);
+    }
   });
 
   test("「覚えたい曲だけ」で曲数の上限が覚えたい曲数に下がる", async ({

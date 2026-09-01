@@ -7,6 +7,7 @@ import {
   isChallenge,
   maxSetlistSize,
   requestableSongs,
+  unplayableOnYoutube,
   unrequestableSongs,
   workCodeOf,
   workCodeStatusOf,
@@ -419,6 +420,40 @@ describe("countPlayableOnYoutube", () => {
     ];
     expect(countPlayableOnYoutube(setlist)).toBe(2);
     expect(countPlayableOnYoutube([])).toBe(0);
+  });
+});
+
+describe("unplayableOnYoutube", () => {
+  it("youtubeId が無い曲をセトリの並び順で返す", () => {
+    const setlist = [
+      song({ id: "a", youtubeId: "aaaaaaaaaaa" }),
+      song({ id: "b", youtubeId: null }),
+      song({ id: "c", youtubeId: "ccccccccccc" }),
+      song({ id: "d", youtubeId: null }),
+    ];
+    expect(unplayableOnYoutube(setlist).map((s) => s.id)).toEqual(["b", "d"]);
+  });
+
+  it("全曲に youtubeId があれば空", () => {
+    const setlist = [
+      song({ id: "a", youtubeId: "aaaaaaaaaaa" }),
+      song({ id: "b", youtubeId: "bbbbbbbbbbb" }),
+    ];
+    expect(unplayableOnYoutube(setlist)).toEqual([]);
+    expect(unplayableOnYoutube([])).toEqual([]);
+  });
+
+  // 落ちた曲数がボタンの「(N曲)」表示と食い違わないこと。UIはこの2つを
+  // 別々に出すので、合計がセトリ全体に一致しないと数字が噛み合わなくなる。
+  it("再生できる曲数と足すとセトリの曲数になる", () => {
+    const setlist = [
+      song({ id: "a", youtubeId: "aaaaaaaaaaa" }),
+      song({ id: "b", youtubeId: null }),
+      song({ id: "c", youtubeId: null }),
+    ];
+    expect(
+      countPlayableOnYoutube(setlist) + unplayableOnYoutube(setlist).length,
+    ).toBe(setlist.length);
   });
 });
 
