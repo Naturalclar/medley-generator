@@ -13,10 +13,8 @@ export interface Song {
   lyricist: string | null;
   /** 作曲者。楽曲申請に必要。不明なら null。複数人の扱いは lyricist と同じ。 */
   composer: string | null;
-  key: string | null;
   bpm: number | null;
   mastery: Mastery;
-  lastPlayedAt: string | null;
   /** YouTube の動画ID(11文字)。不明なら null。YouTube Music とも共通。 */
   youtubeId: string | null;
   /**

@@ -15,7 +15,6 @@ import {
 const songs = songsData as unknown[];
 const MASTERIES = Object.keys(MASTERY_LABEL);
 const ID_RE = /^[a-z0-9-]+$/;
-const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const YOUTUBE_ID_RE = /^[A-Za-z0-9_-]{11}$/;
 
 /** 全曲を検査し、条件を満たさない曲を "id: 実際の値" の形で返す。 */
@@ -35,32 +34,44 @@ describe("songs.json のスキーマ", () => {
     expect(songs.length).toBeGreaterThan(0);
   });
 
-  it("全曲が必須フィールドを持つ", () => {
-    const required = [
+  // 定義済みフィールドの一覧。songs.mjs の FIELD_ORDER と対で維持する。
+  const FIELDS = [
       "id",
       "title",
       "artist",
       "lyricist",
       "composer",
-      "key",
       "bpm",
       "mastery",
-      "lastPlayedAt",
       "youtubeId",
       "jasracCode",
       "nextoneCode",
       "workCodeNotFound",
       "tags",
       "memo",
-    ];
+  ];
+
+  it("全曲が必須フィールドを持つ", () => {
     const missing = songs
       .map((s) => s as Record<string, unknown>)
       .flatMap((s) =>
-        required
-          .filter((k) => !(k in s))
-          .map((k) => `${String(s.id)}: ${k} が無い`),
+        FIELDS.filter((k) => !(k in s)).map((k) => `${String(s.id)}: ${k} が無い`),
       );
     expect(missing).toEqual([]);
+  });
+
+  // 余剰フィールドも弾く。必須の有無だけ見ていると、廃止したフィールド
+  // (#143 の key / lastPlayedAt)が復活しても気付けず、フィールド名の打ち間違いも
+  // 「別のフィールドが増えた」だけになって素通りしてしまう。
+  it("定義済みフィールド以外を持たない", () => {
+    const extra = songs
+      .map((s) => s as Record<string, unknown>)
+      .flatMap((s) =>
+        Object.keys(s)
+          .filter((k) => !FIELDS.includes(k))
+          .map((k) => `${String(s.id)}: ${k} は定義に無い`),
+      );
+    expect(extra).toEqual([]);
   });
 
   it("id は英小文字・数字・ハイフンのみ", () => {
@@ -90,8 +101,8 @@ describe("songs.json のスキーマ", () => {
     expect(bad).toEqual([]);
   });
 
-  it("artist / lyricist / composer / key は文字列 or null", () => {
-    for (const field of ["artist", "lyricist", "composer", "key"]) {
+  it("artist / lyricist / composer は文字列 or null", () => {
+    for (const field of ["artist", "lyricist", "composer"]) {
       const bad = findViolations(
         (s) => s[field] === null || typeof s[field] === "string",
         field,
@@ -114,16 +125,6 @@ describe("songs.json のスキーマ", () => {
     const bad = findViolations(
       (s) => typeof s.mastery === "string" && MASTERIES.includes(s.mastery),
       "mastery",
-    );
-    expect(bad).toEqual([]);
-  });
-
-  it("lastPlayedAt は YYYY-MM-DD 形式 or null", () => {
-    const bad = findViolations(
-      (s) =>
-        s.lastPlayedAt === null ||
-        (typeof s.lastPlayedAt === "string" && DATE_RE.test(s.lastPlayedAt)),
-      "lastPlayedAt",
     );
     expect(bad).toEqual([]);
   });

@@ -6,10 +6,10 @@
 // 変更した曲以外の行は 1文字も変えない。Git 履歴を綺麗に保つのが目的。
 //
 // 使い方:
-//   node songs.mjs add    --id <slug> --title <t> [--artist <a>] [--key <k>]
+//   node songs.mjs add    --id <slug> --title <t> [--artist <a>]
 //                         [--lyricist <作詞者>] [--composer <作曲者>]
 //                         [--bpm <n>] [--mastery ready|practicing|wishlist]
-//                         [--tags "a,b"] [--memo <m>] [--last-played YYYY-MM-DD]
+//                         [--tags "a,b"] [--memo <m>]
 //                         [--youtube-id <id|URL>]
 //                         [--jasrac-code <123-4567-8>] [--nextone-code <N12345678>]
 //                         [--work-code-not-found true|false]
@@ -34,10 +34,8 @@ const FIELD_ORDER = [
   "artist",
   "lyricist",
   "composer",
-  "key",
   "bpm",
   "mastery",
-  "lastPlayedAt",
   "youtubeId",
   "jasracCode",
   "nextoneCode",
@@ -78,7 +76,7 @@ function parseFlags(argv) {
     const tok = argv[i];
     if (!tok.startsWith("--")) fail(`予期しない引数: ${tok}`);
     const keyRaw = tok.slice(2);
-    const key = keyRaw.replace(/-([a-z])/g, (_, c) => c.toUpperCase()); // last-played -> lastPlayed
+    const key = keyRaw.replace(/-([a-z])/g, (_, c) => c.toUpperCase()); // work-code-not-found -> workCodeNotFound
     const next = argv[i + 1];
     if (next === undefined || next.startsWith("--")) {
       if (!BOOLEAN_FLAGS.has(key)) {
@@ -115,13 +113,6 @@ function parseTags(v) {
     .split(",")
     .map((t) => t.trim())
     .filter(Boolean);
-}
-
-function parseLastPlayed(v) {
-  const n = nullable(v);
-  if (n === null || n === undefined) return n;
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(n)) fail(`last-played は YYYY-MM-DD か null: ${v}`);
-  return n;
 }
 
 function validateMastery(v) {
@@ -236,10 +227,8 @@ function fieldsFromFlags(flags) {
   if (flags.artist !== undefined) f.artist = nullable(flags.artist);
   if (flags.lyricist !== undefined) f.lyricist = nullable(flags.lyricist);
   if (flags.composer !== undefined) f.composer = nullable(flags.composer);
-  if (flags.key !== undefined) f.key = nullable(flags.key);
   if (flags.bpm !== undefined) f.bpm = parseBpm(flags.bpm);
   if (flags.mastery !== undefined) f.mastery = validateMastery(flags.mastery);
-  if (flags.lastPlayed !== undefined) f.lastPlayedAt = parseLastPlayed(flags.lastPlayed);
   if (flags.youtubeId !== undefined) f.youtubeId = parseYoutubeId(flags.youtubeId);
   if (flags.jasracCode !== undefined) f.jasracCode = parseJasracCode(flags.jasracCode);
   if (flags.nextoneCode !== undefined) {
@@ -282,10 +271,8 @@ function cmdAdd(file, flags) {
     artist: "artist" in overrides ? overrides.artist : null,
     lyricist: "lyricist" in overrides ? overrides.lyricist : null,
     composer: "composer" in overrides ? overrides.composer : null,
-    key: "key" in overrides ? overrides.key : null,
     bpm: "bpm" in overrides ? overrides.bpm : null,
     mastery: overrides.mastery ?? "wishlist",
-    lastPlayedAt: "lastPlayedAt" in overrides ? overrides.lastPlayedAt : null,
     youtubeId: "youtubeId" in overrides ? overrides.youtubeId : null,
     jasracCode: "jasracCode" in overrides ? overrides.jasracCode : null,
     nextoneCode: "nextoneCode" in overrides ? overrides.nextoneCode : null,
