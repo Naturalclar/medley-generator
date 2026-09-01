@@ -5642,5 +5642,39 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "soranin",
+    "title": "ソラニン",
+    "artist": "ASIAN KUNG-FU GENERATION",
+    "lyricist": "浅野 いにお",
+    "composer": "後藤 正文",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "XNURRmk8YrQ",
+    "jasracCode": "166-4828-5",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "wakamono-no-subete",
+    "title": "若者のすべて",
+    "artist": "フジファブリック",
+    "lyricist": "志村 正彦",
+    "composer": "志村 正彦",
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": "IPBXepn5jTA",
+    "jasracCode": "145-1586-5",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
   }
 ]
