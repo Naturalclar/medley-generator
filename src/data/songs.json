@@ -5676,5 +5676,24 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "critical-pretty",
+    "title": "クリティカルプリチー",
+    "artist": "iLiFE!",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [
+      "リスナーリクエスト"
+    ],
+    "memo": ""
   }
 ]
