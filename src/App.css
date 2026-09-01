@@ -680,6 +680,36 @@ button.secondary {
   margin-left: 0.5rem;
 }
 
+/* 連続再生から落ちた曲(#145)。申請できない曲と同じ見せ方に揃える。 */
+.unplayable {
+  margin-top: 0.9rem;
+}
+
+.unplayable h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.9rem;
+  color: var(--text-sub);
+}
+
+.unplayable-list {
+  margin: 0;
+  padding-left: 1.2rem;
+  font-size: 0.85rem;
+}
+
+.unplayable-list li {
+  padding: 0.2rem 0;
+}
+
+.unplayable-list .title {
+  font-weight: 600;
+}
+
+.unplayable-list .artist {
+  color: var(--text-sub);
+  margin-left: 0.5rem;
+}
+
 /* アプリの説明。OAuth審査で求められる「ホームページでの用途説明」も兼ねる。 */
 .about h2 {
   margin: 0 0 0.75rem;

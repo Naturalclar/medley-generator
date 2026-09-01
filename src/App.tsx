@@ -8,6 +8,7 @@ import {
   maxSetlistSize,
   MUSIC_USE_REQUEST_URL,
   requestableSongs,
+  unplayableOnYoutube,
   unrequestableSongs,
   workCodeOf,
   workCodeStatusOf,
@@ -386,6 +387,8 @@ function SetlistApp({ songs }: { songs: Song[] }) {
     () => countPlayableOnYoutube(setlist),
     [setlist],
   );
+  // 連続再生から落ちた曲。曲数だけ出しても「どれが落ちたか」が分からないため(#145)
+  const unplayable = useMemo(() => unplayableOnYoutube(setlist), [setlist]);
 
   // プレイリスト作成(OAuth)。クライアントID未設定の環境では機能ごと出さない。
   const [playlistState, setPlaylistState] = useState<
@@ -600,7 +603,9 @@ function SetlistApp({ songs }: { songs: Song[] }) {
               </span>
             )}
           </h2>
-          <ol>
+          {/* 曲そのものの一覧。同じ section に別のリスト(再生できない曲など)を
+              置くので、「セトリの曲」を指すセレクタが曖昧にならないよう名前を付ける。 */}
+          <ol className="setlist-songs">
             {setlist.map((song) => (
               <li key={song.id} className={isChallenge(song) ? "challenge" : ""}>
                 {isChallenge(song) && (
@@ -656,6 +661,22 @@ function SetlistApp({ songs }: { songs: Song[] }) {
               挑戦曲に🔰(コピー用)
             </label>
           </div>
+          {unplayable.length > 0 && (
+            <div className="unplayable">
+              <h3>YouTubeで再生できない曲 ({unplayable.length})</h3>
+              <ul className="unplayable-list">
+                {unplayable.map((song) => (
+                  <li key={song.id}>
+                    <span className="title">{song.title}</span>
+                    {song.artist && <span className="artist">{song.artist}</span>}
+                  </li>
+                ))}
+              </ul>
+              <p className="hint">
+                動画IDが未登録のため、連続再生とプレイリストから外れています。
+              </p>
+            </div>
+          )}
           {playlistState.status === "done" && (
             <p className="hint">
               プレイリストを作成しました({playlistState.added}曲

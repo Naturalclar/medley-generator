@@ -147,6 +147,19 @@ export function countPlayableOnYoutube(setlist: Song[]): number {
   return setlist.filter((s) => s.youtubeId).length;
 }
 
+/**
+ * セトリのうち連続再生に含められない曲を、セトリの並び順で返す。
+ *
+ * ボタンには再生できる曲数しか出ないので、8曲のセトリで「(6曲)」と出ても
+ * どの2曲が落ちたか画面から分からない。落ちた曲そのものを出すために使う(#145)。
+ *
+ * 落ちる条件は youtubeId が無いことだけ。上限50曲(WATCH_VIDEOS_LIMIT)で
+ * 切られたぶんは「登録はあるのに入らなかった」曲なので、ここには含めない。
+ */
+export function unplayableOnYoutube(setlist: Song[]): Song[] {
+  return setlist.filter((s) => !s.youtubeId);
+}
+
 /** avvy の楽曲申請フォーム。1曲ずつ申請する形式で、初期値の受け渡しには非対応。 */
 export const MUSIC_USE_REQUEST_URL = "https://app.avvy.live/music-use-request";
 
