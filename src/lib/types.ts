@@ -71,3 +71,18 @@ export const WORK_CODE_STATUS_LABEL: Record<WorkCodeStatus, string> = {
   unchecked: "未調査",
   "not-found": "登録なし",
 };
+
+/**
+ * youtubeId の有無。一覧で埋める対象を見つけるための絞り込みに使う(#145)。
+ *
+ * 作品コードと違って「調べたが無かった」の区別は持たない。動画が見つからない曲は
+ * あっても、その情報を持つフィールドが無いため。
+ */
+export type YoutubeStatus = "has-video" | "no-video";
+
+export const YOUTUBE_STATUSES: YoutubeStatus[] = ["has-video", "no-video"];
+
+export const YOUTUBE_STATUS_LABEL: Record<YoutubeStatus, string> = {
+  "has-video": "動画あり",
+  "no-video": "動画なし",
+};

@@ -1,4 +1,9 @@
-import type { Song, WorkCodeStatus, WorkSociety } from "./types";
+import type {
+  Song,
+  WorkCodeStatus,
+  WorkSociety,
+  YoutubeStatus,
+} from "./types";
 
 export interface GenerateOptions {
   count: number;
@@ -189,6 +194,11 @@ export function workSocietyOf(song: Song): WorkSociety | null {
 export function workCodeStatusOf(song: Song): WorkCodeStatus {
   if (workCodeOf(song)) return "requestable";
   return song.workCodeNotFound ? "not-found" : "unchecked";
+}
+
+/** youtubeId の有無。一覧の絞り込みに使う(#145)。 */
+export function youtubeStatusOf(song: Song): YoutubeStatus {
+  return song.youtubeId ? "has-video" : "no-video";
 }
 
 export interface MusicUseRequestItem {
