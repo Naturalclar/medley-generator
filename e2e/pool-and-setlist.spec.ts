@@ -186,6 +186,27 @@ test.describe("曲プールの絞り込み・並べ替え", () => {
     expect(await onlyNotFound.count()).toBe(await rows.count());
   });
 
+  // #145: youtubeId が未登録の曲を一覧から見つけられるようにする。
+  test("動画あり/なしチップで絞り込める (#145)", async ({ page }) => {
+    const rows = page.locator(".pool tbody tr");
+    const all = await rows.count();
+
+    // 「動画あり」を OFF にすると、動画なしの曲だけが残る
+    await page.getByRole("button", { name: "動画あり", exact: true }).click();
+    const onlyMissing = await rows.count();
+    expect(onlyMissing).toBeGreaterThan(0);
+    expect(onlyMissing).toBeLessThan(all);
+
+    // 「動画なし」も OFF にすると、2つで全曲を覆っているので該当0件になる
+    // (0件のときは tbody に空状態の行が1つ出るので、行数ではなくそれで見る)
+    await page.getByRole("button", { name: "動画なし", exact: true }).click();
+    await expect(page.locator(".pool-empty")).toBeVisible();
+
+    // 「動画あり」を戻すと、動画なしのぶんだけ減った件数になる
+    await page.getByRole("button", { name: "動画あり", exact: true }).click();
+    await expect(rows).toHaveCount(all - onlyMissing);
+  });
+
   test("アーティスト列ヘッダで昇順⇄降順ソートできる", async ({ page }) => {
     await page.getByRole("button", { name: /^アーティスト/ }).click();
     await expect(

@@ -12,6 +12,7 @@ import {
   workCodeOf,
   workCodeStatusOf,
   workSocietyOf,
+  youtubeStatusOf,
 } from "./generator";
 import type { Mastery, Song } from "./types";
 
@@ -420,6 +421,30 @@ describe("countPlayableOnYoutube", () => {
     ];
     expect(countPlayableOnYoutube(setlist)).toBe(2);
     expect(countPlayableOnYoutube([])).toBe(0);
+  });
+});
+
+describe("youtubeStatusOf", () => {
+  it("youtubeId の有無を返す", () => {
+    expect(youtubeStatusOf(song({ id: "a", youtubeId: "aaaaaaaaaaa" }))).toBe(
+      "has-video",
+    );
+    expect(youtubeStatusOf(song({ id: "b", youtubeId: null }))).toBe(
+      "no-video",
+    );
+  });
+
+  // 一覧のチップは「動画あり」「動画なし」の2つで全曲を覆う。片方に寄る曲が
+  // 出ると、両方OFFにしても曲が残る/両方ONでも消えるといった食い違いになる。
+  it("2つの状態で全曲を漏れなく分類する", () => {
+    const songs = [
+      song({ id: "a", youtubeId: "aaaaaaaaaaa" }),
+      song({ id: "b", youtubeId: null }),
+      song({ id: "c", youtubeId: "ccccccccccc" }),
+    ];
+    const has = songs.filter((s) => youtubeStatusOf(s) === "has-video");
+    const no = songs.filter((s) => youtubeStatusOf(s) === "no-video");
+    expect(has.length + no.length).toBe(songs.length);
   });
 });
 

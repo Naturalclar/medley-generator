@@ -287,6 +287,18 @@ button.secondary {
   background: var(--wishlist);
 }
 
+/* youtubeId の有無チップ(#145)。作品コードのチップと同じ形。
+   YouTube の話なので、ON のときは連続再生ボタンと同じ赤に合わせる。 */
+.youtube-chips {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.chip.yt-has-video.on,
+.chip.yt-no-video.on {
+  background: #c4302b; /* a.button.youtube と同じ赤 */
+}
+
 .pool-count {
   margin-left: auto;
   color: var(--text-sub);

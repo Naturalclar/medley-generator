@@ -13,13 +13,21 @@ import {
   workCodeOf,
   workCodeStatusOf,
   workSocietyOf,
+  youtubeStatusOf,
 } from "./lib/generator";
 import type { MusicUseRequestItem } from "./lib/generator";
-import type { Mastery, Song, WorkCodeStatus } from "./lib/types";
+import type {
+  Mastery,
+  Song,
+  WorkCodeStatus,
+  YoutubeStatus,
+} from "./lib/types";
 import {
   MASTERY_LABEL,
   WORK_CODE_STATUS_LABEL,
   WORK_CODE_STATUSES,
+  YOUTUBE_STATUS_LABEL,
+  YOUTUBE_STATUSES,
 } from "./lib/types";
 import {
   isRequested,
@@ -255,12 +263,17 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   const [workCodeFilter, setWorkCodeFilter] = useState<
     Record<WorkCodeStatus, boolean>
   >({ requestable: true, unchecked: true, "not-found": true });
+  // youtubeId の有無での絞り込み(埋める対象を見つけるため。#145)
+  const [youtubeFilter, setYoutubeFilter] = useState<
+    Record<YoutubeStatus, boolean>
+  >({ "has-video": true, "no-video": true });
 
   const filteredPool = useMemo(() => {
     const q = poolSearch.trim().toLowerCase();
     const result = songs.filter((s) => {
       if (!masteryFilter[s.mastery]) return false;
       if (!workCodeFilter[workCodeStatusOf(s)]) return false;
+      if (!youtubeFilter[youtubeStatusOf(s)]) return false;
       // タグは OR: 選択タグのいずれかを持つ曲を表示(未選択なら全通過)
       if (activeTags.size > 0 && !s.tags.some((t) => activeTags.has(t))) {
         return false;
@@ -292,6 +305,7 @@ function SetlistApp({ songs }: { songs: Song[] }) {
     poolSearch,
     masteryFilter,
     workCodeFilter,
+    youtubeFilter,
     activeTags,
     sortKey,
     sortDir,
@@ -302,6 +316,9 @@ function SetlistApp({ songs }: { songs: Song[] }) {
 
   const toggleWorkCode = (st: WorkCodeStatus) =>
     setWorkCodeFilter((prev) => ({ ...prev, [st]: !prev[st] }));
+
+  const toggleYoutube = (st: YoutubeStatus) =>
+    setYoutubeFilter((prev) => ({ ...prev, [st]: !prev[st] }));
 
   const toggleTag = (t: string) =>
     setActiveTags((prev) => {
@@ -883,6 +900,19 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                 onClick={() => toggleWorkCode(st)}
               >
                 {WORK_CODE_STATUS_LABEL[st]}
+              </button>
+            ))}
+          </div>
+          <div className="youtube-chips">
+            {YOUTUBE_STATUSES.map((st) => (
+              <button
+                key={st}
+                type="button"
+                className={`chip yt-${st} ${youtubeFilter[st] ? "on" : "off"}`}
+                aria-pressed={youtubeFilter[st]}
+                onClick={() => toggleYoutube(st)}
+              >
+                {YOUTUBE_STATUS_LABEL[st]}
               </button>
             ))}
           </div>
