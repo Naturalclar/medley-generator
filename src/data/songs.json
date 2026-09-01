@@ -5625,5 +5625,39 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": "feat. mochari"
+  },
+  {
+    "id": "soranin",
+    "title": "ソラニン",
+    "artist": "ASIAN KUNG-FU GENERATION",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "wakamono-no-subete",
+    "title": "若者のすべて",
+    "artist": "フジファブリック",
+    "lyricist": null,
+    "composer": null,
+    "key": null,
+    "bpm": null,
+    "mastery": "ready",
+    "lastPlayedAt": null,
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
   }
 ]
