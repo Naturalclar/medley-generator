@@ -5679,21 +5679,19 @@
   },
   {
     "id": "critical-pretty",
-    "title": "クリティカルプリチー",
+    "title": "くりてぃかる♡ぷりちー",
     "artist": "iLiFE!",
-    "lyricist": null,
-    "composer": null,
+    "lyricist": "Medansy",
+    "composer": "Medansy",
     "key": null,
     "bpm": null,
     "mastery": "wishlist",
     "lastPlayedAt": null,
-    "youtubeId": null,
+    "youtubeId": "U32RQ7dqpbg",
     "jasracCode": null,
-    "nextoneCode": null,
+    "nextoneCode": "N01650305",
     "workCodeNotFound": false,
-    "tags": [
-      "リスナーリクエスト"
-    ],
+    "tags": ["リスナーリクエスト"],
     "memo": ""
   }
 ]
