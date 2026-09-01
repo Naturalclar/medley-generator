@@ -5627,6 +5627,23 @@
     "memo": "feat. mochari"
   },
   {
+    "id": "sayonara-maybe",
+    "title": "SAYONARA MAYBE",
+    "artist": "NOMELON NOLEMON",
+    "lyricist": "ツミキ",
+    "composer": "ツミキ",
+    "key": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "lastPlayedAt": null,
+    "youtubeId": "av9aKHeOKK4",
+    "jasracCode": "772-0731-9",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
     "id": "soranin",
     "title": "ソラニン",
     "artist": "ASIAN KUNG-FU GENERATION",
