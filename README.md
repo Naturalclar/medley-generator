@@ -40,10 +40,8 @@ pnpm test:watch  # 変更を監視
   "artist": "アーティスト",
   "lyricist": "作詞者",
   "composer": "作曲者",
-  "key": "Am",
   "bpm": 120,
   "mastery": "ready | practicing | wishlist",
-  "lastPlayedAt": "2026-08-04",
   "youtubeId": "dQw4w9WgXcQ",
   "jasracCode": "052-2119-3",
   "nextoneCode": null,
@@ -53,8 +51,7 @@ pnpm test:watch  # 変更を監視
 }
 ```
 
-`key` / `bpm` / `lastPlayedAt` / `youtubeId` / `lyricist` / `composer` は不明なら `null`
-でOK(無くても動く)。
+`bpm` / `youtubeId` / `lyricist` / `composer` は不明なら `null` でOK(無くても動く)。
 
 `jasracCode` / `nextoneCode` は楽曲利用の申請に使う作品コード。1曲はどちらか一方の
 管理なので、両方を同時に埋めない。JASRAC は内国作品が `052-2119-3`、外国作品は

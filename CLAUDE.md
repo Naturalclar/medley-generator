@@ -29,9 +29,9 @@ pnpm run test:e2e  # Playwright (e2e/) — 本番ビルドに対してUIを操�
   - 選出は一様ランダム。並び順は選出順のまま(BPMの山型並べ替えは #142 で廃止)
 - `src/App.tsx` — 全UI。`App` が songs.json を fetch し、読み込み後に `SetlistApp` を描画する
   (import しないのはバンドルのキャッシュを曲追加で壊さないため。#144)
-- `src/data/songs.json` — 曲プール。`key` / `bpm` / `lastPlayedAt` / `artist` は `null` 許容
+- `src/data/songs.json` — 曲プール。`bpm` / `artist` / `lyricist` / `composer` などは `null` 許容
 
-ロジック変更は `generator.ts`、曲の追加・編集は `songs.json` を触る。`generateSetlist` は `random?: () => number` をオプションで受け取る(テストで決定的にするため)。`lastPlayedAt` はスキーマに残るが現在ロジックでは未使用。
+ロジック変更は `generator.ts`、曲の追加・編集は `songs.json` を触る。`generateSetlist` は `random?: () => number` をオプションで受け取る(テストで決定的にするため)。未使用だった `key` / `lastPlayedAt` は #143 で廃止した。
 
 ## Deploy
 
