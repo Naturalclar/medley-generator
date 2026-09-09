@@ -5338,5 +5338,35 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "no-doubt",
+    "title": "ノーダウト",
+    "artist": "Official髭男dism",
+    "lyricist": "藤原 聡",
+    "composer": "藤原 聡",
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": "EHw005ZqCXk",
+    "jasracCode": "721-3484-4",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": "コンフィデンスマンJP 主題歌"
+  },
+  {
+    "id": "hana-ichi-monme",
+    "title": "花一匁",
+    "artist": "ずっと真夜中でいいのに。",
+    "lyricist": "ＡＣＡね",
+    "composer": "ＡＣＡね",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "H88kps8X4Mk",
+    "jasracCode": "284-8018-0",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
