@@ -90,6 +90,18 @@ python3 .claude/skills/ship-song-prs/scripts/resolve.py <id> <id> ...
 
 判断材料を並べるだけなので、**採用は自分で決める**。
 
+`[...]` の中のラベルは、その候補を**どれだけ疑うべきか**を表す:
+
+| ラベル | 意味 |
+|---|---|
+| `artist-matched` / `artist=db` / `artist=local` | アーティストか著作者で裏が取れた候補 |
+| `artist-unmatched` / `artist=none` | 名義が合わず絞れなかった。**同名異曲が混ざるので目視で外す** |
+| `artist-unverifiable` | `artist` が1文字などで照合キーを作れず、**アーティスト照合をしていない**。同上 |
+
+`artist-unverifiable` は #176 で足した。以前はこの状況でも `artist-matched` と
+出ていて、無関係な別作品(嵐の `GUTS!` に対して 勝又隆一 の `guts`)が
+「一致」として返っていた。
+
 ### 4-2. どちらの団体のコードを入れるか
 
 同じ作品が JASRAC と NexTone の**両方に載っていることはよくある**(支分権ごとに
