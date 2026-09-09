@@ -92,10 +92,14 @@ def jwid_candidates(song):
             return rows, html, "title=exact,artist=db"
         time.sleep(1.0)
     # 2. タイトル完全一致のみ + ローカルでアーティスト/著作者照合
+    #    キーが1つも作れなかった(1文字アーティスト等)場合は照合が空振りするので、
+    #    この戦略を成立させず 3(絞らず目視)へ落とす。照合していないものに
+    #    artist=local と名前を付けると、裏が取れたように見えてしまう。
     html = jwid.search(title, match=jwid.EXACT)
-    rows = filtered(html, need_artist=True)
-    if rows:
-        return rows, html, "title=exact,artist=local"
+    if keys:
+        rows = filtered(html, need_artist=True)
+        if rows:
+            return rows, html, "title=exact,artist=local"
     # 3. 照合できない(曲名義がキャラ名など)ときは絞らず全部出して目視
     rows = dedupe(filtered(html, need_artist=False))
     if rows:
@@ -106,7 +110,7 @@ def jwid_candidates(song):
     if head and head != title:
         time.sleep(1.0)
         html = jwid.search(head, match=jwid.FORWARD, artist=artist)
-        rows = dedupe(filtered(html, need_artist=bool(artist)))
+        rows = dedupe(filtered(html, need_artist=bool(keys)))
         if rows:
             return rows, html, "title=head-forward"
     return [], html, "no-match"
@@ -184,8 +188,13 @@ def nextone_candidates(song):
         row = (cd.group(1), title, author, artist, haishin)
         loose.append(row)
         hay = norm(author) + "|" + norm(artist)
-        if not keys or any(k in hay for k in keys):
+        if any(k in hay for k in keys):
             out.append(row)
+    # キーが1つも作れなかった(1文字アーティスト等)場合は照合していないので、
+    # 一致したとは言わない。artist-matched は「アーティストで裏が取れた」の意味で
+    # 使われる唯一の手がかりなので、無検証のものに付けると信じるほど危ない。
+    if not keys:
+        return loose, "artist-unverifiable"
     return (out, "artist-matched") if out else (loose, "artist-unmatched")
 
 
