@@ -5383,5 +5383,35 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "darling",
+    "title": "ダーリン",
+    "artist": "須田景凪",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "hajimete-no-koi-ga-owaru-toki",
+    "title": "初めての恋が終わる時",
+    "artist": "supercell feat. 初音ミク",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
