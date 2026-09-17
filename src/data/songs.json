@@ -5368,5 +5368,35 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "shiawase-ni-nante-naranaide",
+    "title": "しあわせになんてならないで",
+    "artist": "Aiobahn feat. ナナヲアカリ",
+    "lyricist": "ナナヲアカリ",
+    "composer": "Aiobahn",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "yfrBPWDTCpE",
+    "jasracCode": null,
+    "nextoneCode": "N01357929",
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "doku",
+    "title": "毒",
+    "artist": "長谷川白紙",
+    "lyricist": "長谷川 白紙",
+    "composer": "長谷川 白紙",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "RerFq9IdOcg",
+    "jasracCode": "242-1231-8",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
   }
 ]
