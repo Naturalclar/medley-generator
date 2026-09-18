@@ -5503,5 +5503,20 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "hitori-no-yoru",
+    "title": "ヒトリノ夜",
+    "artist": "ポルノグラフィティ",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": "GTO OP"
   }
 ]
