@@ -5593,5 +5593,20 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "wakacchainaine",
+    "title": "分かっちゃいないね",
+    "artist": "monet feat. 花隈千冬",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
