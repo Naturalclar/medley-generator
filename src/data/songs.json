@@ -5683,5 +5683,20 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "shinitaku-nattara-denwa-shite",
+    "title": "死にたくなったら電話して",
+    "artist": "カササギ",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": "VocaDuo2026"
   }
 ]
