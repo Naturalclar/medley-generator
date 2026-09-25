@@ -5653,5 +5653,20 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "進撃の巨人", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "room-404",
+    "title": "404号室",
+    "artist": "いゔどっと",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
