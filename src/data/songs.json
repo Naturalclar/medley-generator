@@ -5713,5 +5713,20 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "tsuki-ni-hoeru",
+    "title": "月に吠える",
+    "artist": "ヨルシカ",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": "萩原朔太郎の詩集がモチーフ"
   }
 ]
