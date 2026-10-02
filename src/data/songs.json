@@ -5713,5 +5713,20 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "ジョゼと虎と魚たち", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "heikousen",
+    "title": "平行線",
+    "artist": "Eve × suis from ヨルシカ",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
