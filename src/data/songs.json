@@ -5698,5 +5698,35 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": "VocaDuo2026"
+  },
+  {
+    "id": "shinkai",
+    "title": "心海",
+    "artist": "Eve",
+    "lyricist": "Eve",
+    "composer": "Eve",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00958279",
+    "workCodeNotFound": false,
+    "tags": ["アニソン", "ジョゼと虎と魚たち", "リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "heikousen",
+    "title": "平行線",
+    "artist": "Eve × suis from ヨルシカ",
+    "lyricist": "Eve",
+    "composer": "Eve",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00975347",
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
