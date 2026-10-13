@@ -242,6 +242,11 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   const [includeWishlist, setIncludeWishlist] = useState(true);
   // 覚えたい曲だけでセトリを組むモード。ONの間は includeWishlist は効かない。
   const [wishlistOnly, setWishlistOnly] = useState(false);
+  // 練習中の曲だけでセトリを組むモード(#189)。wishlistOnly とは排他で、
+  // 片方をONにするともう片方はOFFになる。
+  const [practicingOnly, setPracticingOnly] = useState(false);
+  // どちらかの「だけ」モードがONの間は includeWishlist が効かない。
+  const onlyMode = wishlistOnly || practicingOnly;
   const [setlist, setSetlist] = useState<Song[]>([]);
   // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
   const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
@@ -342,8 +347,8 @@ function SetlistApp({ songs }: { songs: Song[] }) {
 
   // 実際に generateSetlist が返せる最大曲数(UIの上限もこれに合わせる)
   const maxSelectable = useMemo(
-    () => maxSetlistSize(songs, includeWishlist, wishlistOnly),
-    [songs, includeWishlist, wishlistOnly],
+    () => maxSetlistSize(songs, includeWishlist, wishlistOnly, practicingOnly),
+    [songs, includeWishlist, wishlistOnly, practicingOnly],
   );
 
   const count = useMemo(() => {
@@ -368,7 +373,14 @@ function SetlistApp({ songs }: { songs: Song[] }) {
 
   const handleGenerate = () => {
     setCountInput(String(count));
-    setSetlist(generateSetlist(songs, { count, includeWishlist, wishlistOnly }));
+    setSetlist(
+      generateSetlist(songs, {
+        count,
+        includeWishlist,
+        wishlistOnly,
+        practicingOnly,
+      }),
+    );
     setGeneratedAt(new Date());
     setCopied(false);
   };
@@ -569,13 +581,17 @@ function SetlistApp({ songs }: { songs: Song[] }) {
         <label
           className="checkbox"
           title={
-            wishlistOnly ? "「覚えたい曲だけ」がONの間は指定できません" : undefined
+            wishlistOnly
+              ? "「覚えたい曲だけ」がONの間は指定できません"
+              : practicingOnly
+                ? "「練習中の曲だけ」がONの間は指定できません"
+                : undefined
           }
         >
           <input
             type="checkbox"
             checked={includeWishlist}
-            disabled={wishlistOnly}
+            disabled={onlyMode}
             onChange={(e) => {
               setIncludeWishlist(e.target.checked);
               clearSetlist();
@@ -589,10 +605,23 @@ function SetlistApp({ songs }: { songs: Song[] }) {
             checked={wishlistOnly}
             onChange={(e) => {
               setWishlistOnly(e.target.checked);
+              if (e.target.checked) setPracticingOnly(false);
               clearSetlist();
             }}
           />
           覚えたい曲だけ
+        </label>
+        <label className="checkbox">
+          <input
+            type="checkbox"
+            checked={practicingOnly}
+            onChange={(e) => {
+              setPracticingOnly(e.target.checked);
+              if (e.target.checked) setWishlistOnly(false);
+              clearSetlist();
+            }}
+          />
+          練習中の曲だけ
         </label>
         <button
           className="generate"
@@ -605,7 +634,9 @@ function SetlistApp({ songs }: { songs: Song[] }) {
           <p className="empty-pool-hint">
             {wishlistOnly
               ? "覚えたい曲がありません。曲プールで習熟度を「覚えたい」にするか、絞り込みを外してください。"
-              : "選べる曲がありません。曲プールに曲を追加してください。"}
+              : practicingOnly
+                ? "練習中の曲がありません。曲プールで習熟度を「練習中」にするか、絞り込みを外してください。"
+                : "選べる曲がありません。曲プールに曲を追加してください。"}
           </p>
         )}
       </section>

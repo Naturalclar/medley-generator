@@ -16,6 +16,14 @@ export interface GenerateOptions {
    */
   wishlistOnly?: boolean;
   /**
+   * 練習中の曲だけでセトリを組む。練習中の曲を集中的にさらいたいとき用(#189)。
+   *
+   * 通常の「練習中は1枠に1曲だけ」の制限はこのモードでは掛けない。
+   * wishlistOnly と同時に立てる使い方は想定していない(UIは排他)。
+   * 両方立っていたら wishlistOnly が勝つ。
+   */
+  practicingOnly?: boolean;
+  /**
    * 乱数生成器。既定は Math.random。
    * テストで決定的な結果を得たいときに差し替える([0,1) を返すこと)。
    */
@@ -40,6 +48,7 @@ function sample(pool: Song[], count: number, random: () => number): Song[] {
  * - 練習中の曲を1枠に1曲だけ混ぜる
  * - includeWishlist で「覚えたい」曲も選出対象に含める(挑戦枠)
  * - wishlistOnly なら覚えたい曲だけで組む(練習中の枠も作らない)
+ * - practicingOnly なら練習中の曲だけで組む(1曲だけの制限を外す)
  *
  * 並び順は選出順のまま。以前はBPMの山(緩→急→緩)に並べ替えていたが、
  * bpm を持つ曲がほとんど無く実質機能していなかったため外した(#142)。
@@ -55,6 +64,15 @@ export function generateSetlist(
   if (options.wishlistOnly) {
     const wishlistOnlyPool = allSongs.filter((s) => s.mastery === "wishlist");
     return sample(wishlistOnlyPool, options.count, random);
+  }
+
+  // 「練習中の曲だけ」も同じく絞り込み。練習中をさらう目的なので、
+  // 普段の「1枠に1曲だけ」は外して count 曲まで選ぶ。
+  if (options.practicingOnly) {
+    const practicingOnlyPool = allSongs.filter(
+      (s) => s.mastery === "practicing",
+    );
+    return sample(practicingOnlyPool, options.count, random);
   }
 
   const ready = allSongs.filter((s) => s.mastery === "ready");
@@ -84,23 +102,28 @@ export function generateSetlist(
 /**
  * 指定オプションで generateSetlist が実際に返せる最大曲数。
  * ready + wishlist(含める場合) + 練習中スロット(あれば1)。
- * wishlistOnly なら覚えたい曲数そのもの。
+ * wishlistOnly なら覚えたい曲数そのもの、practicingOnly なら練習中の曲数そのもの。
  * UI の曲数上限をこの値に合わせることで「上限は許すのに生成できない」ズレを防ぐ。
  */
 export function maxSetlistSize(
   allSongs: Song[],
   includeWishlist: boolean,
   wishlistOnly = false,
+  practicingOnly = false,
 ): number {
   const wishlistCount = allSongs.filter(
     (s) => s.mastery === "wishlist",
   ).length;
   if (wishlistOnly) return wishlistCount;
 
+  const practicingCount = allSongs.filter(
+    (s) => s.mastery === "practicing",
+  ).length;
+  if (practicingOnly) return practicingCount;
+
   const ready = allSongs.filter((s) => s.mastery === "ready").length;
   const wishlist = includeWishlist ? wishlistCount : 0;
-  const hasPracticing = allSongs.some((s) => s.mastery === "practicing");
-  return ready + wishlist + (hasPracticing ? 1 : 0);
+  return ready + wishlist + (practicingCount > 0 ? 1 : 0);
 }
 
 /** ready 以外(練習中 / 覚えたい)は「挑戦枠」= メドレーに混ぜる挑戦曲。 */

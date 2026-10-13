@@ -68,6 +68,36 @@ test.describe("セトリ生成", () => {
     await expect(page.locator(".setlist-songs .badge.wishlist")).toHaveCount(8);
   });
 
+  // #189: 練習中の曲だけでセトリを組めること。通常は1セトリに1曲しか入らない。
+  test("「練習中の曲だけ」をONにすると practicing の曲だけが複数選ばれる (#189)", async ({
+    page,
+  }) => {
+    const practicingOnly = page.getByRole("checkbox", {
+      name: "練習中の曲だけ",
+    });
+    const wishlistOnly = page.getByRole("checkbox", { name: "覚えたい曲だけ" });
+
+    // 「覚えたい曲だけ」とは排他: 後からONにした方だけが残る
+    await wishlistOnly.check();
+    await practicingOnly.check();
+    await expect(wishlistOnly).not.toBeChecked();
+    await expect(
+      page.getByRole("checkbox", { name: /覚えたい曲も含める/ }),
+    ).toBeDisabled();
+
+    await page.fill('input[type="number"]', "8");
+    await page.getByRole("button", { name: "セトリ生成" }).click();
+    await expect(page.locator(".setlist-songs li")).toHaveCount(8);
+    // 全曲が「練習中」バッジを持つ(= ready も wishlist も混ざらない)
+    await expect(page.locator(".setlist-songs .badge.practicing")).toHaveCount(
+      8,
+    );
+
+    // 逆向きも排他
+    await wishlistOnly.check();
+    await expect(practicingOnly).not.toBeChecked();
+  });
+
   // #145: ボタンには再生できる曲数しか出ないので、どの曲が落ちたか分からなかった。
   // 「覚えたい曲だけ」を上限いっぱいで組むと wishlist 全曲が入るので、
   // youtubeId 未登録の曲が含まれる状況を決定的に作れる。

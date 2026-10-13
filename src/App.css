@@ -50,7 +50,7 @@ section {
   font-size: 0.85rem;
 }
 
-/* 「覚えたい曲だけ」ON の間は「覚えたい曲も含める」が効かないので、
+/* 「覚えたい曲だけ」「練習中の曲だけ」ON の間は「覚えたい曲も含める」が効かないので、
    押せないことが見て分かるように落とす。 */
 .controls label:has(input:disabled) {
   opacity: 0.5;
