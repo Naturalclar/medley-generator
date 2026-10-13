@@ -26,6 +26,7 @@ pnpm run test:e2e  # Playwright (e2e/) — 本番ビルドに対してUIを操�
 - `src/lib/types.ts` — `Song` 型と `Mastery` ("ready" | "practicing" | "wishlist")、日本語ラベル定義
 - `src/lib/generator.ts` — 生成ロジックの本体(純粋関数、React非依存)。ヒューリスティック:
   - 「練習中(practicing)」の曲は1枠に1曲だけ選出
+  - `wishlistOnly` / `practicingOnly` は絞り込み。その習熟度の曲だけで組む(`practicingOnly` では「1曲だけ」の制限を外す。UIでは排他)
   - 選出は一様ランダム。並び順は選出順のまま(BPMの山型並べ替えは #142 で廃止)
 - `src/App.tsx` — 全UI。`App` が songs.json を fetch し、読み込み後に `SetlistApp` を描画する
   (import しないのはバンドルのキャッシュを曲追加で壊さないため。#144)

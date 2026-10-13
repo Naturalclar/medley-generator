@@ -268,6 +268,66 @@ describe("generateSetlist", () => {
       expect(result).toEqual([]);
     });
   });
+
+  describe("practicingOnly", () => {
+    const pool = [
+      song({ id: "r1", mastery: "ready" }),
+      song({ id: "r2", mastery: "ready" }),
+      song({ id: "p1", mastery: "practicing" }),
+      song({ id: "p2", mastery: "practicing" }),
+      song({ id: "p3", mastery: "practicing" }),
+      song({ id: "w1", mastery: "wishlist" }),
+    ];
+
+    it("練習中の曲だけを返し、1曲だけの制限が外れる", () => {
+      // 通常は練習中が1曲しか入らないが、practicingOnly では count 曲まで入る
+      const result = generateSetlist(pool, {
+        count: 3,
+        includeWishlist: true,
+        practicingOnly: true,
+        random: pickInOrder,
+      });
+      expect(result).toHaveLength(3);
+      expect(countByMastery(result, "practicing")).toBe(3);
+    });
+
+    it("要求数が練習中の曲数を超えても在庫ぶんだけ返す", () => {
+      const result = generateSetlist(pool, {
+        count: 100,
+        includeWishlist: true,
+        practicingOnly: true,
+        random: pickInOrder,
+      });
+      expect(result).toHaveLength(3);
+      expect(countByMastery(result, "practicing")).toBe(3);
+    });
+
+    it("練習中の曲が無ければ空になる", () => {
+      const noPracticing = [
+        song({ id: "r1", mastery: "ready" }),
+        song({ id: "w1", mastery: "wishlist" }),
+      ];
+      const result = generateSetlist(noPracticing, {
+        count: 3,
+        includeWishlist: true,
+        practicingOnly: true,
+        random: pickInOrder,
+      });
+      expect(result).toEqual([]);
+    });
+
+    it("wishlistOnly と両方立っていたら wishlistOnly が勝つ", () => {
+      const result = generateSetlist(pool, {
+        count: 3,
+        includeWishlist: true,
+        wishlistOnly: true,
+        practicingOnly: true,
+        random: pickInOrder,
+      });
+      expect(result.map((s) => s.id)).toEqual(["w1"]);
+      expect(maxSetlistSize(pool, true, true, true)).toBe(1);
+    });
+  });
 });
 
 describe("maxSetlistSize", () => {
@@ -306,6 +366,19 @@ describe("maxSetlistSize", () => {
   it("wishlistOnly は覚えたい曲数そのもの(includeWishlist を見ない)", () => {
     expect(maxSetlistSize(pool, true, true)).toBe(3);
     expect(maxSetlistSize(pool, false, true)).toBe(3);
+  });
+
+  it("practicingOnly は練習中の曲数そのもの(includeWishlist を見ない)", () => {
+    expect(maxSetlistSize(pool, true, false, true)).toBe(1);
+    expect(maxSetlistSize(pool, false, false, true)).toBe(1);
+  });
+
+  it("practicingOnly で練習中の曲が無ければ0", () => {
+    const noPracticing = [
+      song({ id: "r1", mastery: "ready" }),
+      song({ id: "w1", mastery: "wishlist" }),
+    ];
+    expect(maxSetlistSize(noPracticing, true, false, true)).toBe(0);
   });
 
   it("wishlistOnly で覚えたい曲が無ければ0", () => {
