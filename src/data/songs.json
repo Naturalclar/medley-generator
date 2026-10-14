@@ -5908,5 +5908,20 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "haru-wo-tsugeru",
+    "title": "春を告げる",
+    "artist": "yama",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
