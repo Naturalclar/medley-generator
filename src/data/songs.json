@@ -5940,9 +5940,9 @@
     "memo": ""
   },
   {
-    "id": "ruma",
-    "title": "ルマ",
-    "artist": "かいりきベア",
+    "id": "rumor",
+    "title": "ルーマー",
+    "artist": null,
     "lyricist": null,
     "composer": null,
     "bpm": null,
@@ -5951,7 +5951,7 @@
     "jasracCode": null,
     "nextoneCode": null,
     "workCodeNotFound": false,
-    "tags": ["ボカロ", "リスナーリクエスト"],
+    "tags": ["リスナーリクエスト"],
     "memo": ""
   }
 ]
