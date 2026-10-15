@@ -5908,5 +5908,50 @@
     "workCodeNotFound": false,
     "tags": ["リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "haru-wo-tsugeru",
+    "title": "春を告げる",
+    "artist": "yama",
+    "lyricist": "くじら",
+    "composer": "くじら",
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00876788",
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "nekomimi-archive",
+    "title": "ネコミミアーカイブ",
+    "artist": "糞田舎P",
+    "lyricist": "糞田舎Ｐ",
+    "composer": "糞田舎Ｐ",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": "183-7955-9",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "rumor",
+    "title": "ルーマー",
+    "artist": "ポリスピカデリー",
+    "lyricist": "ポリスピカデリー",
+    "composer": "ポリスピカデリー",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00643373",
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
