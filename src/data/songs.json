@@ -5968,5 +5968,20 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "SSSS.GRIDMAN", "リスナーリクエスト"],
     "memo": "SSSS.GRIDMAN OP"
+  },
+  {
+    "id": "hide-and-seek",
+    "title": "ハイド・アンド・シーク",
+    "artist": "NOMELON NOLEMON",
+    "lyricist": "ツミキ",
+    "composer": "ツミキ",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": "771-8661-3",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
