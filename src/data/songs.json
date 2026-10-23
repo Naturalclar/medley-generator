@@ -5968,5 +5968,20 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "SSSS.GRIDMAN", "リスナーリクエスト"],
     "memo": "SSSS.GRIDMAN OP"
+  },
+  {
+    "id": "hide-and-seek",
+    "title": "ハイドアンドシーク",
+    "artist": "NOMELON NOLEMON",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
