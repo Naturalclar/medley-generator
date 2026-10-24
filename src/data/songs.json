@@ -586,6 +586,7 @@
   },
   {
     "id": "lemon",
+    "utatenUrl": "https://utaten.com/lyric/sa18020902/",
     "title": "Lemon",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -601,6 +602,7 @@
   },
   {
     "id": "kick-back",
+    "utatenUrl": "https://utaten.com/lyric/hw22092001/",
     "title": "KICK BACK",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -616,6 +618,7 @@
   },
   {
     "id": "peace-sign",
+    "utatenUrl": "https://utaten.com/lyric/sa17052213/",
     "title": "ピースサイン",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -646,6 +649,7 @@
   },
   {
     "id": "eine-kleine",
+    "utatenUrl": "https://utaten.com/lyric/jb51406033/",
     "title": "アイネクライネ",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -676,6 +680,7 @@
   },
   {
     "id": "hana-ni-bourei",
+    "utatenUrl": "https://utaten.com/lyric/mi20040917/",
     "title": "花に亡霊",
     "artist": "ヨルシカ",
     "lyricist": "Ｎ−ＢＵＮＡ",
@@ -1366,6 +1371,7 @@
   },
   {
     "id": "tada-kimi-ni-hare",
+    "utatenUrl": "https://utaten.com/lyric/yb18050913/",
     "title": "ただ君に晴れ",
     "artist": "ヨルシカ",
     "lyricist": "n-buna",
@@ -3301,6 +3307,7 @@
   },
   {
     "id": "sayonara-mata-itsuka",
+    "utatenUrl": "https://utaten.com/lyric/hw24011801/",
     "title": "さよーならまたいつか！",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -3691,6 +3698,7 @@
   },
   {
     "id": "umi-no-yuurei",
+    "utatenUrl": "https://utaten.com/lyric/sa19042401/",
     "title": "海の幽霊",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -6001,6 +6009,7 @@
   },
   {
     "id": "okusuri-nonde-neyou",
+    "utatenUrl": "https://utaten.com/lyric/mi22101740/",
     "title": "おくすり飲んで寝よう",
     "artist": "もちうつね feat. 初音ミク",
     "lyricist": null,
@@ -6016,6 +6025,7 @@
   },
   {
     "id": "kimi-no-tame-no-uta",
+    "utatenUrl": "https://utaten.com/lyric/mi25070316/",
     "title": "きみのためのうた",
     "artist": "内緒のピアス feat. 可不",
     "lyricist": null,
