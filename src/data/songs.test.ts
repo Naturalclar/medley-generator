@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { utatenLyricsUrl } from "../lib/utaten";
 import songsData from "./songs.json";
 import {
   JASRAC_CODE_PATTERN,
@@ -34,7 +35,7 @@ describe("songs.json のスキーマ", () => {
     expect(songs.length).toBeGreaterThan(0);
   });
 
-  // 定義済みフィールドの一覧。songs.mjs の FIELD_ORDER と対で維持する。
+  // 必須フィールドの一覧。任意の utatenUrl は余剰フィールド検査で別途許可する。
   const FIELDS = [
       "id",
       "title",
@@ -68,7 +69,7 @@ describe("songs.json のスキーマ", () => {
       .map((s) => s as Record<string, unknown>)
       .flatMap((s) =>
         Object.keys(s)
-          .filter((k) => !FIELDS.includes(k))
+          .filter((k) => !FIELDS.includes(k) && k !== "utatenUrl")
           .map((k) => `${String(s.id)}: ${k} は定義に無い`),
       );
     expect(extra).toEqual([]);
@@ -127,6 +128,13 @@ describe("songs.json のスキーマ", () => {
       "mastery",
     );
     expect(bad).toEqual([]);
+  });
+
+  it("utatenUrl は省略・null または安全な UtaTen 歌詞 URL", () => {
+    expect(findViolations(
+      (s) => s.utatenUrl == null || utatenLyricsUrl(s.utatenUrl) !== null,
+      "utatenUrl",
+    )).toEqual([]);
   });
 
   it("youtubeId は11文字の動画ID or null", () => {

@@ -1,3 +1,4 @@
+import { utatenLyricsUrl } from "./lib/utaten";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import {
   buildYoutubePlaylistUrl,
@@ -1013,6 +1014,7 @@ function SetlistApp({ songs }: { songs: Song[] }) {
           </thead>
           <tbody>
             {filteredPool.map((song) => {
+              const lyricsUrl = utatenLyricsUrl(song.utatenUrl);
               const code = workCodeOf(song);
               const society = workSocietyOf(song);
               const status = workCodeStatusOf(song);
@@ -1024,7 +1026,20 @@ function SetlistApp({ songs }: { songs: Song[] }) {
               return (
                 <Fragment key={song.id}>
                 <tr className={expanded ? "expanded" : ""}>
-                  <td>{song.title}</td>
+                  <td>
+                    <span>{song.title}</span>
+                    {lyricsUrl && (
+                      <a
+                        className="utaten-link"
+                        href={lyricsUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${song.title} の歌詞を UtaTen で開く（別タブ）`}
+                      >
+                        歌詞（UtaTen・別タブ）
+                      </a>
+                    )}
+                  </td>
                   <td>{song.artist ?? "-"}</td>
                   <td>
                     {code && society ? (
