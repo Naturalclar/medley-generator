@@ -37,6 +37,7 @@ const FIELD_ORDER = [
   "bpm",
   "mastery",
   "youtubeId",
+  "utatenUrl",
   "jasracCode",
   "nextoneCode",
   "workCodeNotFound",
@@ -192,7 +193,9 @@ function serializeSong(song) {
     }
     return `    ${JSON.stringify(key)}: ${JSON.stringify(value ?? null)}`;
   };
-  return ["  {", FIELD_ORDER.map(line).join(",\n"), "  }"].join("\n");
+  // 任意の歌詞 URL は未登録の曲に追加せず、登録済みなら保持する。
+  const fields = FIELD_ORDER.filter((key) => key !== "utatenUrl" || key in song);
+  return ["  {", fields.map(line).join(",\n"), "  }"].join("\n");
 }
 
 function serializeAll(songs) {

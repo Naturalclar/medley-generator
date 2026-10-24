@@ -772,3 +772,16 @@ button.secondary {
 .load-error {
   color: var(--danger, #c4302b);
 }
+
+.pool .utaten-link {
+  display: block;
+  width: fit-content;
+  padding-block: 0.25rem;
+  font-size: 0.8rem;
+  text-decoration: underline;
+}
+
+.pool .utaten-link:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

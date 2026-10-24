@@ -17,6 +17,8 @@ export interface Song {
   mastery: Mastery;
   /** YouTube の動画ID(11文字)。不明なら null。YouTube Music とも共通。 */
   youtubeId: string | null;
+  /** UtaTen の歌詞ページ URL。未登録は省略または null。 */
+  utatenUrl?: string | null;
   /**
    * JASRAC 作品コード。管理外・不明なら null。
    * 内国作品は `123-4567-8`、外国作品は2桁目のみ英字で `0A1-2345-6`。
