@@ -6038,5 +6038,50 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "mental-chainsaw",
+    "title": "メンタルチェンソー",
+    "artist": "P丸様。",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "odore-orchestra",
+    "title": "踊れオーケストラ",
+    "artist": "YASUHIRO(康寛)",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "t-shi-no-hanashi-wo-shinjiruna",
+    "title": "T氏の話を信じるな",
+    "artist": "ピノキオピー",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "practicing",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
