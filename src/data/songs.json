@@ -1283,6 +1283,7 @@
   },
   {
     "id": "dramaturgy",
+    "utatenUrl": "https://utaten.com/lyric/iz17110802/",
     "title": "ドラマツルギー",
     "artist": "Eve",
     "lyricist": "ＥＶＥ",
@@ -1298,6 +1299,7 @@
   },
   {
     "id": "kaikai-kitan",
+    "utatenUrl": "https://utaten.com/lyric/mi20100703/",
     "title": "廻廻奇譚",
     "artist": "Eve",
     "lyricist": "ＥＶＥ",
@@ -2527,6 +2529,7 @@
   },
   {
     "id": "shin-takarajima",
+    "utatenUrl": "https://utaten.com/lyric/sa15091433/",
     "title": "新宝島",
     "artist": "サカナクション",
     "lyricist": "山口 一郎",
@@ -3635,6 +3638,7 @@
   },
   {
     "id": "kaijuu",
+    "utatenUrl": "https://utaten.com/lyric/tt24120401/",
     "title": "怪獣",
     "artist": "サカナクション",
     "lyricist": "山口一郎",
@@ -5744,6 +5748,7 @@
   },
   {
     "id": "shinkai",
+    "utatenUrl": "https://utaten.com/lyric/ma20120812/",
     "title": "心海",
     "artist": "Eve",
     "lyricist": "Eve",
@@ -5805,6 +5810,7 @@
   },
   {
     "id": "music-sakanaction",
+    "utatenUrl": "https://utaten.com/lyric/jb71301037/",
     "title": "ミュージック",
     "artist": "サカナクション",
     "lyricist": "山口 一郎",
