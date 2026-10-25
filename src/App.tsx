@@ -980,7 +980,7 @@ function SetlistApp({ songs }: { songs: Song[] }) {
         <table>
           <thead>
             <tr>
-              <th>
+              <th scope="col">
                 <button
                   type="button"
                   className="sort-th"
@@ -989,7 +989,7 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                   曲{sortIndicator("title")}
                 </button>
               </th>
-              <th>
+              <th scope="col">
                 <button
                   type="button"
                   className="sort-th"
@@ -998,8 +998,10 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                   アーティスト{sortIndicator("artist")}
                 </button>
               </th>
-              <th>作品コード</th>
-              <th className="col-mastery">
+              <th scope="col" className="col-resource">歌詞</th>
+              <th scope="col" className="col-resource">YouTube</th>
+              <th scope="col">作品コード</th>
+              <th scope="col" className="col-mastery">
                 <button
                   type="button"
                   className="sort-th"
@@ -1008,13 +1010,16 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                   習熟度{sortIndicator("mastery")}
                 </button>
               </th>
-              <th className="col-tags">タグ</th>
-              <th className="col-request">申請</th>
+              <th scope="col" className="col-tags">タグ</th>
+              <th scope="col" className="col-request">申請</th>
             </tr>
           </thead>
           <tbody>
             {filteredPool.map((song) => {
               const lyricsUrl = utatenLyricsUrl(song.utatenUrl);
+              const videoUrl = song.youtubeId && /^[A-Za-z0-9_-]{11}$/.test(song.youtubeId)
+                ? `https://www.youtube.com/watch?v=${song.youtubeId}`
+                : null;
               const code = workCodeOf(song);
               const society = workSocietyOf(song);
               const status = workCodeStatusOf(song);
@@ -1028,19 +1033,34 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                 <tr className={expanded ? "expanded" : ""}>
                   <td>
                     <span>{song.title}</span>
-                    {lyricsUrl && (
+                  </td>
+                  <td>{song.artist ?? "-"}</td>
+                  <td className="col-resource">
+                    {lyricsUrl ? (
                       <a
-                        className="utaten-link"
+                        className="resource-link utaten-link"
                         href={lyricsUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         aria-label={`${song.title} の歌詞を UtaTen で開く（別タブ）`}
                       >
-                        歌詞（UtaTen・別タブ）
+                        UtaTen ↗
                       </a>
-                    )}
+                    ) : "—"}
                   </td>
-                  <td>{song.artist ?? "-"}</td>
+                  <td className="col-resource">
+                    {videoUrl ? (
+                      <a
+                        className="resource-link youtube-link"
+                        href={videoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`${song.title} を YouTube で開く（別タブ）`}
+                      >
+                        YouTube ↗
+                      </a>
+                    ) : "—"}
+                  </td>
                   <td>
                     {code && society ? (
                       <>
@@ -1088,7 +1108,7 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                 */}
                 {expanded && wizardItem && (
                   <tr className="request-row">
-                    <td colSpan={6}>
+                    <td colSpan={8}>
                       <RequestWizard
                         variant="pool"
                         item={wizardItem}
@@ -1109,7 +1129,7 @@ function SetlistApp({ songs }: { songs: Song[] }) {
             })}
             {filteredPool.length === 0 && (
               <tr>
-                <td colSpan={6} className="pool-empty">
+                <td colSpan={8} className="pool-empty">
                   該当する曲がありません
                 </td>
               </tr>

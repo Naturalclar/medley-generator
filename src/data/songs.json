@@ -665,6 +665,7 @@
   },
   {
     "id": "dakara-boku-wa-ongaku-wo-yameta",
+    "utatenUrl": "https://utaten.com/lyric/mi19040247/",
     "title": "だから僕は音楽を辞めた",
     "artist": "ヨルシカ",
     "lyricist": "n-buna",
@@ -711,6 +712,7 @@
   },
   {
     "id": "yoru-ni-kakeru",
+    "utatenUrl": "https://utaten.com/lyric/rq20031716/",
     "title": "夜に駆ける",
     "artist": "YOASOBI",
     "lyricist": "ＡＹＡＳＥ",
@@ -1356,6 +1358,7 @@
   },
   {
     "id": "itte",
+    "utatenUrl": "https://utaten.com/lyric/ya17081710/",
     "title": "言って。",
     "artist": "ヨルシカ",
     "lyricist": "n-buna",
@@ -1387,6 +1390,7 @@
   },
   {
     "id": "ame-to-cappuccino",
+    "utatenUrl": "https://utaten.com/lyric/ma19073104/",
     "title": "雨とカプチーノ",
     "artist": "ヨルシカ",
     "lyricist": "Ｎ−ＢＵＮＡ",
@@ -1402,6 +1406,7 @@
   },
   {
     "id": "haru",
+    "utatenUrl": "https://utaten.com/lyric/mi24010501/",
     "title": "晴る",
     "artist": "ヨルシカ",
     "lyricist": "Ｎ−ＢＵＮＡ",
@@ -2152,6 +2157,7 @@
   },
   {
     "id": "kaibutsu",
+    "utatenUrl": "https://utaten.com/lyric/un21010602/",
     "title": "怪物",
     "artist": "YOASOBI",
     "lyricist": "ＡＹＡＳＥ",
@@ -2782,6 +2788,7 @@
   },
   {
     "id": "kanden",
+    "utatenUrl": "https://utaten.com/lyric/ma20070601/",
     "title": "感電",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -3247,6 +3254,7 @@
   },
   {
     "id": "shunrai",
+    "utatenUrl": "https://utaten.com/lyric/mi17101623/",
     "title": "春雷",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -3262,6 +3270,7 @@
   },
   {
     "id": "flamingo",
+    "utatenUrl": "https://utaten.com/lyric/sa18091401/",
     "title": "Flamingo",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
@@ -3683,6 +3692,7 @@
   },
   {
     "id": "loser",
+    "utatenUrl": "https://utaten.com/lyric/sa16080421/",
     "title": "LOSER",
     "artist": "米津玄師",
     "lyricist": "米津 玄師",
