@@ -6141,5 +6141,53 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ", "リスナーリクエスト"],
     "memo": ""
+  },
+  {
+    "id": "happy-halloween",
+    "utatenUrl": "https://utaten.com/lyric/mo15110608/",
+    "title": "Happy Halloween",
+    "artist": "Junky feat. 鏡音リン",
+    "lyricist": "Junky",
+    "composer": "Junky",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "1DcgczDzQPk",
+    "jasracCode": null,
+    "nextoneCode": "N00109433",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "mrs-pumpkin-no-kokkei-na-yume",
+    "utatenUrl": "https://utaten.com/lyric/jb51109074/",
+    "title": "Mrs.Pumpkinの滑稽な夢",
+    "artist": "ハチ feat. 初音ミク",
+    "lyricist": "ハチ",
+    "composer": "ハチ",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00095499",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "kasou-kyousoukyoku",
+    "utatenUrl": "https://utaten.com/lyric/hw24100401/",
+    "title": "仮装狂騒曲",
+    "artist": "初星学園",
+    "lyricist": "TOPHAMHAT－KYO （FAKE TYPE．）",
+    "composer": "FAKE TYPE．",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "8YNzp2vRS9I",
+    "jasracCode": null,
+    "nextoneCode": "N01480486",
+    "workCodeNotFound": false,
+    "tags": ["学園アイドルマスター"],
+    "memo": ""
   }
 ]
