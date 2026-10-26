@@ -376,6 +376,7 @@
   },
   {
     "id": "secret-base",
+    "utatenUrl": "https://utaten.com/lyric/na15092801/",
     "title": "secret base 〜君がくれたもの〜",
     "artist": "ZONE",
     "lyricist": "町田 紀彦",
@@ -788,6 +789,7 @@
   },
   {
     "id": "natsu-matsuri",
+    "utatenUrl": "https://utaten.com/lyric/ja00009092/",
     "title": "夏祭り",
     "artist": "Whiteberry",
     "lyricist": "破矢 ジンタ",
@@ -1002,6 +1004,7 @@
   },
   {
     "id": "himawari-no-yakusoku",
+    "utatenUrl": "https://utaten.com/lyric/jb71408014/",
     "title": "ひまわりの約束",
     "artist": "秦基博",
     "lyricist": "秦 基博",
