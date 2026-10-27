@@ -3250,6 +3250,7 @@
   },
   {
     "id": "jane-doe",
+    "utatenUrl": "https://utaten.com/lyric/hw25081801/",
     "title": "JANE DOE",
     "artist": "米津玄師 × 宇多田ヒカル",
     "lyricist": "米津 玄師",
@@ -3313,6 +3314,7 @@
   },
   {
     "id": "haiiro-to-ao",
+    "utatenUrl": "https://utaten.com/lyric/sa17101201/",
     "title": "灰色と青",
     "artist": "米津玄師 × 菅田将暉",
     "lyricist": "米津 玄師",
@@ -4046,6 +4048,7 @@
   },
   {
     "id": "placebo",
+    "utatenUrl": "https://utaten.com/lyric/zg20080509/",
     "title": "PLACEBO + 野田洋次郎",
     "artist": "米津玄師 + 野田洋次郎",
     "lyricist": "米津 玄師",
