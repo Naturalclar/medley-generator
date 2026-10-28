@@ -63,6 +63,7 @@
   },
   {
     "id": "ironina",
+    "utatenUrl": "https://utaten.com/lyric/mi21062117/",
     "title": "アイロニーナ",
     "artist": "煮ル果実",
     "lyricist": "煮ル果実",
@@ -93,6 +94,7 @@
   },
   {
     "id": "mozaik-role",
+    "utatenUrl": "https://utaten.com/lyric/iz16082439/",
     "title": "モザイクロール",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -108,6 +110,7 @@
   },
   {
     "id": "reversible-campaign",
+    "utatenUrl": "https://utaten.com/lyric/ya16092813/",
     "title": "リバーシブル・キャンペーン",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -123,6 +126,7 @@
   },
   {
     "id": "monitoring",
+    "utatenUrl": "https://utaten.com/lyric/mi24111841/",
     "title": "モニタリング",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -138,6 +142,7 @@
   },
   {
     "id": "parasite",
+    "utatenUrl": "https://utaten.com/lyric/tt22020802/",
     "title": "パラサイト",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -153,6 +158,7 @@
   },
   {
     "id": "hibana",
+    "utatenUrl": "https://utaten.com/lyric/sa17081004/",
     "title": "ヒバナ",
     "artist": "Deco*27",
     "lyricist": "DECO*27",
@@ -168,6 +174,7 @@
   },
   {
     "id": "ghost-rule",
+    "utatenUrl": "https://utaten.com/lyric/to16012707/",
     "title": "ゴーストルール",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -198,6 +205,7 @@
   },
   {
     "id": "hao",
+    "utatenUrl": "https://utaten.com/lyric/ma24061413/",
     "title": "ハオ",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -4307,6 +4315,7 @@
   },
   {
     "id": "haiboku-no-shounen",
+    "utatenUrl": "https://utaten.com/lyric/jb51306094/",
     "title": "敗北の少年",
     "artist": "kemu feat. GUMI",
     "lyricist": "kemu",
@@ -4353,6 +4362,7 @@
   },
   {
     "id": "yomosugara-kimi-omou",
+    "utatenUrl": "https://utaten.com/lyric/iz15111939/",
     "title": "夜もすがら君想ふ",
     "artist": "TOKOTOKO（西沢さんP） feat. GUMI",
     "lyricist": "TOKOTOKO",
@@ -5204,6 +5214,7 @@
   },
   {
     "id": "hanataba",
+    "utatenUrl": "https://utaten.com/lyric/mi22112126/",
     "title": "ハナタバ",
     "artist": "MIMI feat. 可不",
     "lyricist": "ＭＩＭＩ",
@@ -5552,6 +5563,7 @@
   },
   {
     "id": "tell-your-world",
+    "utatenUrl": "https://utaten.com/lyric/jb41209090/",
     "title": "Tell Your World",
     "artist": "livetune feat. 初音ミク",
     "lyricist": "ＫＺ",
@@ -6282,5 +6294,21 @@
     "workCodeNotFound": false,
     "tags": ["学園アイドルマスター"],
     "memo": ""
+  },
+  {
+    "id": "koroshichatta",
+    "title": "ころしちゃった!",
+    "artist": "夏山よつぎ feat. 初音ミク",
+    "lyricist": "夏山よつぎ",
+    "composer": "夏山よつぎ",
+    "bpm": null,
+    "mastery": "practicing",
+    "youtubeId": "rVdNlP2tWhU",
+    "jasracCode": null,
+    "nextoneCode": "N01389600",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": "ハロウィンに向けて練習",
+    "utatenUrl": "https://utaten.com/lyric/mi24022634/"
   }
 ]
