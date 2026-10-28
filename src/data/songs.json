@@ -6287,5 +6287,21 @@
     "workCodeNotFound": false,
     "tags": ["学園アイドルマスター"],
     "memo": ""
+  },
+  {
+    "id": "koroshichatta",
+    "title": "ころしちゃった!",
+    "artist": "夏山よつぎ feat. 初音ミク",
+    "lyricist": "夏山よつぎ",
+    "composer": "夏山よつぎ",
+    "bpm": null,
+    "mastery": "practicing",
+    "youtubeId": "rVdNlP2tWhU",
+    "jasracCode": null,
+    "nextoneCode": "N01389600",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": "ハロウィンに向けて練習",
+    "utatenUrl": "https://utaten.com/lyric/mi24022634/"
   }
 ]
