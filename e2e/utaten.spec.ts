@@ -2,11 +2,14 @@ import { expect, test } from "@playwright/test";
 import songs from "../src/data/songs.json" with { type: "json" };
 
 const lyricsUrl = "https://utaten.com/lyric/ab123456/";
+// 「歌詞省略」(utatenUrl キーが無い曲)の fixture。実データの songs[1] に URL が
+// 登録されても前提が崩れないよう、キーを取り除いて作る(#270)。
+const { utatenUrl: _utatenUrl, ...songWithoutUrl } = songs[1];
 
 test("登録済みの安全な歌詞リンクだけを表示し、一覧操作を維持する", async ({ page, context }) => {
   const fixtures = [
     { ...songs[0], title: "歌詞あり", utatenUrl: lyricsUrl },
-    { ...songs[1], title: "歌詞省略" },
+    { ...songWithoutUrl, title: "歌詞省略" },
     { ...songs[2], title: "歌詞なし", utatenUrl: null },
     { ...songs[3], title: "歌詞不正", utatenUrl: "javascript:alert(1)" },
     { ...songs[4], title: "外部サイト", utatenUrl: "https://evil.example/lyric/ab123456/" },
