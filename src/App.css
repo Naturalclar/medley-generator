@@ -1,5 +1,5 @@
 .app {
-  max-width: 720px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 2rem 1rem 4rem;
 }
@@ -379,7 +379,7 @@ button.secondary {
 .pool table {
   width: 100%;
   /* 狭い画面で列を潰して1文字ずつ折り返すより、横スクロールさせた方が読める。 */
-  min-width: 40rem;
+  min-width: 52rem;
   border-collapse: collapse;
   font-size: 0.9rem;
 }
@@ -396,12 +396,12 @@ button.secondary {
 /*
  * 狭い画面では列が入りきらず、作品コードが右端で切れて「短いコード」に見えてしまう。
  * 申請に使う値を読み違えるのは危険なので、優先度の低い列(タグ・習熟度)を落として
- * 曲・アーティスト・作品コードが最後まで見える幅に収める。
+ * リンクや作品コードの幅を確保し、表の横スクロールで全列を確認できるようにする。
  * 習熟度とタグは上のフィルタチップで絞り込めるので、表から消えても操作は塞がらない。
  */
 @media (max-width: 640px) {
   .pool table {
-    min-width: 0;
+    min-width: 38rem;
   }
 
   .pool .col-tags {
@@ -773,15 +773,21 @@ button.secondary {
   color: var(--danger, #c4302b);
 }
 
-.pool .utaten-link {
+.pool .resource-link {
   display: block;
   width: fit-content;
   padding-block: 0.25rem;
   font-size: 0.8rem;
   text-decoration: underline;
+  color: var(--accent);
 }
 
-.pool .utaten-link:focus-visible {
+.pool .resource-link:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
+}
+
+.pool .col-resource {
+  width: 1%;
+  white-space: nowrap;
 }
