@@ -6327,5 +6327,50 @@
     "tags": ["ボカロ"],
     "memo": "ハロウィンに向けて練習",
     "utatenUrl": "https://utaten.com/lyric/mi24022634/"
+  },
+  {
+    "id": "mental-chainsaw",
+    "title": "メンタルチェンソー",
+    "artist": "P丸様。",
+    "lyricist": "かいりきベア",
+    "composer": "かいりきベア",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00989198",
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "odore-orchestra",
+    "title": "踊れオーケストラ",
+    "artist": "YASUHIRO(康寛)",
+    "lyricist": "YASUHIRO(康寛)",
+    "composer": "YASUHIRO(康寛)",
+    "bpm": null,
+    "mastery": "practicing",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00570165",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "t-shi-no-hanashi-wo-shinjiruna",
+    "title": "T氏の話を信じるな",
+    "artist": "ピノキオピー",
+    "lyricist": "ピノキオピー",
+    "composer": "ピノキオピー",
+    "bpm": null,
+    "mastery": "practicing",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N01649921",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
