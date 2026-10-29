@@ -6374,5 +6374,20 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "happy-synthesizer",
+    "title": "ハッピーシンセサイザ",
+    "artist": "EasyPop feat. 巡音ルカ・GUMI",
+    "lyricist": "ＢＥＴＴＩ",
+    "composer": "ＢＥＴＴＩ",
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": null,
+    "jasracCode": "174-4391-1",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
