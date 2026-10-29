@@ -6410,5 +6410,20 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "ikiru-mizunoatsu",
+    "title": "生きる",
+    "artist": "水野あつ",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
   }
 ]
