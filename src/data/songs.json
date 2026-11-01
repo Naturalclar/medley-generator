@@ -6602,5 +6602,20 @@
     "workCodeNotFound": false,
     "tags": ["アニソン", "アイカツ！"],
     "memo": ""
+  },
+  {
+    "id": "aqua-iro-palette",
+    "title": "#あくあ色ぱれっと",
+    "artist": "湊あくあ",
+    "lyricist": "Junky",
+    "composer": "Junky",
+    "bpm": null,
+    "mastery": "ready",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00913002",
+    "workCodeNotFound": false,
+    "tags": ["VTuber", "ホロライブ"],
+    "memo": ""
   }
 ]
