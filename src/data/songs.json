@@ -6732,5 +6732,35 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "queen-of-heart",
+    "title": "クイーンオブハート",
+    "artist": "luz",
+    "lyricist": "奏音69",
+    "composer": "奏音69",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00056336",
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
+  },
+  {
+    "id": "potato-ni-natteiku",
+    "title": "potatoになっていく",
+    "artist": "Neru",
+    "lyricist": "Neru",
+    "composer": "Neru",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": "N00867583",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
