@@ -6717,5 +6717,20 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "requiem",
+    "title": "レクイエム",
+    "artist": "星街すいせい",
+    "lyricist": "ＫＡＮＡＲＩＡ",
+    "composer": "ＫＡＮＡＲＩＡ",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": "767-7497-0",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": [],
+    "memo": ""
   }
 ]
