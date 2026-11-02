@@ -180,6 +180,7 @@ node .claude/skills/manage-songs/scripts/songs.mjs remove <id>
 | `youtubeId` | YouTube で公式チャンネル / 公式音源を探す | `null` |
 | `jasracCode` **または** `nextoneCode` | J-WID / NexTone 作品検索。配信を管理している方を採用 | 両方 `null` |
 | `lyricist` / `composer` | 同じ作品ページの著作者情報。コードが取れていれば**コードで完全一致検索**できる | `null` |
+| `utatenUrl` | `find-utaten` スキルで探して確認する | 省略 |
 | `tags` | 既存の流儀に合わせる(`ボカロ` / `アニソン` + 作品名) | `[]` |
 
 `bpm` は無理に埋めず `null` のままでよい(README にある通り「不明なら null で
