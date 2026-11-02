@@ -50,6 +50,8 @@ it.each([
   ["名義が一致", "ステラ 歌詞 じん feat. 初音ミク ふりがな付 - うたてん", "match"],
   ["同名の別名義", "ステラ 歌詞 Leo/need ふりがな付 - うたてん", "review"],
   ["別の曲", "ステラの夜 歌詞 じん ふりがな付 - うたてん", "reject"],
+  ["題名に付記がある", "ステラ [original ver.] 歌詞 じん ふりがな付 - うたてん", "review"],
+  ["エスケープされた付記", "ステラ (feat. A&amp;B) 歌詞 じん ふりがな付 - うたてん", "review"],
   ["形式が想定外", "ステラ | 歌詞サイト", "reject"],
 ])("%s の判定", (_name, pageTitle, expected) => {
   expect(run("verify", `stella=${URL}`, pageTitle).verdict).toBe(expected);

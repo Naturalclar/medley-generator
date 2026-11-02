@@ -15,7 +15,15 @@ import { fileURLToPath } from "node:url";
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const URL_PATTERN = /^https:\/\/utaten\.com\/lyric\/[A-Za-z0-9]+\/$/;
 const PAGE_TITLE = /^(.+?) 歌詞 (.+?)(?: ふりがな付)? - うたてん$/;
+// 題名の後ろの付記(版の表記、feat.、映画名など)が始まる位置。
+const TITLE_SUFFIX = /\s*[(（[「"]|\s+feat\.?\s/i;
 const FETCH_INTERVAL_MS = 1000;
+const ENTITIES = { amp: "&", quot: '"', lt: "<", gt: ">", times: "×", "#039": "'" };
+
+/** <title> は HTML エスケープされているので戻す。 */
+function decodeEntities(value) {
+  return value.replace(/&(amp|quot|lt|gt|times|#039);/g, (_, name) => ENTITIES[name]);
+}
 
 /** 題名・名義の比較用。幅・大小・空白・記号の違いを無視する。 */
 function norm(value) {
@@ -37,15 +45,18 @@ function artistKeys(artist) {
 /**
  * <title> の文字列と曲から判定する。
  * - match: 曲名が一致し、登録名義もページ名義に含まれる
- * - review: 曲名は一致するが名義で裏が取れない(カバー版の可能性があるので人が見る)
+ * - review: 曲名は一致するが名義で裏が取れない(カバー版の可能性があるので人が見る)、
+ *   または曲名の後ろに付記がある(`スパークル [original ver.]` など)
  * - reject: 別の曲
  */
 function judge(song, pageTitle) {
-  const parsed = PAGE_TITLE.exec(pageTitle.trim());
+  const parsed = PAGE_TITLE.exec(decodeEntities(pageTitle).trim());
   if (!parsed) return { verdict: "reject", reason: "題名の形式が想定外" };
   const [, title, artist] = parsed;
   if (norm(title) !== norm(song.title)) {
-    return { verdict: "reject", reason: `曲名が違う: ${title}` };
+    return norm(title.split(TITLE_SUFFIX)[0]) === norm(song.title)
+      ? { verdict: "review", reason: `曲名に付記がある: ${title} / ${artist}` }
+      : { verdict: "reject", reason: `曲名が違う: ${title}` };
   }
   const keys = song.artist ? artistKeys(song.artist) : [];
   if (keys.length === 0) {
