@@ -1,6 +1,7 @@
 [
   {
     "id": "stella",
+    "utatenUrl": "https://utaten.com/lyric/mi20112411/",
     "title": "ステラ",
     "artist": "じん",
     "lyricist": "じん",
@@ -190,6 +191,7 @@
   },
   {
     "id": "yowamushi-montblanc",
+    "utatenUrl": "https://utaten.com/lyric/jb51101113/",
     "title": "弱虫モンブラン",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -221,6 +223,7 @@
   },
   {
     "id": "hare-hare-yukai",
+    "utatenUrl": "https://utaten.com/lyric/yr15120441/",
     "title": "ハレ晴レユカイ",
     "artist": "SOS団",
     "lyricist": "畑 亜貴",
@@ -252,6 +255,7 @@
   },
   {
     "id": "motteke-sailor-fuku",
+    "utatenUrl": "https://utaten.com/lyric/zx15102713/",
     "title": "もってけ!セーラーふく",
     "artist": "らき☆すた",
     "lyricist": "畑 亜貴",
@@ -346,6 +350,7 @@
   },
   {
     "id": "fuwafuwa-time",
+    "utatenUrl": "https://utaten.com/lyric/jb50909355/",
     "title": "ふわふわ時間",
     "artist": "桜高軽音部",
     "lyricist": "秋山 澪",
@@ -425,6 +430,7 @@
   },
   {
     "id": "world-is-mine",
+    "utatenUrl": "https://utaten.com/lyric/jb50905031/",
     "title": "ワールドイズマイン",
     "artist": "supercell",
     "lyricist": "ＲＹＯ",
@@ -440,6 +446,7 @@
   },
   {
     "id": "melt",
+    "utatenUrl": "https://utaten.com/lyric/jb50905027/",
     "title": "メルト",
     "artist": "supercell",
     "lyricist": "ＲＹＯ",
@@ -519,6 +526,7 @@
   },
   {
     "id": "mabel",
+    "utatenUrl": "https://utaten.com/lyric/iz16122617/",
     "title": "メーベル",
     "artist": "バルーン",
     "lyricist": "バルーン",
@@ -534,6 +542,7 @@
   },
   {
     "id": "yoake-to-hotaru",
+    "utatenUrl": "https://utaten.com/lyric/mo15082524/",
     "title": "夜明けと蛍",
     "artist": "バルーン",
     "lyricist": "n-buna",
@@ -597,6 +606,7 @@
   },
   {
     "id": "gogo-yuurei-sen",
+    "utatenUrl": "https://utaten.com/lyric/jb51206078/",
     "title": "ゴーゴー幽霊船",
     "artist": "ハチ",
     "lyricist": "米津 玄師",
@@ -756,6 +766,7 @@
   },
   {
     "id": "kagerou-days",
+    "utatenUrl": "https://utaten.com/lyric/mo16031409/",
     "title": "カゲロウデイズ",
     "artist": "じん",
     "lyricist": "じん（自然の敵P）",
@@ -1120,6 +1131,7 @@
   },
   {
     "id": "tokyo-teddy-bear",
+    "utatenUrl": "https://utaten.com/lyric/jb51111082/",
     "title": "東京テディベア",
     "artist": "Neru",
     "lyricist": "Neru",
@@ -1151,6 +1163,7 @@
   },
   {
     "id": "loki",
+    "utatenUrl": "https://utaten.com/lyric/sa18090519/",
     "title": "ロキ",
     "artist": "みきとP",
     "lyricist": "みきとP",
@@ -1246,6 +1259,7 @@
   },
   {
     "id": "luna-say-maybe",
+    "utatenUrl": "https://utaten.com/lyric/mi24091836/",
     "title": "Luna say maybe",
     "artist": "初星学園",
     "lyricist": "美波",
@@ -1261,6 +1275,7 @@
   },
   {
     "id": "yellow-big-bang",
+    "utatenUrl": "https://utaten.com/lyric/hw24061208/",
     "title": "Yellow Big Bang!!",
     "artist": "初星学園",
     "lyricist": "やぎぬまかな",
@@ -1276,6 +1291,7 @@
   },
   {
     "id": "sekaiichi-kawaii-watashi",
+    "utatenUrl": "https://utaten.com/lyric/mi25021939/",
     "title": "世界一可愛い私",
     "artist": "初星学園",
     "lyricist": "HoneyWorks",
@@ -1291,6 +1307,7 @@
   },
   {
     "id": "hakusen",
+    "utatenUrl": "https://utaten.com/lyric/qa40823000/",
     "title": "白線",
     "artist": "初星学園",
     "lyricist": "ナユタン星人",
@@ -1322,6 +1339,7 @@
   },
   {
     "id": "telecaster-b-boy",
+    "utatenUrl": "https://utaten.com/lyric/mi20092305/",
     "title": "テレキャスタービーボーイ",
     "artist": "すりぃ",
     "lyricist": "すりぃ",
@@ -1705,6 +1723,7 @@
   },
   {
     "id": "surges",
+    "utatenUrl": "https://utaten.com/lyric/nm21081704/",
     "title": "Surges",
     "artist": "Orangestar",
     "lyricist": "Orangestar",
@@ -1800,6 +1819,7 @@
   },
   {
     "id": "kinyoubi-no-ohayou",
+    "utatenUrl": "https://utaten.com/lyric/mo15040604/",
     "title": "金曜日のおはよう",
     "artist": "HoneyWorks",
     "lyricist": "ＳＨＩＴＯ / ＧＯＭ",
@@ -1990,6 +2010,7 @@
   },
   {
     "id": "buriki-no-dance",
+    "utatenUrl": "https://utaten.com/lyric/sa16032304/",
     "title": "ブリキノダンス",
     "artist": "日向電工",
     "lyricist": "日向電工",
@@ -2037,6 +2058,7 @@
   },
   {
     "id": "cinderella",
+    "utatenUrl": "https://utaten.com/lyric/ma21080660/",
     "title": "シンデレラ",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -2052,6 +2074,7 @@
   },
   {
     "id": "hello-howareyou",
+    "utatenUrl": "https://utaten.com/lyric/jb51101235/",
     "title": "ハロ/ハワユ",
     "artist": "ナノウ",
     "lyricist": "ナノウ",
@@ -2115,6 +2138,7 @@
   },
   {
     "id": "migikata-no-chou",
+    "utatenUrl": "https://utaten.com/lyric/jb51008387/",
     "title": "右肩の蝶",
     "artist": "のりP",
     "lyricist": "水野悠良",
@@ -2194,6 +2218,7 @@
   },
   {
     "id": "mesmerizer",
+    "utatenUrl": "https://utaten.com/lyric/mi24050832/",
     "title": "メズマライザー",
     "artist": "幽体コミュニケーションズ",
     "lyricist": "サツキ",
@@ -2241,6 +2266,7 @@
   },
   {
     "id": "shoujo-rei",
+    "utatenUrl": "https://utaten.com/lyric/ac18071313/",
     "title": "少女レイ",
     "artist": "みきとP",
     "lyricist": "みきとP",
@@ -2464,6 +2490,7 @@
   },
   {
     "id": "yueni-you-and-me",
+    "utatenUrl": "https://utaten.com/lyric/iz16110768/",
     "title": "故にユーエンミー",
     "artist": "ただのCo",
     "lyricist": "ただのCo",
@@ -3151,6 +3178,7 @@
   },
   {
     "id": "kanade",
+    "utatenUrl": "https://utaten.com/lyric/jb20605108/",
     "title": "奏",
     "artist": "スキマスイッチ",
     "lyricist": "大橋 卓弥 / 常田 真太郎",
@@ -3166,6 +3194,7 @@
   },
   {
     "id": "byoumei-wa-ai-datta",
+    "utatenUrl": "https://utaten.com/lyric/mi18031424/",
     "title": "病名は愛だった",
     "artist": "Neru & z'5",
     "lyricist": "ＮＥＲＵ",
@@ -3292,6 +3321,7 @@
   },
   {
     "id": "tondemo-wonderz",
+    "utatenUrl": "https://utaten.com/lyric/nm21062101/",
     "title": "トンデモワンダーズ",
     "artist": "sasakure.UK",
     "lyricist": "sasakure.UK",
@@ -3323,6 +3353,7 @@
   },
   {
     "id": "balleriico",
+    "utatenUrl": "https://utaten.com/lyric/mo15052623/",
     "title": "バレリーコ",
     "artist": "みきとP",
     "lyricist": "みきとP",
@@ -3546,6 +3577,7 @@
   },
   {
     "id": "ikanaide",
+    "utatenUrl": "https://utaten.com/lyric/mo15073002/",
     "title": "いかないで",
     "artist": "想太",
     "lyricist": "想太",
@@ -3657,6 +3689,7 @@
   },
   {
     "id": "telepathy",
+    "utatenUrl": "https://utaten.com/lyric/mi25022507/",
     "title": "テレパシ",
     "artist": "DECO*27",
     "lyricist": "DECO＊27",
@@ -3816,6 +3849,7 @@
   },
   {
     "id": "additional-memory",
+    "utatenUrl": "https://utaten.com/lyric/sa18102308/",
     "title": "アディショナルメモリー",
     "artist": "じん",
     "lyricist": "じん",
@@ -3863,6 +3897,7 @@
   },
   {
     "id": "ai-kotoba-3",
+    "utatenUrl": "https://utaten.com/lyric/iz18121384/",
     "title": "愛言葉Ⅲ",
     "artist": "Deco*27",
     "lyricist": "DECO*27",
@@ -4101,6 +4136,7 @@
   },
   {
     "id": "kami-no-manimani",
+    "utatenUrl": "https://utaten.com/lyric/mo15032462/",
     "title": "神のまにまに",
     "artist": "れるりり",
     "lyricist": "れるりり",
@@ -4691,6 +4727,7 @@
   },
   {
     "id": "ai-kotoba-5",
+    "utatenUrl": "https://utaten.com/lyric/mi26021808/",
     "title": "愛言葉V",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -4706,6 +4743,7 @@
   },
   {
     "id": "animal",
+    "utatenUrl": "https://utaten.com/lyric/ma21121610/",
     "title": "アニマル",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -4721,6 +4759,7 @@
   },
   {
     "id": "liar-dance",
+    "utatenUrl": "https://utaten.com/lyric/ya16092819/",
     "title": "ライアーダンス",
     "artist": "Deco*27",
     "lyricist": "DECO＊27",
@@ -4846,6 +4885,7 @@
   },
   {
     "id": "ittai-itsukara",
+    "utatenUrl": "https://utaten.com/lyric/ks26012019/",
     "title": "一体いつから",
     "artist": "初星学園",
     "lyricist": "大橋ちっぽけ",
@@ -4861,6 +4901,7 @@
   },
   {
     "id": "mekurume",
+    "utatenUrl": "https://utaten.com/lyric/hw24122406/",
     "title": "メクルメ",
     "artist": "初星学園",
     "lyricist": "フロクロ",
@@ -5099,6 +5140,7 @@
   },
   {
     "id": "part-of-your-world",
+    "utatenUrl": "https://utaten.com/lyric/sa15031623/",
     "title": "パート・オブ・ユア・ワールド",
     "artist": null,
     "lyricist": "ASHMAN HOWARD ELLIOTT",
@@ -5114,6 +5156,7 @@
   },
   {
     "id": "beauty-and-the-beast",
+    "utatenUrl": "https://utaten.com/lyric/sa15031630/",
     "title": "美女と野獣",
     "artist": null,
     "lyricist": "ASHMAN HOWARD ELLIOTT",
@@ -5129,6 +5172,7 @@
   },
   {
     "id": "a-whole-new-world",
+    "utatenUrl": "https://utaten.com/lyric/sa15031648/",
     "title": "ホール・ニュー・ワールド",
     "artist": null,
     "lyricist": "RICE TIMOTHY MILES BINDON",
@@ -5176,6 +5220,7 @@
   },
   {
     "id": "hana-ni-kaze",
+    "utatenUrl": "https://utaten.com/lyric/ac23011402/",
     "title": "花に風",
     "artist": "バルーン",
     "lyricist": "バルーン",
@@ -5766,6 +5811,7 @@
   },
   {
     "id": "yurufuwa-jukai-girl",
+    "utatenUrl": "https://utaten.com/lyric/jb51208042/",
     "title": "ゆるふわ樹海ガール",
     "artist": "石風呂 feat. 初音ミク",
     "lyricist": "石風呂",
@@ -5907,6 +5953,7 @@
   },
   {
     "id": "wakacchainaine",
+    "utatenUrl": "https://utaten.com/lyric/mi25082534/",
     "title": "分かっちゃいないね",
     "artist": "monet feat. 花隈千冬",
     "lyricist": "マナムジャパン",
@@ -5986,6 +6033,7 @@
   },
   {
     "id": "sarishinohara",
+    "utatenUrl": "https://utaten.com/lyric/jb51310060/",
     "title": "サリシノハラ",
     "artist": "みきとP",
     "lyricist": "みきとP",
@@ -6048,6 +6096,7 @@
   },
   {
     "id": "hungry-nicole",
+    "utatenUrl": "https://utaten.com/lyric/iz19041145/",
     "title": "ハングリーニコル",
     "artist": "煮ル果実",
     "lyricist": "煮ル果実",
@@ -6095,6 +6144,7 @@
   },
   {
     "id": "akuta-no-heya",
+    "utatenUrl": "https://utaten.com/lyric/rq20052804/",
     "title": "芥の部屋は錆色に沈む",
     "artist": "キタニタツヤ",
     "lyricist": "こんにちは谷田さん",
@@ -6142,6 +6192,7 @@
   },
   {
     "id": "sparkle",
+    "utatenUrl": "https://utaten.com/lyric/sa16112814/",
     "title": "スパークル",
     "artist": "RADWIMPS",
     "lyricist": "野田 洋次郎",
@@ -6253,6 +6304,7 @@
   },
   {
     "id": "nekomimi-archive",
+    "utatenUrl": "https://utaten.com/lyric/jb51208040/",
     "title": "ネコミミアーカイブ",
     "artist": "糞田舎P",
     "lyricist": "糞田舎Ｐ",
@@ -6268,6 +6320,7 @@
   },
   {
     "id": "rumor",
+    "utatenUrl": "https://utaten.com/lyric/rq20051412/",
     "title": "ルーマー",
     "artist": "ポリスピカデリー",
     "lyricist": "ポリスピカデリー",
@@ -6283,6 +6336,7 @@
   },
   {
     "id": "union",
+    "utatenUrl": "https://utaten.com/lyric/sa18101215/",
     "title": "Union",
     "artist": "オーイシマサヨシ",
     "lyricist": "大石 昌良",
@@ -6442,6 +6496,7 @@
   },
   {
     "id": "odore-orchestra",
+    "utatenUrl": "https://utaten.com/lyric/iz16082526/",
     "title": "踊れオーケストラ",
     "artist": "YASUHIRO(康寛)",
     "lyricist": "YASUHIRO(康寛)",
@@ -6457,6 +6512,7 @@
   },
   {
     "id": "t-shi-no-hanashi-wo-shinjiruna",
+    "utatenUrl": "https://utaten.com/lyric/ks25063001/",
     "title": "T氏の話を信じるな",
     "artist": "ピノキオピー",
     "lyricist": "ピノキオピー",
@@ -6504,6 +6560,7 @@
   },
   {
     "id": "ikiru-mizunoatsu",
+    "utatenUrl": "https://utaten.com/lyric/nm21072605/",
     "title": "生きる",
     "artist": "水野あつ",
     "lyricist": null,
@@ -6615,6 +6672,7 @@
   },
   {
     "id": "tensei-ringo",
+    "utatenUrl": "https://utaten.com/lyric/mi22060320/",
     "title": "転生林檎",
     "artist": "ピノキオピー",
     "lyricist": "ピノキオピー",
@@ -6630,6 +6688,7 @@
   },
   {
     "id": "calendar-girl",
+    "utatenUrl": "https://utaten.com/lyric/ym16020849/",
     "title": "カレンダーガール",
     "artist": "わか・ふうり・すなお from STAR☆ANIS",
     "lyricist": "こだまさおり",
@@ -6645,6 +6704,7 @@
   },
   {
     "id": "aqua-iro-palette",
+    "utatenUrl": "https://utaten.com/lyric/rq21030912/",
     "title": "#あくあ色ぱれっと",
     "artist": "湊あくあ",
     "lyricist": "Junky",
@@ -6660,6 +6720,7 @@
   },
   {
     "id": "queen",
+    "utatenUrl": "https://utaten.com/lyric/mi22080907/",
     "title": "QUEEN",
     "artist": "Kanaria",
     "lyricist": "Kanaria",
@@ -6675,6 +6736,7 @@
   },
   {
     "id": "shojo-a",
+    "utatenUrl": "https://utaten.com/lyric/mo15072725/",
     "title": "少女A",
     "artist": "椎名もた",
     "lyricist": "椎名もた",
@@ -6690,6 +6752,7 @@
   },
   {
     "id": "milk-crown-on-sonechka",
+    "utatenUrl": "https://utaten.com/lyric/iz19011107/",
     "title": "ミルククラウン・オン・ソーネチカ",
     "artist": "ユジー",
     "lyricist": "ユジー",
@@ -6705,6 +6768,7 @@
   },
   {
     "id": "jumenso",
+    "utatenUrl": "https://utaten.com/lyric/jb51106021/",
     "title": "十面相",
     "artist": "YM",
     "lyricist": "YM",
@@ -6720,6 +6784,7 @@
   },
   {
     "id": "requiem",
+    "utatenUrl": "https://utaten.com/lyric/mi23041737/",
     "title": "レクイエム",
     "artist": "星街すいせい",
     "lyricist": "ＫＡＮＡＲＩＡ",
@@ -6735,6 +6800,7 @@
   },
   {
     "id": "queen-of-heart",
+    "utatenUrl": "https://utaten.com/lyric/mo15101405/",
     "title": "クイーンオブハート",
     "artist": "luz",
     "lyricist": "奏音69",
@@ -6750,6 +6816,7 @@
   },
   {
     "id": "potato-ni-natteiku",
+    "utatenUrl": "https://utaten.com/lyric/rq20081905/",
     "title": "potatoになっていく",
     "artist": "Neru",
     "lyricist": "Neru",
