@@ -6829,5 +6829,35 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "poltergeist-natori",
+    "title": "ポルターガイスト",
+    "artist": "なとり",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
+  },
+  {
+    "id": "in-my-head-natori",
+    "title": "IN_MY_HEAD",
+    "artist": "なとり",
+    "lyricist": null,
+    "composer": null,
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
