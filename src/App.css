@@ -17,7 +17,7 @@ header h1 {
 section {
   background: var(--card-bg);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 1.25rem;
   margin-bottom: 1.25rem;
 }
@@ -39,7 +39,7 @@ section {
   width: 4.5rem;
   padding: 0.4rem 0.5rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 1rem;
   background: var(--bg);
   color: var(--text);
@@ -68,11 +68,11 @@ section {
 button {
   padding: 0.5rem 1.25rem;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 1rem;
   cursor: pointer;
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-fill);
+  color: var(--status-ink);
   transition: background 0.15s;
 }
 
@@ -81,11 +81,11 @@ a.button {
   display: inline-flex;
   align-items: center;
   padding: 0.5rem 1.25rem;
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 1rem;
   text-decoration: none;
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-fill);
+  color: var(--status-ink);
   transition: background 0.15s;
 }
 
@@ -98,7 +98,7 @@ a.button.youtube:hover {
 }
 
 button:hover {
-  background: var(--accent-hover);
+  background: var(--accent-fill-hover);
 }
 
 button:disabled {
@@ -107,7 +107,7 @@ button:disabled {
 }
 
 button:disabled:hover {
-  background: var(--accent);
+  background: var(--accent-fill);
 }
 
 button.secondary {
@@ -126,26 +126,81 @@ button.secondary {
   font-size: 1.15rem;
 }
 
-.setlist ol {
-  margin: 0 0 1rem;
-  padding-left: 1.5rem;
+.setlist .setlist-songs {
+  margin: 0 0 1.25rem;
+  padding-left: 2rem;
 }
 
-.setlist li {
-  padding: 0.35rem 0;
+.setlist-songs > li {
+  padding: 0.75rem 0 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
 }
 
-/* 挑戦枠(練習中/覚えたい)の曲を左ボーダーと薄い背景で強調 */
-.setlist li.challenge {
-  border-left: 3px solid var(--practicing);
-  padding-left: 0.6rem;
-  margin-left: -0.6rem;
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--practicing) 8%, transparent);
+.setlist-songs > li::marker {
+  color: var(--text-sub);
+  font-variant-numeric: tabular-nums;
 }
 
-.challenge-mark {
-  margin-right: 0.15rem;
+.setlist-song-heading {
+  display: flex;
+  flex-direction: column;
+}
+
+.setlist-song-heading .title {
+  font-size: 1.1rem;
+}
+
+.setlist .setlist-song-heading .artist {
+  margin-left: 0;
+}
+
+.setlist-song-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.25rem;
+  color: var(--text-sub);
+  font-size: 0.75rem;
+}
+
+.setlist .setlist-song-meta .badge,
+.setlist .setlist-song-meta .bpm {
+  margin-left: 0;
+  font-size: inherit;
+}
+
+.setlist .setlist-song-meta .badge {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.setlist > .actions {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.setlist-preview {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.setlist-preview summary {
+  cursor: pointer;
+  color: var(--text-sub);
+  width: fit-content;
+}
+
+.setlist-preview summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.setlist-preview .preview {
+  overflow-wrap: anywhere;
 }
 
 .challenge-count {
@@ -175,8 +230,8 @@ button.secondary {
 .badge {
   font-size: 0.7rem;
   padding: 0.1rem 0.5rem;
-  border-radius: 999px;
-  color: #fff;
+  border-radius: var(--radius);
+  color: var(--status-ink);
   white-space: nowrap;
   margin-left: 0.5rem;
 }
@@ -202,7 +257,7 @@ button.secondary {
 .preview {
   background: var(--bg);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   padding: 0.75rem 1rem;
   font-size: 0.85rem;
   overflow-x: auto;
@@ -222,7 +277,7 @@ button.secondary {
   min-width: 0;
   padding: 0.4rem 0.6rem;
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: var(--radius);
   font-size: 0.9rem;
   background: var(--bg);
   color: var(--text);
@@ -236,7 +291,7 @@ button.secondary {
 .chip {
   padding: 0.25rem 0.7rem;
   font-size: 0.8rem;
-  border-radius: 999px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text-sub);
@@ -249,7 +304,7 @@ button.secondary {
 
 /* 選択中(on)は該当習熟度の色で塗る。off は淡いアウトライン。 */
 .chip.on {
-  color: #fff;
+  color: var(--status-ink);
   border-color: transparent;
 }
 
@@ -266,7 +321,7 @@ button.secondary {
 }
 
 .chip.off {
-  opacity: 0.6;
+  border-style: dashed;
 }
 
 /* 作品コードの状態チップ。習熟度チップと同じ形で、色だけ状態に合わせる。 */
@@ -322,7 +377,7 @@ button.secondary {
 .tag-chip {
   padding: 0.15rem 0.6rem;
   font-size: 0.75rem;
-  border-radius: 999px;
+  border-radius: var(--radius);
   border: 1px solid var(--border);
   background: transparent;
   color: var(--text-sub);
@@ -334,15 +389,15 @@ button.secondary {
 }
 
 .tag-chip.on {
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-fill);
+  color: var(--status-ink);
   border-color: transparent;
 }
 
 .tag-clear {
   padding: 0.15rem 0.6rem;
   font-size: 0.75rem;
-  border-radius: 999px;
+  border-radius: var(--radius);
   border: none;
   background: transparent;
   color: var(--accent);
@@ -425,7 +480,7 @@ button.secondary {
   padding: 0.2rem 0.6rem;
   font-size: 0.75rem;
   border: 1px solid var(--accent);
-  border-radius: 999px;
+  border-radius: var(--radius);
   background: transparent;
   color: var(--accent);
   white-space: nowrap;
@@ -433,8 +488,8 @@ button.secondary {
 
 .row-request:hover,
 .row-request.on {
-  background: var(--accent);
-  color: #fff;
+  background: var(--accent-fill);
+  color: var(--status-ink);
 }
 
 /*
@@ -476,7 +531,7 @@ button.secondary {
 }
 
 .hint.error {
-  color: #c4302b;
+  color: var(--danger);
 }
 
 /* 楽曲申請。フォームに貼る値をクリックでコピーできるようにする。 */
@@ -505,7 +560,7 @@ button.secondary {
   font-size: 0.85rem;
   font-family: inherit;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: var(--radius);
   background: transparent;
   color: var(--text-sub);
   cursor: pointer;
@@ -533,7 +588,7 @@ button.secondary {
 .society {
   padding: 0.05rem 0.4rem;
   border: 1px solid var(--border);
-  border-radius: 999px;
+  border-radius: var(--radius);
   font-size: 0.7rem;
   color: var(--text-sub);
   white-space: nowrap;
@@ -579,7 +634,7 @@ button.secondary {
   margin: 0.75rem 0;
   padding: 0.9rem 1rem;
   border: 1px solid var(--accent);
-  border-radius: 10px;
+  border-radius: var(--radius);
   background: var(--bg);
 }
 
@@ -843,4 +898,54 @@ button.secondary {
 .pool input:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 3px;
+}
+
+/* A quiet sheet of music notes: rules separate content without extra cards. */
+.app > header { padding-block: 0.5rem 1.25rem; }
+header h1 { display: flex; align-items: center; gap: 0.65rem; letter-spacing: 0.02em; }
+.keyboard-mark { width: 1.75rem; height: 1.5rem; flex: none; color: var(--accent); }
+.subtitle { margin: 0.5rem 0 0; }
+section { border-inline: 0; border-radius: 0; padding: 1.5rem; }
+.setlist { border-top: 3px solid var(--accent); }
+.setlist ol { padding-left: 2.25rem; }
+.setlist li { padding: 0.7rem 0.25rem; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
+.setlist li::marker { color: var(--accent); font-weight: 600; font-variant-numeric: tabular-nums; }
+.actions { flex-wrap: wrap; align-items: center; }
+.controls input[type="number"], .pool-search, .chip, .tag-chip { border-color: var(--control-border); }
+.pool-search::placeholder { color: var(--text-sub); opacity: 1; }
+.chip:hover, .tag-chip:hover, button.secondary:hover {
+  background: color-mix(in srgb, var(--accent) 12%, var(--card-bg));
+  color: var(--text);
+  border-color: var(--accent);
+}
+.chip.on::before, .tag-chip.on::before {
+  content: "";
+  display: inline-block;
+  width: 0.35em;
+  height: 0.65em;
+  margin-right: 0.6em;
+  border: solid currentColor;
+  border-width: 0 2px 2px 0;
+  transform: translateY(-0.1em) rotate(45deg);
+}
+.chip.on:hover, .tag-chip.on:hover { text-decoration: underline; }
+.chip.yt-has-video.on, .chip.yt-no-video.on, a.button.youtube { color: #fff; }
+.chip.yt-has-video.on:hover, .chip.yt-no-video.on:hover { background: #a52722; }
+button.secondary:disabled:hover { background: transparent; color: var(--accent); }
+.wizard { border-color: var(--border); border-left: 3px solid var(--accent); }
+.wizard-head { flex-wrap: wrap; gap: 0.5rem; }
+.wizard-fields { grid-template-columns: auto minmax(0, 1fr); }
+.copy-value { overflow-wrap: anywhere; text-align: left; }
+.request-list li.done { opacity: 1; }
+@media (max-width: 640px) {
+  .app { padding: 1rem 0.75rem 2rem; }
+  header h1 { font-size: 1.3rem; }
+  section { padding: 1rem 0.75rem; }
+  .controls { gap: 0.75rem; }
+  .controls label { flex-wrap: wrap; }
+  .mastery-chips, .work-code-chips, .youtube-chips { flex-wrap: wrap; }
+  .generate { margin-left: 0; }
+  .actions > button, .actions > a.button { min-height: 44px; }
+  .wizard { padding: 0.75rem; }
+  .request-progress { white-space: normal; }
 }

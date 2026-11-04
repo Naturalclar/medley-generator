@@ -591,7 +591,14 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   return (
     <div className="app">
       <header>
-        <h1>🎹 メドレーセトリ生成</h1>
+        <h1>
+            <svg className="keyboard-mark" viewBox="0 0 28 24" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="22" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M7.5 1v22M14 1v22M20.5 1v22" stroke="currentColor" />
+              <path d="M5.5 1h4v12h-4zM12 1h4v12h-4zM18.5 1h4v12h-4z" fill="currentColor" />
+            </svg>
+            メドレーセトリ生成
+          </h1>
         <p className="subtitle">配信で演奏するメドレーの曲目を自動で組む</p>
       </header>
 
@@ -690,17 +697,19 @@ function SetlistApp({ songs }: { songs: Song[] }) {
           <ol className="setlist-songs">
             {setlist.map((song) => (
               <li key={song.id} className={isChallenge(song) ? "challenge" : ""}>
-                {isChallenge(song) && (
-                  <span className="challenge-mark" title="挑戦枠">
-                    🔰
+                <div className="setlist-song-heading">
+                  <span className="title">{song.title}</span>
+                  {song.artist && <span className="artist">{song.artist}</span>}
+                </div>
+                <div className="setlist-song-meta">
+                  {isChallenge(song) && (
+                    <span className="challenge-mark">🔰 挑戦枠</span>
+                  )}
+                  <span className={`badge ${song.mastery}`}>
+                    {MASTERY_LABEL[song.mastery]}
                   </span>
-                )}
-                <span className="title">{song.title}</span>
-                {song.artist && <span className="artist">{song.artist}</span>}
-                <span className={`badge ${song.mastery}`}>
-                  {MASTERY_LABEL[song.mastery]}
-                </span>
-                {song.bpm && <span className="bpm">♩={song.bpm}</span>}
+                  {song.bpm && <span className="bpm">♩={song.bpm}</span>}
+                </div>
               </li>
             ))}
           </ol>
@@ -778,7 +787,10 @@ function SetlistApp({ songs }: { songs: Song[] }) {
               連続再生リンクを作れません。
             </p>
           )}
-          <pre className="preview">{setlistText}</pre>
+          <details className="setlist-preview">
+            <summary aria-controls="setlist-copy-preview">コピー用テキストを確認</summary>
+            <pre id="setlist-copy-preview" className="preview">{setlistText}</pre>
+          </details>
         </section>
       )}
 
@@ -1277,7 +1289,14 @@ function App() {
     return (
       <div className="app">
         <header>
-          <h1>🎹 メドレーセトリ生成</h1>
+          <h1>
+            <svg className="keyboard-mark" viewBox="0 0 28 24" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="22" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M7.5 1v22M14 1v22M20.5 1v22" stroke="currentColor" />
+              <path d="M5.5 1h4v12h-4zM12 1h4v12h-4zM18.5 1h4v12h-4z" fill="currentColor" />
+            </svg>
+            メドレーセトリ生成
+          </h1>
         </header>
         <p className="load-error">
           曲データを読み込めませんでした。ページを再読み込みしてください。
@@ -1290,7 +1309,14 @@ function App() {
     return (
       <div className="app">
         <header>
-          <h1>🎹 メドレーセトリ生成</h1>
+          <h1>
+            <svg className="keyboard-mark" viewBox="0 0 28 24" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="22" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M7.5 1v22M14 1v22M20.5 1v22" stroke="currentColor" />
+              <path d="M5.5 1h4v12h-4zM12 1h4v12h-4zM18.5 1h4v12h-4z" fill="currentColor" />
+            </svg>
+            メドレーセトリ生成
+          </h1>
         </header>
         <p className="loading">曲データを読み込み中…</p>
       </div>
