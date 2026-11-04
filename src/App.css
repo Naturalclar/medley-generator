@@ -126,26 +126,81 @@ button.secondary {
   font-size: 1.15rem;
 }
 
-.setlist ol {
-  margin: 0 0 1rem;
-  padding-left: 1.5rem;
+.setlist .setlist-songs {
+  margin: 0 0 1.25rem;
+  padding-left: 2rem;
 }
 
-.setlist li {
-  padding: 0.35rem 0;
+.setlist-songs > li {
+  padding: 0.75rem 0 0.75rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
 }
 
-/* 挑戦枠(練習中/覚えたい)の曲を左ボーダーと薄い背景で強調 */
-.setlist li.challenge {
-  border-left: 3px solid var(--practicing);
-  padding-left: 0.6rem;
-  margin-left: -0.6rem;
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--practicing) 8%, transparent);
+.setlist-songs > li::marker {
+  color: var(--text-sub);
+  font-variant-numeric: tabular-nums;
 }
 
-.challenge-mark {
-  margin-right: 0.15rem;
+.setlist-song-heading {
+  display: flex;
+  flex-direction: column;
+}
+
+.setlist-song-heading .title {
+  font-size: 1.1rem;
+}
+
+.setlist .setlist-song-heading .artist {
+  margin-left: 0;
+}
+
+.setlist-song-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.25rem;
+  color: var(--text-sub);
+  font-size: 0.75rem;
+}
+
+.setlist .setlist-song-meta .badge,
+.setlist .setlist-song-meta .bpm {
+  margin-left: 0;
+  font-size: inherit;
+}
+
+.setlist .setlist-song-meta .badge {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.setlist > .actions {
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.setlist-preview {
+  margin-top: 1rem;
+  border-top: 1px solid var(--border);
+  padding-top: 0.75rem;
+}
+
+.setlist-preview summary {
+  cursor: pointer;
+  color: var(--text-sub);
+  width: fit-content;
+}
+
+.setlist-preview summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 4px;
+}
+
+.setlist-preview .preview {
+  overflow-wrap: anywhere;
 }
 
 .challenge-count {
