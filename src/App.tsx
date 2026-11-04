@@ -664,17 +664,19 @@ function SetlistApp({ songs }: { songs: Song[] }) {
           <ol className="setlist-songs">
             {setlist.map((song) => (
               <li key={song.id} className={isChallenge(song) ? "challenge" : ""}>
-                {isChallenge(song) && (
-                  <span className="challenge-mark" title="挑戦枠">
-                    🔰
+                <div className="setlist-song-heading">
+                  <span className="title">{song.title}</span>
+                  {song.artist && <span className="artist">{song.artist}</span>}
+                </div>
+                <div className="setlist-song-meta">
+                  {isChallenge(song) && (
+                    <span className="challenge-mark">🔰 挑戦枠</span>
+                  )}
+                  <span className={`badge ${song.mastery}`}>
+                    {MASTERY_LABEL[song.mastery]}
                   </span>
-                )}
-                <span className="title">{song.title}</span>
-                {song.artist && <span className="artist">{song.artist}</span>}
-                <span className={`badge ${song.mastery}`}>
-                  {MASTERY_LABEL[song.mastery]}
-                </span>
-                {song.bpm && <span className="bpm">♩={song.bpm}</span>}
+                  {song.bpm && <span className="bpm">♩={song.bpm}</span>}
+                </div>
               </li>
             ))}
           </ol>
@@ -752,7 +754,10 @@ function SetlistApp({ songs }: { songs: Song[] }) {
               連続再生リンクを作れません。
             </p>
           )}
-          <pre className="preview">{setlistText}</pre>
+          <details className="setlist-preview">
+            <summary aria-controls="setlist-copy-preview">コピー用テキストを確認</summary>
+            <pre id="setlist-copy-preview" className="preview">{setlistText}</pre>
+          </details>
         </section>
       )}
 
