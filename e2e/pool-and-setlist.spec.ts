@@ -4,6 +4,8 @@ const APP_PATH = "/medley-generator/";
 
 test.beforeEach(async ({ page }) => {
   await page.goto(APP_PATH);
+  // songs.json は非同期取得。count() は自動待機しないため、初期件数の取得前に描画を待つ。
+  await expect(page.locator(".pool tbody tr").first()).toBeVisible();
 });
 
 test.describe("セトリ生成", () => {
