@@ -7085,5 +7085,21 @@
     "workCodeNotFound": false,
     "tags": [],
     "memo": ""
+  },
+  {
+    "id": "rocket-cider",
+    "utatenUrl": "https://utaten.com/lyric/iz16100655/",
+    "title": "ロケットサイダー",
+    "artist": "ナユタン星人",
+    "lyricist": "ナユタン星人",
+    "composer": "ナユタン星人",
+    "bpm": null,
+    "mastery": "practicing",
+    "youtubeId": "3x9_LpnRtAk",
+    "jasracCode": null,
+    "nextoneCode": "N00057370",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
