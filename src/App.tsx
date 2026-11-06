@@ -256,6 +256,8 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   const [markChallenge, setMarkChallenge] = useState(true);
 
   // 曲プールの絞り込み(検索 + 習熟度 + タグ)と並べ替え
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [tagsOpen, setTagsOpen] = useState(false);
   const [poolSearch, setPoolSearch] = useState("");
   const [masteryFilter, setMasteryFilter] = useState<Record<Mastery, boolean>>({
     ready: true,
@@ -273,6 +275,33 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   const [youtubeFilter, setYoutubeFilter] = useState<
     Record<YoutubeStatus, boolean>
   >({ "has-video": true, "no-video": true });
+
+  const activeConditions = [
+    ...(poolSearch.trim() ? [{ label: `検索: ${poolSearch}`, clear: () => setPoolSearch("") }] : []),
+    ...MASTERIES.filter((m) => !masteryFilter[m]).map((m) => ({
+      label: `習熟度: ${MASTERY_LABEL[m]}を除外`,
+      clear: () => setMasteryFilter((prev) => ({ ...prev, [m]: true })),
+    })),
+    ...WORK_CODE_STATUSES.filter((st) => !workCodeFilter[st]).map((st) => ({
+      label: `作品コード: ${WORK_CODE_STATUS_LABEL[st]}を除外`,
+      clear: () => setWorkCodeFilter((prev) => ({ ...prev, [st]: true })),
+    })),
+    ...YOUTUBE_STATUSES.filter((st) => !youtubeFilter[st]).map((st) => ({
+      label: `YouTube: ${YOUTUBE_STATUS_LABEL[st]}を除外`,
+      clear: () => setYoutubeFilter((prev) => ({ ...prev, [st]: true })),
+    })),
+    ...[...activeTags].map((tag) => ({
+      label: `タグ: ${tag}`,
+      clear: () => setActiveTags((prev) => new Set([...prev].filter((t) => t !== tag))),
+    })),
+  ];
+  const clearPoolFilters = () => {
+    setPoolSearch("");
+    setMasteryFilter({ ready: true, practicing: true, wishlist: true });
+    setWorkCodeFilter({ requestable: true, unchecked: true, "not-found": true });
+    setYoutubeFilter({ "has-video": true, "no-video": true });
+    setActiveTags(new Set());
+  };
 
   const filteredPool = useMemo(() => {
     const q = poolSearch.trim().toLowerCase();
@@ -562,11 +591,22 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   return (
     <div className="app">
       <header>
-        <h1>🎹 メドレーセトリ生成</h1>
+        <h1>
+            <svg className="keyboard-mark" viewBox="0 0 28 24" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="22" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M7.5 1v22M14 1v22M20.5 1v22" stroke="currentColor" />
+              <path d="M5.5 1h4v12h-4zM12 1h4v12h-4zM18.5 1h4v12h-4z" fill="currentColor" />
+            </svg>
+            メドレーセトリ生成
+          </h1>
         <p className="subtitle">配信で演奏するメドレーの曲目を自動で組む</p>
       </header>
 
-      <section className="controls">
+      <section className="controls" aria-labelledby="generation-heading">
+        <div className="generation-heading">
+          <h2 id="generation-heading">セトリの生成条件</h2>
+          <p className="hint">曲一覧の絞り込みとは別に、生成する曲を指定します。</p>
+        </div>
         <label>
           曲数
           <input
@@ -657,17 +697,19 @@ function SetlistApp({ songs }: { songs: Song[] }) {
           <ol className="setlist-songs">
             {setlist.map((song) => (
               <li key={song.id} className={isChallenge(song) ? "challenge" : ""}>
-                {isChallenge(song) && (
-                  <span className="challenge-mark" title="挑戦枠">
-                    🔰
+                <div className="setlist-song-heading">
+                  <span className="title">{song.title}</span>
+                  {song.artist && <span className="artist">{song.artist}</span>}
+                </div>
+                <div className="setlist-song-meta">
+                  {isChallenge(song) && (
+                    <span className="challenge-mark">🔰 挑戦枠</span>
+                  )}
+                  <span className={`badge ${song.mastery}`}>
+                    {MASTERY_LABEL[song.mastery]}
                   </span>
-                )}
-                <span className="title">{song.title}</span>
-                {song.artist && <span className="artist">{song.artist}</span>}
-                <span className={`badge ${song.mastery}`}>
-                  {MASTERY_LABEL[song.mastery]}
-                </span>
-                {song.bpm && <span className="bpm">♩={song.bpm}</span>}
+                  {song.bpm && <span className="bpm">♩={song.bpm}</span>}
+                </div>
               </li>
             ))}
           </ol>
@@ -745,7 +787,10 @@ function SetlistApp({ songs }: { songs: Song[] }) {
               連続再生リンクを作れません。
             </p>
           )}
-          <pre className="preview">{setlistText}</pre>
+          <details className="setlist-preview">
+            <summary aria-controls="setlist-copy-preview">コピー用テキストを確認</summary>
+            <pre id="setlist-copy-preview" className="preview">{setlistText}</pre>
+          </details>
         </section>
       )}
 
@@ -901,15 +946,51 @@ function SetlistApp({ songs }: { songs: Song[] }) {
 
       <section className="pool">
         <h2>曲プール</h2>
+        <h3>曲一覧の絞り込み</h3>
+        <p className="hint" id="pool-filter-help">この一覧だけを絞り込みます。生成候補や生成済みセトリは変わりません。</p>
         <div className="pool-filters">
+          <label className="pool-search-label" htmlFor="pool-search">曲名・アーティスト</label>
           <input
+            id="pool-search"
             type="search"
             className="pool-search"
             placeholder="曲名・アーティストで検索"
+            aria-describedby="pool-filter-help"
             value={poolSearch}
             onChange={(e) => setPoolSearch(e.target.value)}
           />
-          <div className="mastery-chips">
+          <span className="pool-count" role="status">
+            {songs.length}曲中 {filteredPool.length}曲
+          </span>
+          <div className="pool-filter-toggles">
+            <button type="button" className="secondary" aria-expanded={filtersOpen}
+              aria-controls="pool-details" onClick={() => setFiltersOpen((open) => !open)}>
+              詳細フィルター {filtersOpen ? "を閉じる" : "を開く"}
+            </button>
+            {ALL_TAGS.length > 0 && (
+              <button type="button" className="secondary" aria-expanded={tagsOpen}
+                aria-controls="pool-tags" onClick={() => setTagsOpen((open) => !open)}>
+                タグ {tagsOpen ? "を閉じる" : "を開く"}{activeTags.size > 0 ? `（${activeTags.size}件選択中）` : ""}
+              </button>
+            )}
+          </div>
+        </div>
+        <div className="pool-active-filters" aria-label="現在の絞り込み条件">
+          {activeConditions.length > 0 ? (
+            <>
+              <span>絞り込み中:</span>
+              {activeConditions.map(({ label, clear }) => (
+                <button type="button" className="tag-chip" key={label}
+                  aria-label={`${label}を解除`} onClick={clear}>
+                  {label} ×
+                </button>
+              ))}
+              <button type="button" className="tag-clear" onClick={clearPoolFilters}>すべてクリア</button>
+            </>
+          ) : <span className="hint">絞り込みなし</span>}
+        </div>
+        <div id="pool-details" className="pool-filter-details" hidden={!filtersOpen}>
+          <fieldset className="mastery-chips"><legend>習熟度</legend>
             {MASTERIES.map((m) => (
               <button
                 key={m}
@@ -921,8 +1002,8 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                 {MASTERY_LABEL[m]}
               </button>
             ))}
-          </div>
-          <div className="work-code-chips">
+          </fieldset>
+          <fieldset className="work-code-chips"><legend>作品コード</legend>
             {WORK_CODE_STATUSES.map((st) => (
               <button
                 key={st}
@@ -934,8 +1015,8 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                 {WORK_CODE_STATUS_LABEL[st]}
               </button>
             ))}
-          </div>
-          <div className="youtube-chips">
+          </fieldset>
+          <fieldset className="youtube-chips"><legend>YouTube</legend>
             {YOUTUBE_STATUSES.map((st) => (
               <button
                 key={st}
@@ -947,35 +1028,20 @@ function SetlistApp({ songs }: { songs: Song[] }) {
                 {YOUTUBE_STATUS_LABEL[st]}
               </button>
             ))}
-          </div>
-          <span className="pool-count">
-            {songs.length}曲中 {filteredPool.length}曲
-          </span>
+          </fieldset>
         </div>
-        {ALL_TAGS.length > 0 && (
-          <div className="tag-filters">
+        <div id="pool-tags" hidden={!tagsOpen}>
+          <p className="hint">タグは複数選択できます。いずれかのタグを持つ曲を表示します。</p>
+          <div className="tag-filters" role="group" aria-label="タグ">
             {ALL_TAGS.map((t) => (
-              <button
-                key={t}
-                type="button"
+              <button key={t} type="button"
                 className={`tag-chip ${activeTags.has(t) ? "on" : ""}`}
-                aria-pressed={activeTags.has(t)}
-                onClick={() => toggleTag(t)}
-              >
+                aria-pressed={activeTags.has(t)} onClick={() => toggleTag(t)}>
                 {t}
               </button>
             ))}
-            {activeTags.size > 0 && (
-              <button
-                type="button"
-                className="tag-clear"
-                onClick={() => setActiveTags(new Set())}
-              >
-                クリア
-              </button>
-            )}
           </div>
-        )}
+        </div>
         <div className="pool-table-wrap">
         <table>
           <thead>
@@ -1223,7 +1289,14 @@ function App() {
     return (
       <div className="app">
         <header>
-          <h1>🎹 メドレーセトリ生成</h1>
+          <h1>
+            <svg className="keyboard-mark" viewBox="0 0 28 24" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="22" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M7.5 1v22M14 1v22M20.5 1v22" stroke="currentColor" />
+              <path d="M5.5 1h4v12h-4zM12 1h4v12h-4zM18.5 1h4v12h-4z" fill="currentColor" />
+            </svg>
+            メドレーセトリ生成
+          </h1>
         </header>
         <p className="load-error">
           曲データを読み込めませんでした。ページを再読み込みしてください。
@@ -1236,7 +1309,14 @@ function App() {
     return (
       <div className="app">
         <header>
-          <h1>🎹 メドレーセトリ生成</h1>
+          <h1>
+            <svg className="keyboard-mark" viewBox="0 0 28 24" aria-hidden="true" focusable="false">
+              <rect x="1" y="1" width="26" height="22" rx="2" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              <path d="M7.5 1v22M14 1v22M20.5 1v22" stroke="currentColor" />
+              <path d="M5.5 1h4v12h-4zM12 1h4v12h-4zM18.5 1h4v12h-4z" fill="currentColor" />
+            </svg>
+            メドレーセトリ生成
+          </h1>
         </header>
         <p className="loading">曲データを読み込み中…</p>
       </div>

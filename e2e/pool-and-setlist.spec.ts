@@ -4,6 +4,8 @@ const APP_PATH = "/medley-generator/";
 
 test.beforeEach(async ({ page }) => {
   await page.goto(APP_PATH);
+  // songs.json は非同期取得。count() は自動待機しないため、初期件数の取得前に描画を待つ。
+  await expect(page.locator(".pool tbody tr").first()).toBeVisible();
 });
 
 test.describe("セトリ生成", () => {
@@ -144,6 +146,11 @@ test.describe("セトリ生成", () => {
 });
 
 test.describe("曲プールの絞り込み・並べ替え", () => {
+  test.beforeEach(async ({ page }) => {
+    await page.getByRole("button", { name: "詳細フィルター を開く" }).click();
+    await page.getByRole("button", { name: "タグ を開く" }).click();
+  });
+
   test("検索で曲名・アーティストが絞り込まれる", async ({ page }) => {
     await page.fill(".pool-search", "ヨルシカ");
     const rows = page.locator(".pool tbody tr");
