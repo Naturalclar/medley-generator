@@ -7101,5 +7101,21 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "akaito",
+    "utatenUrl": null,
+    "title": "アカイト",
+    "artist": "みきとP",
+    "lyricist": "みきとP",
+    "composer": "みきとP",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": null,
+    "jasracCode": null,
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["リスナーリクエスト"],
+    "memo": ""
   }
 ]
