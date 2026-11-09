@@ -7197,5 +7197,21 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "nounai-kakumei-girl",
+    "utatenUrl": "https://utaten.com/lyric/iz15122505/",
+    "title": "脳内革命ガール",
+    "artist": "MARETU feat. 初音ミク",
+    "lyricist": "ＭＡＲＥＴＵ",
+    "composer": "ＭＡＲＥＴＵ",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "sjr-tPFADpM",
+    "jasracCode": "196-2264-3",
+    "nextoneCode": null,
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
