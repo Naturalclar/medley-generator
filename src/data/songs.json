@@ -7165,5 +7165,37 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "suki-yuki-maji-magic",
+    "utatenUrl": "https://utaten.com/lyric/iz17022318/",
+    "title": "好き！雪！本気マジック",
+    "artist": "Mitchie M feat. 初音ミク",
+    "lyricist": "Mitchie M",
+    "composer": "Mitchie M",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "79N1O0lF0GY",
+    "jasracCode": null,
+    "nextoneCode": "N01328604",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "shiroi-yuki-no-princess-wa",
+    "utatenUrl": "https://utaten.com/lyric/jb51101215/",
+    "title": "白い雪のプリンセスは",
+    "artist": "のぼる↑ feat. 初音ミク",
+    "lyricist": "のぼる↑",
+    "composer": "のぼる↑",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "aPb-MTcpNbE",
+    "jasracCode": null,
+    "nextoneCode": "N00036777",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
