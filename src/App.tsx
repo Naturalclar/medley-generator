@@ -1,3 +1,4 @@
+import ScoreLibrary from "./ScoreLibrary";
 import { utatenLyricsUrl } from "./lib/utaten";
 import { Fragment, useEffect, useMemo, useState } from "react";
 import {
@@ -249,8 +250,30 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   // どちらかの「だけ」モードがONの間は includeWishlist が効かない。
   const onlyMode = wishlistOnly || practicingOnly;
   const [setlist, setSetlist] = useState<Song[]>([]);
-  // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
   const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
+  const [sessionLoaded, setSessionLoaded] = useState(false);
+  const [sessionError, setSessionError] = useState('');
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('medley-generator:setlist:v1');
+      if (raw) {
+        const session: unknown = JSON.parse(raw);
+        if (!session || typeof session !== 'object' || !('ids' in session) || !('date' in session)) throw new Error('invalid');
+        const {ids,date}=session;
+        if (typeof date !== 'string' || !Number.isFinite(Date.parse(date))) throw new Error('invalid');
+        if (!Array.isArray(ids) || !ids.every(id => typeof id === 'string')) throw new Error('invalid');
+        setSetlist(ids.flatMap(id => {const song=songs.find(s=>s.id===id);return song?[song]:[];}));
+        setGeneratedAt(new Date(date));
+      }
+      setSessionLoaded(true);
+    } catch {setSessionError('セトリの保存データを読み込めません。元データを保護するため自動保存を停止しています。');}
+  }, [songs]);
+  useEffect(() => {
+    if (!sessionLoaded) return;
+    try {localStorage.setItem('medley-generator:setlist:v1',JSON.stringify({ids:setlist.map(s=>s.id),date:(generatedAt ?? new Date()).toISOString()}));setSessionError('');}
+    catch {setSessionError('セトリを保存できませんでした。JSONを書き出して退避してください。');}
+  }, [setlist,sessionLoaded,generatedAt]);
+  // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
   const [copied, setCopied] = useState(false);
   // コピー用テキストで挑戦枠に 🔰 を付けるか
   const [markChallenge, setMarkChallenge] = useState(true);
@@ -1216,12 +1239,20 @@ function SetlistApp({ songs }: { songs: Song[] }) {
         </p>
       </section>
 
+      {sessionError && <p role="alert">{sessionError}</p>}
+      <ScoreLibrary songs={songs} setlist={setlist} setlistDate={generatedAt} onRestoreSetlist={(ids,date)=>{
+        const missing=ids.filter(id=>!songs.some(s=>s.id===id));
+        setSetlist(ids.flatMap(id=>{const song=songs.find(s=>s.id===id);return song?[song]:[];}));
+        setGeneratedAt(date ? new Date(date) : new Date());
+        if(missing.length)setSessionError(`曲プールにない${missing.length}曲はセトリに復元できませんでした。譜面データは保持されています。`);
+      }} />
+
       <section className="about">
         <h2>このアプリについて</h2>
         <p>
           配信で演奏するメドレーの曲目を、登録した曲プールから自動で組むツールです。
-          練習中の曲が1曲だけ自然に混ざるように選びます。サーバーもデータベースも
-          無く、すべてブラウザの中だけで動きます。
+          練習中の曲が1曲だけ自然に混ざるように選びます。選曲と譜面の編集・保存はブラウザで行います。
+          URLからの譜面取り込みは、対応する配信環境で利用できます。
         </p>
 
         <h3>YouTube との連携</h3>

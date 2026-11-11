@@ -1,3 +1,4 @@
+import { offlineShell } from "./offline-plugin.js"
 import { copyFileSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import react from '@vitejs/plugin-react'
@@ -39,7 +40,7 @@ function songsJson(): Plugin {
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), songsJson()],
+  plugins: [react(), songsJson(), offlineShell()],
   // GitHub Pages (https://naturalclar.github.io/medley-generator/) 配信用
   base: '/medley-generator/',
 })
