@@ -17,14 +17,14 @@ export function extractScore(html: string, source: Source): Pick<ImportedScore, 
   const text = (element: Element | null) => {
     if (!element) return '';
     const clone = element.cloneNode(true) as Element;
-    clone.querySelectorAll('rt,rp,.newLyricTitle_afterTxt').forEach(n => n.remove());
+    clone.querySelectorAll('rt,rp,.ruby .rt,.ruby .rp,.hiragana,.newLyricTitle_afterTxt').forEach(n => n.remove());
     clone.querySelectorAll('br').forEach(n => n.replaceWith('\n'));
     return (clone.textContent ?? '').replace(/\r\n?/g, '\n').trim();
   };
   const title = text(doc.querySelector(source === 'utaten' ? '.newLyricTitle__main' : 'h1')).trim() || doc.title;
   const artist = text(doc.querySelector(source === 'utaten' ? '.newLyricWork__name a' : '[itemprop="byArtist"]'));
   let body = '';
-  if (source === 'utaten') body = text(doc.querySelector('.lyricBody .medium, .lyricBody'));
+  if (source === 'utaten') body = text(doc.querySelector('.lyricBody .medium') ?? doc.querySelector('.lyricBody'));
   else {
     // Prefer original ChordPro over rendered markup so chord-to-lyric positions survive.
     const input = doc.querySelector('textarea[name="text"], textarea[name="body"], textarea[name="content"], textarea#text, textarea#chordpro, form textarea, pre.chordpro, pre#chordpro');

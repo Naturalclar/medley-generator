@@ -37,6 +37,13 @@ test('URL import previews inert text, saves, transposes, exports and survives re
   await expect(page.getByLabel('歌詞・コード（ChordPro）')).toHaveValue('星のうた\n[C]自作の歌[G]だよ');
   expect(errors).toEqual([]);
 });
+test('UtaTen span ruby and alternate hiragana do not duplicate the imported lyrics',async({page})=>{
+  await openEditor(page);page.on('dialog',dialog=>dialog.accept());
+  const html='<h2 class="newLyricTitle__main">自作</h2><div class="lyricBody"><div class="medium"><span class="ruby"><span class="rb">星</span><span class="rt">ほし</span></span>のうた<br><ruby>空<rp>（</rp><rt>そら</rt><rp>）</rp></ruby>へ<br><span class="ruby"><span class="rb">明日</span><span class="rt">あした</span></span>も<div class="hiragana">ほしのうた<br>そらへ<br>あしたも</div></div><aside>本文外の説明</aside></div>';
+  await page.route('**/api/score-import?*',route=>route.fulfill({json:{html,sourceUrl:url,usage:'自作の構造テスト'}}));
+  await page.getByLabel('取り込み元URL').fill(url);await page.getByRole('button',{name:'URLから取り込む',exact:true}).click();
+  await expect(page.getByLabel('歌詞・コード（ChordPro）')).toHaveValue('星のうた\n空へ\n明日も');
+});
 test('failed reimport preserves saved and edited body; invalid JSON is non destructive',async({page})=>{
   await openEditor(page);page.on('dialog',d=>d.accept());
   await page.getByLabel('歌詞・コード（ChordPro）').fill('[C/E]自作');
