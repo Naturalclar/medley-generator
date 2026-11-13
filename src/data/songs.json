@@ -8145,5 +8145,21 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "kanashibari-ni-attara",
+    "utatenUrl": "https://utaten.com/lyric/mi24111941/",
+    "title": "かなしばりに遭ったら",
+    "artist": "あばらや",
+    "lyricist": "あばらや",
+    "composer": "あばらや",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "t1cC3pdFODA",
+    "jasracCode": null,
+    "nextoneCode": "N01573230",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
