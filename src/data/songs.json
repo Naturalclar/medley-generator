@@ -8114,5 +8114,21 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "rinkai-diver",
+    "utatenUrl": "https://utaten.com/lyric/iz18070202/",
+    "title": "臨界ダイバー",
+    "artist": "こじろー",
+    "lyricist": "こじろー",
+    "composer": "こじろー",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "qEqxCtv5KEM",
+    "jasracCode": null,
+    "nextoneCode": "N00590561",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
