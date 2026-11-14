@@ -63,7 +63,7 @@ test("一覧の条件は生成候補・生成済みセトリに影響しない",
   const max = await page.locator(".max-hint").innerText();
   await page.getByRole("button", { name: "セトリ生成", exact: true }).click();
   const before = await page.locator(".setlist-songs").textContent();
-  await page.getByRole("searchbox").fill("存在しない曲__348");
+  await page.getByRole("searchbox", { name: "曲名・アーティスト", exact: true }).fill("存在しない曲__348");
   await expect(page.locator(".pool-empty")).toBeVisible();
   await expect(page.locator(".setlist-songs")).toHaveText(before!);
   await expect(page.locator(".max-hint")).toHaveText(max);

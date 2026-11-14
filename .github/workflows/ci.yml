@@ -23,6 +23,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run lint
       - run: pnpm test
+      - run: pnpm run test:server
       - run: pnpm run build
 
   e2e:
@@ -36,8 +37,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       # CI ではブラウザを都度取得(ローカルの /opt/pw-browsers には依存しない)
-      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm exec playwright install --with-deps chromium webkit
       - run: pnpm run test:e2e
+      - run: pnpm run test:ipad
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}
         with:
