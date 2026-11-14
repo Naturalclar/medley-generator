@@ -8082,5 +8082,53 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "yoidore-shirazu",
+    "utatenUrl": "https://utaten.com/lyric/hw22050906/",
+    "title": "酔いどれ知らず",
+    "artist": "Kanaria",
+    "lyricist": "Kanaria",
+    "composer": "Kanaria",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "vB8sxY_PJ_w",
+    "jasracCode": null,
+    "nextoneCode": "N01159693",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "renai-saiban",
+    "utatenUrl": "https://utaten.com/lyric/mo15031742/",
+    "title": "恋愛裁判",
+    "artist": "40mP",
+    "lyricist": "40mP",
+    "composer": "40mP",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "TXzfQ0cP1P0",
+    "jasracCode": null,
+    "nextoneCode": "N00108835",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
+  },
+  {
+    "id": "rinkai-diver",
+    "utatenUrl": "https://utaten.com/lyric/iz18070202/",
+    "title": "臨界ダイバー",
+    "artist": "こじろー",
+    "lyricist": "こじろー",
+    "composer": "こじろー",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "qEqxCtv5KEM",
+    "jasracCode": null,
+    "nextoneCode": "N00590561",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
