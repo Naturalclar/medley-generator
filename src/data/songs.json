@@ -8210,5 +8210,21 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "aimai-retsujou-lover",
+    "utatenUrl": "https://utaten.com/lyric/iz17020924/",
+    "title": "曖昧劣情Lover",
+    "artist": "koyori(電ポルP) feat. flower",
+    "lyricist": "Koyori",
+    "composer": "Koyori",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "dJ8ASg0RkZI",
+    "jasracCode": null,
+    "nextoneCode": "N00109822",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ"],
+    "memo": ""
   }
 ]
