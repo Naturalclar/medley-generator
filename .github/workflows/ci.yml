@@ -26,7 +26,8 @@ jobs:
       - run: pnpm run build
 
   e2e:
-    runs-on: ubuntu-latest
+    # ubuntu-latest は 26.04 になり、Playwright 1.56 は chromium を入れられない。
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
