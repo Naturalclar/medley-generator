@@ -26,7 +26,9 @@ jobs:
       - run: pnpm run build
 
   e2e:
-    # ubuntu-latest は 26.04 になり、Playwright 1.56 は chromium を入れられない。
+    # ubuntu-latest が 26.04 になり、playwright install --with-deps が
+    # "Playwright does not support chromium on ubuntu26.04-x64" で落ちるため固定する。
+    # Playwright が 26.04 に対応したら ubuntu-latest に戻す。
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
