@@ -8226,5 +8226,21 @@
     "workCodeNotFound": false,
     "tags": ["ボカロ"],
     "memo": ""
+  },
+  {
+    "id": "dokuzu",
+    "utatenUrl": "https://utaten.com/lyric/mi22030801/",
+    "title": "ド屑",
+    "artist": "なきそ feat. 歌愛ユキ",
+    "lyricist": "なきそ",
+    "composer": "なきそ",
+    "bpm": null,
+    "mastery": "wishlist",
+    "youtubeId": "5XehRIb81k8",
+    "jasracCode": null,
+    "nextoneCode": "N01141360",
+    "workCodeNotFound": false,
+    "tags": ["ボカロ", "リスナーリクエスト"],
+    "memo": ""
   }
 ]
