@@ -29,14 +29,16 @@ test('URL import previews inert text, saves, transposes, exports and survives re
   await viewer.getByRole('button',{name:'半音上げる'}).click();
   await expect(viewer.locator('.score-chord').filter({hasText:/^C#$/})).toBeVisible();
   await page.screenshot({path:test.info().outputPath('performance.png')});
-  // ペダル(PageDown / 矢印)はボタンにフォーカスがあっても効き、Space で演奏ビューが閉じない
+  // Space はフォーカス中のボタンを押さない(ペダル・キーボード操作で演奏ビューが閉じたり移調が変わったりしない)。
+  // 自動スクロールの表示は見ない: 譜面が短いとすぐ末尾に着いて止まるので、タイミングで結果が変わる。
+  await viewer.getByRole('button',{name:'演奏ビューを閉じる'}).focus();
+  await page.keyboard.press('Space');
+  await expect(viewer).toBeVisible();
   await viewer.getByRole('button',{name:'半音上げる'}).focus();
   await page.keyboard.press('Space');
   await expect(viewer).toBeVisible();
-  await expect(viewer.getByRole('button',{name:'スクロール停止'})).toBeVisible();
-  await page.keyboard.press('Space');
-  await expect(viewer.getByRole('button',{name:'自動スクロール'})).toBeVisible();
   await expect(viewer.locator('.score-chord').filter({hasText:/^C#$/})).toBeVisible();
+  await expect(viewer.locator('.score-chord').filter({hasText:/^D$/})).toHaveCount(0);
   await page.keyboard.press('Escape');await expect(viewer).toHaveCount(0);
   const downloaded=page.waitForEvent('download');
   await page.getByRole('button',{name:'譜面JSONを書き出す'}).click();
