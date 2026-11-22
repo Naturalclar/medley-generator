@@ -1,0 +1,24 @@
+.score-library { margin-block: 2rem; border-top: 1px solid #596175; padding-top: 1rem; }
+.score-library label { display: flex; gap: .5rem; flex-direction: column; margin-block: .5rem; }
+.score-library input:not([type=checkbox]):not([type=range]), .score-library textarea { width: 100%; box-sizing: border-box; padding: .7rem; color: inherit; background: var(--card-bg); border: 1px solid var(--control-border); border-radius: .4rem; font: inherit; }
+.score-toolbar { display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; margin-block:.7rem; }
+.score-library button, .score-library a { min-height:44px; }
+.score-toolbar label { flex-direction:row; align-items:center; }
+.score-song-list { display:flex; flex-wrap:wrap; gap:.5rem; max-height:220px; overflow:auto; padding:.5rem 0; }
+.score-song-list button[aria-pressed=true] { outline: 2px solid #9fbfff; }
+.score-editor-columns { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.score-editor-columns > * { min-width:0; }
+.score-body { white-space:pre-wrap; line-height:1.7; overflow-wrap:anywhere; }
+.score-line { min-height:2.5em; }
+.score-part { display:inline-flex; vertical-align:bottom; flex-direction:column; }
+.score-chord { color:var(--accent); font-weight:700; line-height:1.2; min-height:1.2em; }
+.score-error { color:var(--danger); }
+.score-import-review { border:1px solid #78849d; padding:1rem; }
+.score-performance { position:fixed; inset:0; z-index:100; background:#101522; color:#f0f3ff; display:flex; flex-direction:column; padding:1rem; box-sizing:border-box; }
+.score-performance header { flex-shrink:0; max-height:45vh; overflow:auto; }
+.score-performance h2 { margin:0; }
+.score-performance button { background:#293855; color:white; border:1px solid #8194b6; border-radius:.4rem; padding:.5rem .8rem; }
+.score-scroll { overflow:auto; flex:1; min-height:0; overscroll-behavior:contain; padding:1rem .5rem 35vh; }
+@media(max-width:850px) { .score-editor-columns { grid-template-columns:1fr; } .score-performance { padding:.5rem; } }
+
+.score-performance .score-chord { color:#ffcf80; }
