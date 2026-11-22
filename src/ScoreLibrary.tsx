@@ -21,7 +21,9 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
   const [query,setQuery] = useState('');
   const [pending,setPending] = useState<ScoreBackup|null>(null);
   const [choices,setChoices] = useState<Record<string,boolean>>({});
-  const [undo,setUndo] = useState<{scores:Score[];setlistIds:string[];setlistDate?:string}|null>(null);
+  // setlist は取り込みでセトリも置き換えたときだけ持つ。applied は取り込み直後のセトリで、
+  // その後にセトリが変わっていたら(新しく生成した等)取り消しでは戻さない。
+  const [undo,setUndo] = useState<{scores:Score[];setlist?:{ids:string[];date?:string;applied:string[]}}|null>(null);
   const [offline,setOffline] = useState('オフライン準備中');
   const dialog = useRef<HTMLDivElement>(null);
   const [performing,setPerforming] = useState(false);
@@ -96,8 +98,9 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
     const songId=draft.songId;
     try {
       const imported=await importScore(draft.sourceUrl,ctrl.signal);
+      // キーとカポは本文に付いてくる情報なので、新しい本文に指定が無ければ前の値も消す(本文と食い違わせない)。
       if(ctrl.signal.aborted) return;
-      setDraft(d=>d?.songId===songId?{...d,...imported,title:imported.title||d.title,artist:imported.artist||d.artist}:d);setDirty(true);setNotice('取得結果を確認して「譜面を保存」を押してください。歌詞とコードの別ページ同士は自動結合しません。');
+      setDraft(d=>d?.songId===songId?{...d,...imported,title:imported.title||d.title,artist:imported.artist||d.artist,key:imported.key,capo:imported.capo}:d);setDirty(true);setNotice('取得結果を確認して「譜面を保存」を押してください。歌詞とコードの別ページ同士は自動結合しません。');
     } catch(e) {if(!ctrl.signal.aborted)setError(e instanceof Error?e.message:'取得に失敗しました。');}
     finally {if(!ctrl.signal.aborted)setBusy(false);}
   }
@@ -121,7 +124,7 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
       const position=next.findIndex(s=>s.songId===score.songId);
       if(position<0)next.push(score);else if(choices[score.songId] === true)next[position]=score;
     }
-    const previous={scores,setlistIds:setlist.map(s=>s.id),setlistDate:setlistDate?.toISOString()};
+    const previous={scores,setlist:pending.setlistIds?{ids:setlist.map(s=>s.id),date:setlistDate?.toISOString(),applied:pending.setlistIds.filter(id=>songs.some(s=>s.id===id))}:undefined};
     if(persist(next)){setUndo(previous);if(pending.setlistIds)onRestoreSetlist(pending.setlistIds,pending.setlistDate);setPending(null);setDraft(null);setDirty(false);setNotice('取り込みました。取り込み前に戻すこともできます。');}
   }
   function move(delta:number) {setIndex(i=>Math.max(0,Math.min(queue.length-1,i+delta)));setScrolling(false);setTranspose(0);viewer.current?.scrollTo(0,0);}
@@ -134,14 +137,18 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
         if(nodes?.length){const first=nodes[0],last=nodes[nodes.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus();}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus();}}
         return;
       }
-      if((event.target as HTMLElement).closest('input,textarea,select,button,a'))return;
+      // 入力欄だけは素通しにする。ボタンは除外しない(開いた直後や操作後にフォーカスがあると、ペダルのページ送りが効かなくなるため)。
+      if((event.target as HTMLElement).closest('input,textarea,select'))return;
       if(event.code==='Space'){event.preventDefault();setScrolling(s=>!s);}
       if(event.key==='ArrowRight'){event.preventDefault();move(1);}
       if(event.key==='ArrowLeft'){event.preventDefault();move(-1);}
       if(event.key==='PageDown'||event.key==='PageUp'){event.preventDefault();setScrolling(false);viewer.current?.scrollBy({top:(event.key==='PageDown'?1:-1)*(viewer.current.clientHeight*0.8),behavior:'smooth'});}
       if(event.key==='Escape'){setPerforming(false);setScrolling(false);}
     };
-    window.addEventListener('keydown',handler);return ()=>window.removeEventListener('keydown',handler);
+    // Space はボタンの上だと keyup で「押した」扱いになる。演奏ビューでは自動スクロールの切り替えに使うので止める。
+    const keyup=(event:KeyboardEvent)=>{if(event.code==='Space'&&(event.target as HTMLElement).closest('button'))event.preventDefault();};
+    window.addEventListener('keydown',handler);window.addEventListener('keyup',keyup);
+    return ()=>{window.removeEventListener('keydown',handler);window.removeEventListener('keyup',keyup);};
   });
   let sourceHref='';
   try {if(draft?.sourceUrl)sourceHref=safeSourceUrl(draft.sourceUrl).href;}catch{/* Invalid draft URLs are never clickable. */}
@@ -154,7 +161,7 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
     <div className="score-toolbar">
       <button type="button" onClick={download} disabled={!loaded}>譜面JSONを書き出す</button>
       <label>譜面JSONを読み込む<input type="file" accept=".json,application/json" onChange={e=>{void readFile(e.target.files?.[0]);e.target.value='';}}/></label>
-      {undo && <button type="button" onClick={()=>{if(leaveDraft() && persist(undo.scores)){onRestoreSetlist(undo.setlistIds,undo.setlistDate);setUndo(null);setDraft(null);setDirty(false);setNotice('取り込み前に戻しました。');}}}>取り込み前に戻す</button>}
+      {undo && <button type="button" onClick={()=>{if(leaveDraft() && persist(undo.scores)){const unchanged=!!undo.setlist&&undo.setlist.applied.join('\n')===setlist.map(s=>s.id).join('\n');if(undo.setlist&&unchanged)onRestoreSetlist(undo.setlist.ids,undo.setlist.date);setUndo(null);setDraft(null);setDirty(false);setNotice(undo.setlist&&!unchanged?'譜面を取り込み前に戻しました。セトリは取り込み後に変更されていたため、そのままにしています。':'取り込み前に戻しました。');}}}>取り込み前に戻す</button>}
     </div>
     {pending && <div className="score-import-review"><h3>JSON取り込みの確認</h3><p>{pending.setlistIds ? `セトリ${pending.setlistIds.length}曲も取り込みます。` : 'セトリは変更しません。'}</p>
       <p>追加 {pending.scores.filter(s=>!scores.some(old=>old.songId===s.songId)).length}件／同じID {pending.scores.filter(s=>scores.some(old=>old.songId===s.songId)).length}件。同じIDは選択した譜面だけ置き換えます。端末の表示設定は変更しません。</p>
@@ -179,12 +186,12 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
     </div>}
     {performing && <div className="score-performance" ref={dialog} role="dialog" aria-modal="true" aria-label="演奏ビュー">
       <header><h2>{current?.title ?? '曲がありません'}</h2><p>{index+1} / {queue.length}曲　次：{queue[index+1]?.title??'最後の曲'}　キー {currentScore?.key ? transposeChord(currentScore.key,transpose,flats) : '未指定'}　カポ {currentScore?.capo ?? 0}　移調 {transpose>0?'+':''}{transpose}</p>
-      <div className="score-toolbar"><button autoFocus type="button" onClick={()=>{setPerforming(false);setScrolling(false);}}>演奏ビューを閉じる</button><button type="button" onClick={()=>move(-1)} disabled={index===0}>前の曲</button><button type="button" onClick={()=>move(1)} disabled={index>=queue.length-1}>次の曲</button>
+      <div className="score-toolbar"><button type="button" onClick={()=>{setPerforming(false);setScrolling(false);}}>演奏ビューを閉じる</button><button type="button" onClick={()=>move(-1)} disabled={index===0}>前の曲</button><button type="button" onClick={()=>move(1)} disabled={index>=queue.length-1}>次の曲</button>
       <button type="button" onClick={()=>setTranspose(t=>t-1)}>半音下げる</button><button type="button" onClick={()=>setTranspose(t=>t+1)}>半音上げる</button><label><input type="checkbox" checked={flats} onChange={e=>setFlats(e.target.checked)}/>♭表記</label>
       <button type="button" onClick={()=>setFontSize(s=>Math.max(16,s-2))}>文字を小さく</button><button type="button" onClick={()=>setFontSize(s=>Math.min(64,s+2))}>文字を大きく</button>
       <button type="button" onClick={()=>setScrolling(s=>!s)}>{scrolling?'スクロール停止':'自動スクロール'}</button><label>速度<input type="range" min="5" max="100" value={speed} onChange={e=>setSpeed(Number(e.target.value))}/></label>
       <button type="button" onClick={()=>{setScrolling(false);viewer.current?.scrollBy({top:(viewer.current.clientHeight*0.8),behavior:'smooth'});}}>ページを送る</button></div></header>
-      <div ref={viewer} className="score-scroll" style={{fontSize}} onWheel={()=>setScrolling(false)} onTouchStart={()=>setScrolling(false)}>{currentScore?<ScoreBody body={currentScore.body} transpose={transpose} flats={flats}/>:<p>この曲の譜面は未登録です。演奏ビューを閉じて登録してください。</p>}</div>
+      <div ref={viewer} className="score-scroll" tabIndex={-1} autoFocus style={{fontSize}} onWheel={()=>setScrolling(false)} onTouchStart={()=>setScrolling(false)}>{currentScore?<ScoreBody body={currentScore.body} transpose={transpose} flats={flats}/>:<p>この曲の譜面は未登録です。演奏ビューを閉じて登録してください。</p>}</div>
     </div>}
   </section>;
 }

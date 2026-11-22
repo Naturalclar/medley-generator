@@ -267,6 +267,9 @@ function SetlistApp({ songs }: { songs: Song[] }) {
         if (!Array.isArray(ids) || !ids.every(id => typeof id === 'string')) throw new Error('invalid');
         setSetlist(ids.flatMap(id => {const song=songs.find(s=>s.id===id);return song?[song]:[];}));
         setGeneratedAt(date === null ? null : new Date(date));
+        // 曲プールから消えた(id が変わった)曲は黙って外さず知らせる。次の保存で記録からも消えるため。
+        const missing = ids.filter(id => !songs.some(s => s.id === id));
+        if (missing.length) setRestoreNotice(`保存していたセトリのうち${missing.length}曲(${missing.join('、')})は曲プールに無いため外しました。`);
       }
       setSessionLoaded(true);
     } catch {setSessionError('セトリの保存データを読み込めません。元データを保護するため自動保存を停止しています。');}

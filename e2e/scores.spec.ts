@@ -29,6 +29,14 @@ test('URL import previews inert text, saves, transposes, exports and survives re
   await viewer.getByRole('button',{name:'半音上げる'}).click();
   await expect(viewer.locator('.score-chord').filter({hasText:/^C#$/})).toBeVisible();
   await page.screenshot({path:test.info().outputPath('performance.png')});
+  // ペダル(PageDown / 矢印)はボタンにフォーカスがあっても効き、Space で演奏ビューが閉じない
+  await viewer.getByRole('button',{name:'半音上げる'}).focus();
+  await page.keyboard.press('Space');
+  await expect(viewer).toBeVisible();
+  await expect(viewer.getByRole('button',{name:'スクロール停止'})).toBeVisible();
+  await page.keyboard.press('Space');
+  await expect(viewer.getByRole('button',{name:'自動スクロール'})).toBeVisible();
+  await expect(viewer.locator('.score-chord').filter({hasText:/^C#$/})).toBeVisible();
   await page.keyboard.press('Escape');await expect(viewer).toHaveCount(0);
   const downloaded=page.waitForEvent('download');
   await page.getByRole('button',{name:'譜面JSONを書き出す'}).click();
@@ -36,6 +44,20 @@ test('URL import previews inert text, saves, transposes, exports and survives re
   await page.reload();await page.locator('.score-song-list button').first().click();
   await expect(page.getByLabel('歌詞・コード（ChordPro）')).toHaveValue('星のうた\n[C]自作の歌[G]だよ');
   expect(errors).toEqual([]);
+});
+test('a second import without key or capo clears the previous ones',async({page})=>{
+  await openEditor(page);page.on('dialog',dialog=>dialog.accept());
+  const sourceUrl='https://ja.chordwiki.org/wiki/Original';
+  const body=(text:string)=>({sourceUrl,usage:'自作',html:`<h1>自作</h1><form><textarea name="text">${text}</textarea></form>`});
+  await page.route('**/api/score-import?*',route=>route.fulfill({json:body('{key: Am}\n{capo: 3}\n[Am]一曲目')}),{times:1});
+  await page.getByLabel('取り込み元URL').fill(sourceUrl);await page.getByRole('button',{name:'URLから取り込む',exact:true}).click();
+  await expect(page.getByLabel('譜面記載キー')).toHaveValue('Am');
+  await expect(page.getByLabel('譜面記載カポ')).toHaveValue('3');
+  await page.route('**/api/score-import?*',route=>route.fulfill({json:body('[C]二曲目')}));
+  await page.getByRole('button',{name:'URLから取り込む',exact:true}).click();
+  await expect(page.getByLabel('歌詞・コード（ChordPro）')).toHaveValue('[C]二曲目');
+  await expect(page.getByLabel('譜面記載キー')).toHaveValue('');
+  await expect(page.getByLabel('譜面記載カポ')).not.toHaveValue('3');
 });
 test('UtaTen span ruby and alternate hiragana do not duplicate the imported lyrics',async({page})=>{
   await openEditor(page);page.on('dialog',dialog=>dialog.accept());
