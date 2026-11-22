@@ -23,6 +23,10 @@ test('ChordWiki fetches fixed edit URL and retains canonical source',async()=>{
     return new Response('<form><textarea name="text">[C]original</textarea></form>',{headers:{'content-type':'text/html'}});
   });assert.equal((await r.json()).sourceUrl,'https://ja.chordwiki.org/wiki/Original');
 });
+test('a malformed ChordWiki escape is a bad request, not an upstream failure',async()=>{
+  assert.throws(()=>sourceUrl('https://ja.chordwiki.org/wiki/%E3'));
+  assert.equal((await handleImport(request('https://ja.chordwiki.org/wiki/%E3'),env,()=>{throw Error('must not fetch');})).status,400);
+});
 test('upstream failure and oversized responses are actionable',async()=>{
   assert.equal((await handleImport(request(),env,async()=>new Response('',{status:403}))).status,502);
   assert.equal((await handleImport(request(),env,async()=>new Response('x'.repeat(2_000_001),{headers:{'content-type':'text/html'}}))).status,413);

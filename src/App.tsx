@@ -253,6 +253,9 @@ function SetlistApp({ songs }: { songs: Song[] }) {
   const [generatedAt, setGeneratedAt] = useState<Date | null>(null);
   const [sessionLoaded, setSessionLoaded] = useState(false);
   const [sessionError, setSessionError] = useState('');
+  // 取り込みで復元できなかった曲の知らせ。保存の成否を表す sessionError とは別に持つ
+  // (保存 effect が sessionError を消すので、同じ state だと一瞬で消えてしまう)。
+  const [restoreNotice, setRestoreNotice] = useState('');
   useEffect(() => {
     try {
       const raw = localStorage.getItem('medley-generator:setlist:v1');
@@ -260,17 +263,17 @@ function SetlistApp({ songs }: { songs: Song[] }) {
         const session: unknown = JSON.parse(raw);
         if (!session || typeof session !== 'object' || !('ids' in session) || !('date' in session)) throw new Error('invalid');
         const {ids,date}=session;
-        if (typeof date !== 'string' || !Number.isFinite(Date.parse(date))) throw new Error('invalid');
+        if (date !== null && (typeof date !== 'string' || !Number.isFinite(Date.parse(date)))) throw new Error('invalid');
         if (!Array.isArray(ids) || !ids.every(id => typeof id === 'string')) throw new Error('invalid');
         setSetlist(ids.flatMap(id => {const song=songs.find(s=>s.id===id);return song?[song]:[];}));
-        setGeneratedAt(new Date(date));
+        setGeneratedAt(date === null ? null : new Date(date));
       }
       setSessionLoaded(true);
     } catch {setSessionError('セトリの保存データを読み込めません。元データを保護するため自動保存を停止しています。');}
   }, [songs]);
   useEffect(() => {
     if (!sessionLoaded) return;
-    try {localStorage.setItem('medley-generator:setlist:v1',JSON.stringify({ids:setlist.map(s=>s.id),date:(generatedAt ?? new Date()).toISOString()}));setSessionError('');}
+    try {localStorage.setItem('medley-generator:setlist:v1',JSON.stringify({ids:setlist.map(s=>s.id),date:generatedAt?.toISOString() ?? null}));setSessionError('');}
     catch {setSessionError('セトリを保存できませんでした。JSONを書き出して退避してください。');}
   }, [setlist,sessionLoaded,generatedAt]);
   // セトリを生成した日時。テキストの日付はこの値で固定し、コピーとプレビューで一致させる。
@@ -1240,11 +1243,12 @@ function SetlistApp({ songs }: { songs: Song[] }) {
       </section>
 
       {sessionError && <p role="alert">{sessionError}</p>}
+      {restoreNotice && <p role="alert">{restoreNotice}</p>}
       <ScoreLibrary songs={songs} setlist={setlist} setlistDate={generatedAt} onRestoreSetlist={(ids,date)=>{
         const missing=ids.filter(id=>!songs.some(s=>s.id===id));
         setSetlist(ids.flatMap(id=>{const song=songs.find(s=>s.id===id);return song?[song]:[];}));
-        setGeneratedAt(date ? new Date(date) : new Date());
-        if(missing.length)setSessionError(`曲プールにない${missing.length}曲はセトリに復元できませんでした。譜面データは保持されています。`);
+        setGeneratedAt(date ? new Date(date) : null);
+        setRestoreNotice(missing.length ? `曲プールにない${missing.length}曲はセトリに復元できませんでした。譜面データは保持されています。` : '');
       }} />
 
       <section className="about">

@@ -3,7 +3,11 @@ export function sourceUrl(raw) {
   const url = new URL(raw);
   if (url.protocol !== 'https:' || url.username || url.password || url.port || url.search || url.hash) throw new Error('未対応のURLです。');
   if (url.hostname === 'utaten.com' && /^\/lyric\/[A-Za-z0-9_-]+\/$/.test(url.pathname)) return {url, source:'utaten'};
-  if (url.hostname === 'ja.chordwiki.org' && /^\/wiki\/[^/]+$/.test(url.pathname)) return {url, source:'chordwiki'};
+  if (url.hostname === 'ja.chordwiki.org' && /^\/wiki\/[^/]+$/.test(url.pathname)) {
+    // ここで復号しておく。壊れた % エスケープを取得失敗(502)ではなく入力の誤り(400)として返すため。
+    const title = decodeURIComponent(url.pathname.slice('/wiki/'.length));
+    return {url, source:'chordwiki', title};
+  }
   throw new Error('未対応の取り込み元です。');
 }
 export async function handleImport(request, env = {}, fetcher = fetch) {
@@ -15,7 +19,7 @@ export async function handleImport(request, env = {}, fetcher = fetch) {
   if (typeof permission !== 'string' || !permission.trim()) return json(403,{error:'この取り込み元は利用許諾が未設定です。取得・保存・オフライン閲覧の許諾を確認後、管理者が有効にしてください。'});
   try {
     const fetchUrl = target.source === 'chordwiki'
-      ? new URL('/wiki.cgi?' + new URLSearchParams({c:'edit',t:decodeURIComponent(target.url.pathname.slice('/wiki/'.length))}), target.url)
+      ? new URL('/wiki.cgi?' + new URLSearchParams({c:'edit',t:target.title}), target.url)
       : target.url;
     const upstream = await fetcher(fetchUrl, {redirect:'error', signal:AbortSignal.timeout(10_000), headers:{Accept:'text/html','User-Agent':'MedleyGenerator-ScoreImport/1.0'}});
     if (!upstream.ok || !upstream.headers.get('content-type')?.includes('text/html')) return json(502,{error:'取り込み元のページを取得できませんでした。'});

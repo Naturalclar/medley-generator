@@ -14,6 +14,9 @@ export default defineConfig({
   use: {
     baseURL: ORIGIN,
     trace: "on-first-retry",
+    // 本番ビルドは Service Worker を登録する。Worker が返した応答は page.route の
+    // モックを素通りするので、既定では止める。オフラインのテストだけ個別に許可する。
+    serviceWorkers: "block",
   },
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {

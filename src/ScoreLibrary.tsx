@@ -76,7 +76,12 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
   },[performing]);
   function persist(next:Score[]) {
     if (!loaded) {setError('保存データを読み込めていないため保存できません。');return false;}
-    try {saveScores(localStorage,next);setScores(next);setError('');return true;} catch {setError('保存できませんでした。空き容量とブラウザの保存設定を確認し、編集中の本文を退避してください。');return false;}
+    try {saveScores(localStorage,next);setScores(next);setError('');return true;}
+    catch(e) {
+      // 入力の検証エラー(カポの範囲・URL など)はその文面を出す。容量の案内は保存そのものの失敗のときだけ。
+      setError(e instanceof Error && !(e instanceof DOMException) ? e.message : '保存できませんでした。空き容量とブラウザの保存設定を確認し、編集中の本文を退避してください。');
+      return false;
+    }
   }
   function leaveDraft() {return !dirty || window.confirm('未保存の変更を破棄しますか？');}
   function select(song:Song) {
@@ -92,7 +97,7 @@ export default function ScoreLibrary({songs, setlist, setlistDate, onRestoreSetl
     try {
       const imported=await importScore(draft.sourceUrl,ctrl.signal);
       if(ctrl.signal.aborted) return;
-      setDraft(d=>d?.songId===songId?{...d,...imported,artist:imported.artist||d.artist}:d);setDirty(true);setNotice('取得結果を確認して「譜面を保存」を押してください。歌詞とコードの別ページ同士は自動結合しません。');
+      setDraft(d=>d?.songId===songId?{...d,...imported,title:imported.title||d.title,artist:imported.artist||d.artist}:d);setDirty(true);setNotice('取得結果を確認して「譜面を保存」を押してください。歌詞とコードの別ページ同士は自動結合しません。');
     } catch(e) {if(!ctrl.signal.aborted)setError(e instanceof Error?e.message:'取得に失敗しました。');}
     finally {if(!ctrl.signal.aborted)setBusy(false);}
   }

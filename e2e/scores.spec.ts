@@ -115,6 +115,9 @@ test('ChordWiki source keeps chord positions without executing markup',async({pa
   await expect(page.getByLabel('歌詞・コード（ChordPro）')).toHaveValue('{c: サビ}\n[C/E]あの[G]星');
 });
 });
+test.describe('オフライン',()=>{
+  // 既定では Service Worker を止めている(playwright.config.ts)。このテストは Worker そのものを確かめる。
+  test.use({serviceWorkers:'allow'});
 test('app shell and saved score reopen offline',async({page,context,browserName})=>{
   let target='/medley-generator/';
   let stop: (()=>Promise<void>)|undefined;
@@ -150,4 +153,5 @@ test('app shell and saved score reopen offline',async({page,context,browserName}
     await page.locator('.score-song-list button').first().click();
     await expect(page.getByLabel('歌詞・コード（ChordPro）')).toHaveValue('[C]オフラインの自作');
   }finally{if(stop)await stop();else await context.setOffline(false);}
+});
 });

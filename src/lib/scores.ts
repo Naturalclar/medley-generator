@@ -64,7 +64,8 @@ export interface ScoreLine { kind: 'section' | 'text'; text: string; parts: {cho
 export function parseChordPro(body: string): ScoreLine[] {
   return body.replace(/\r\n?/g, '\n').split('\n').map(text => {
     if (/^\{(?:title|t|artist|subtitle|st|key|capo):.*\}$/i.test(text)) return {kind:'text',text:'',parts:[]};
-    const section = text.match(/^\{(?:c|comment|comment_italic|start_of_chorus|soc):?\s*(.*?)\}$/i);
+    // 名前の直後は : か } に限る。そうしないと {comment: …} が短い c に一致して「omment: …」になる。
+    const section = text.match(/^\{(?:comment_italic|comment|ci|c|start_of_chorus|soc)(?::\s*(.*?))?\}$/i);
     if (section) return {kind: 'section', text: section[1] || 'サビ', parts: []};
     const parts: {chord: string; text: string}[] = [];
     const pattern = /\[([^\]\n]+)\]/g;

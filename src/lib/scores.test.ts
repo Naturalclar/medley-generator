@@ -21,6 +21,16 @@ it('preserves chord positions, sections and unknown text', () => {
   expect(lines[2].parts[0].text).toBe('{unknown: keep}');
   expect(lines[3].text).toContain('<script>');
 });
+it('reads every section directive name, not only the short one', () => {
+  const lines = parseChordPro('{comment: サビ}\n{ci: A}\n{comment_italic: B}\n{soc}\n{start_of_chorus}\n{c:Cメロ}\n{chorus}\n{columns: 2}');
+  expect(lines.slice(0, 6).map(line => [line.kind, line.text])).toEqual([
+    ['section','サビ'],['section','A'],['section','B'],['section','サビ'],['section','サビ'],['section','Cメロ'],
+  ]);
+  // 対応していない指示はそのまま見せる(見出しに化けさせない)
+  expect(lines[6].kind).toBe('text');
+  expect(lines[6].parts[0].text).toBe('{chorus}');
+  expect(lines[7].parts[0].text).toBe('{columns: 2}');
+});
 it('round trips score backup without touching public fields', () => {
   let raw = '';
   saveScores({setItem: (_key, value) => {raw = value;}}, [score]);
