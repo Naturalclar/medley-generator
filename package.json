@@ -12,7 +12,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "ogp:build": "node tools/ogp/build.mjs"
+    "ogp:build": "node tools/ogp/build.mjs",
+    "start": "node server/start.mjs",
+    "test:server": "node --test server/*.test.mjs",
+    "test:ipad": "playwright test --config playwright.ipad.config.ts"
   },
   "dependencies": {
     "react": "^19.2.8",
